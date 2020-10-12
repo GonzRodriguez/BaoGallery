@@ -13,7 +13,6 @@ const  ProtectedRoute = ({ component: Component, ...rest }) => {
         Axios.get("http://localhost:3000/api/isAuth", { withCredentials: true })
 
             .then(response => {
-                console.log(response.data);
                 if (response.data === true) {
                     setIsAuthenticated(response.data)
                 }//this.authenticated = response.data
@@ -30,7 +29,6 @@ const  ProtectedRoute = ({ component: Component, ...rest }) => {
             {...rest}
             render={props => {
                 if (isAuthenticated) {
-                    console.log(isAuthenticated )
                     return <Component {...props} />;
                 } if (isAuthenticated) {
                     return (

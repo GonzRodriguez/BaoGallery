@@ -10,9 +10,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
 import useMediaQuery from "@material-ui/core/useMediaQuery"; 
-import auth from "./logout"
 import List from '@material-ui/core/List'; 
 import ListItem from '@material-ui/core/ListItem';
+import { notAuthenticatedMenuItems, authenticatedMenuItems } from "./drawerMenuItems"
 // import router from "../../server/api/logout";
 
 const useStyles = makeStyles(theme => ({
@@ -48,34 +48,7 @@ const Header = props => {
         setAnchorEl(null)
     };
 
-    const menuItems = [
-        {
-            key: 0,
-            menuTitle: "Home",
-            pageURL: "/"
-        },
-        {
-            key: 1,
-            menuTitle: "Login",
-            pageURL: "/login"
-        },
-        {
-            key: 2,
-            menuTitle: "Sign up",
-            pageURL: "/signup"
-        },
-        {
-            key: 3,
-            menuTitle: "Dashboard",
-            pageURL: "/dashboard"
-        },
-        {
-            key: 4,
-            menuTitle: "Logout",
-            action: (() => { auth.logout() })
-        }
-
-    ];
+  
 
     return (
         <div className={classes.root}>
@@ -103,20 +76,30 @@ const Header = props => {
                                 open={open}
                                 onClose={() => setAnchorEl(null)}
                             >
-                            <List className={classes.list}>
-                                {menuItems.map(menuItem => {
-                                    const { key, menuTitle, pageURL, action } = menuItem;
+                                <List style={{ display: props.auth ? 'none' : 'block' }} className={classes.list}>
+                                    {notAuthenticatedMenuItems.map(menuItem => {
+                                    const { key, menuTitle, pageURL} = menuItem;
                                     return (
-                                        <MenuItem key={key} onClick={() => handleButtonClick(pageURL ? pageURL : action())}>
+                                        <MenuItem key={key} onClick={() => handleButtonClick(pageURL)}>
                                             <ListItem>{menuTitle}</ListItem>
                                         </MenuItem>
                                     );
                                 })}
                                 </List>
+                                <List style={{ display: props.auth ? 'block' : 'none' }} className={classes.list}>
+                                    {authenticatedMenuItems.map(menuItem => {
+                                        const { key, menuTitle, pageURL, action } = menuItem;
+                                        return (
+                                            <MenuItem key={key} onClick={() => handleButtonClick(pageURL ? pageURL : action())}>
+                                                <ListItem>{menuTitle}</ListItem>
+                                            </MenuItem>
+                                        );
+                                    })}
+                                </List>
                             </Drawer>
                         </>
                     ) : (
-                            <div className={classes.headerOptions}>
+                            <div style={{ display:  props.auth ? 'none' : 'block'  }} className={classes.headerOptions}>
                                 <Button
                                     variant="outlined"
                                     color="secondary"
