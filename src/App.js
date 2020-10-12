@@ -13,6 +13,7 @@ function App() {
 
   return (
     <div className="App">
+    {/* in order to use a personalized materlial-ui theme we need to wrap the app in a ThemeProvider */}
       <ThemeProvider theme={Theme}>
       <Header/>
       <Switch>

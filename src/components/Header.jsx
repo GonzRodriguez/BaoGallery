@@ -10,7 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
 import useMediaQuery from "@material-ui/core/useMediaQuery"; 
-import auth from "./auth"
+import auth from "./logout"
 import List from '@material-ui/core/List'; 
 import ListItem from '@material-ui/core/ListItem';
 // import router from "../../server/api/logout";
@@ -74,12 +74,7 @@ const Header = props => {
             menuTitle: "Logout",
             action: (() => { auth.logout() })
         }
-        // ,
-        // {
-        //     key: 5,
-        //     menuTitle: "CheckAuth",
-        //     action: (() => { console.log(auth.isAuthenticated());  })
-        // }
+
     ];
 
     return (
@@ -88,7 +83,7 @@ const Header = props => {
             <AppBar position="static">
                 <Toolbar>
                     <Typography color="initial"  onClick={() => handleButtonClick("/")} className={classes.title}>
-                        <label style={{ fontFamily: "Bebas Neue", fontSize: "40px"}}>Photure</label>
+                        <label style={{ fontFamily: "Bebas Neue", fontSize: "40px"}}>Bao Gallery</label>
                         </Typography>
                     {isMobile ? (
                         <>
@@ -142,5 +137,7 @@ const Header = props => {
         </div>
     );
 };
+//  the header component can be wrapped in a withRouter function, 
+// This gives the Header component access to this.props.history, which means the header can now redirect the user.:
 
 export default withRouter(Header);

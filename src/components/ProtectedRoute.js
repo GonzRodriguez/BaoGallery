@@ -1,8 +1,9 @@
 // import { logDOM } from "@testing-library/react";
 import React, { useEffect, useState } from "react";
 import { Route, Redirect } from "react-router-dom";
-// import auth from "./auth";
 import Axios from "axios";
+
+// passed compontent as props
 
 const  ProtectedRoute = ({ component: Component, ...rest }) => {
 
@@ -25,6 +26,7 @@ const  ProtectedRoute = ({ component: Component, ...rest }) => {
 
     return (
         <Route
+            // passed the rest of the props to the route
             {...rest}
             render={props => {
                 if (isAuthenticated) {
