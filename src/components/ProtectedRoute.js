@@ -1,0 +1,50 @@
+// import { logDOM } from "@testing-library/react";
+import React, { useEffect, useState } from "react";
+import { Route, Redirect } from "react-router-dom";
+// import auth from "./auth";
+import Axios from "axios";
+
+const  ProtectedRoute = ({ component: Component, ...rest }) => {
+
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+    const authentication = async () => {
+        Axios.get("http://localhost:3000/api/isAuth", { withCredentials: true })
+
+            .then(response => {
+                console.log(response.data);
+                if (response.data === true) {
+                    setIsAuthenticated(response.data)
+                }//this.authenticated = response.data
+            })
+      }
+
+    useEffect(() => {
+        authentication()
+    })
+
+    return (
+        <Route
+            {...rest}
+            render={props => {
+                if (isAuthenticated) {
+                    console.log(isAuthenticated )
+                    return <Component {...props} />;
+                } if (isAuthenticated) {
+                    return (
+                        <Redirect
+                            to={{
+                                pathname: "/",
+                                state: {
+                                    from: props.location
+                                }
+                            }}
+                        />
+                    );
+                }
+            }}
+        />
+    );
+};
+
+export default ProtectedRoute
