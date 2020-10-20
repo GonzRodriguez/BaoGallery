@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import Dashboard from "./components/Dashboard"
@@ -9,38 +10,39 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import { Route, Switch } from "react-router-dom";
 import Theme from "./components/Theme"
 import {ThemeProvider} from '@material-ui/core/styles';
-import Axios from "axios";
+import Spinner from "./components/spinner" 
+import getUser from "./components/getUser"
+// import Axios from "axios";
 
 
-function App() {
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
+function  App() {
 
-    const authentication = async () => {
-      Axios.get("http://localhost:3000/api/isAuth", { withCredentials: true })
+  const [user, setUser] = useState(null)
+  
+  useEffect(() => {
+  getUser((res) => {setUser(res)}) 
+    }, [])
 
-        .then(response => {
-          console.log(response.data);
-          if (response.data === true) {
-            setIsAuthenticated(response.data)
-          }//this.authenticated = response.data
-        })
-    }
+  if (user === null) {
+    return (
+      <Spinner/>
+    )
+  }
 
-    useEffect(() => {
-      authentication()
-    })
   return (
     <div className="App">
     {/* in order to use a personalized materlial-ui theme we need to wrap the app in a ThemeProvider */}
       <ThemeProvider theme={Theme}>
-      <Header auth={isAuthenticated}/>
+        <CssBaseline />
+      <Header user={user}/>
       <Switch>
         <Route exact from="/" component={Home} />
         <Route exact from="/Home" component={Home} />
-        <ProtectedRoute isAuthenticated exact path="/dashboard" component={Dashboard} />
+        <ProtectedRoute path="/dashboard" user={user} component={Dashboard}/>
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/login" component={Login} />
+        {/*   */}
         {/* <Route exact path="/logout" /> */}
         <Route path="*" component={() => "404 NOT FOUND"} />
       </Switch>

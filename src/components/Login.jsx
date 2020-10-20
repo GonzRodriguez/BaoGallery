@@ -58,10 +58,10 @@ export default function LogIn() {
         })
             .then(function (response) {
                 console.log(response.data);
-                if (response.data.statusMessage === "error") {
+                if (response.data.ErrorMessage) {
                     localStorage.setItem("message", response.data.message)
                 }
-                if (response.data.success === true) {
+                if (response.data.success) {
                     localStorage.clear();
                         window.location = response.data.redirectURI
                 }

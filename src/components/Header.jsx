@@ -36,8 +36,8 @@ const Header = props => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    // const theme = useTheme();
+    // const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const handleMenu = event => {
         setAnchorEl(event.currentTarget);
@@ -48,18 +48,31 @@ const Header = props => {
         setAnchorEl(null)
     };
 
-  
-
     return (
         <div className={classes.root}>
                    
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography color="initial"  onClick={() => handleButtonClick("/")} className={classes.title}>
+            <AppBar color="#ffff" position="static">
+                <Toolbar  >
+                    <Typography  onClick={() => handleButtonClick("/")} className={classes.title}>
                         <label style={{ fontFamily: "Bebas Neue", fontSize: "40px"}}>Bao Gallery</label>
                         </Typography>
-                    {isMobile ? (
+                    {/* {isMobile ? ( */}
                         <>
+                        <div style={{ display: props.user.auth ? 'none' : 'block' }} className={classes.headerOptions}>
+                            <Button
+                                variant="outlined"
+                                color="secondary"
+                                onClick={() => handleButtonClick("/signup")}
+                            >
+                                SING UP
+              </Button>
+                            <Button
+                                color="inherit"
+                                onClick={() => handleButtonClick("/login")}
+                            >
+                                LOGIN
+              </Button>
+                        </div>
                             <IconButton
                                 edge="start"
                                 className={classes.menuButton}
@@ -76,7 +89,7 @@ const Header = props => {
                                 open={open}
                                 onClose={() => setAnchorEl(null)}
                             >
-                                <List style={{ display: props.auth ? 'none' : 'block' }} className={classes.list}>
+                                <List style={{ display: props.user.auth ? 'none' : 'block' }} className={classes.list}>
                                     {notAuthenticatedMenuItems.map(menuItem => {
                                     const { key, menuTitle, pageURL} = menuItem;
                                     return (
@@ -86,7 +99,7 @@ const Header = props => {
                                     );
                                 })}
                                 </List>
-                                <List style={{ display: props.auth ? 'block' : 'none' }} className={classes.list}>
+                                <List style={{ display: props.user.auth ? 'block' : 'none' }} className={classes.list}>
                                     {authenticatedMenuItems.map(menuItem => {
                                         const { key, menuTitle, pageURL, action } = menuItem;
                                         return (
@@ -94,27 +107,13 @@ const Header = props => {
                                                 <ListItem>{menuTitle}</ListItem>
                                             </MenuItem>
                                         );
-                                    })}
+                                    })}     
                                 </List>
                             </Drawer>
                         </>
-                    ) : (
-                            <div style={{ display:  props.auth ? 'none' : 'block'  }} className={classes.headerOptions}>
-                                <Button
-                                    variant="outlined"
-                                    color="secondary"
-                                    onClick={() => handleButtonClick("/signup")}
-                                >
-                                    SING UP
-              </Button>
-                                <Button
-                                    color="inherit"
-                                    onClick={() => handleButtonClick("/login")}
-                                >
-                                    LOGIN
-              </Button>
-                            </div>
-                        )}
+                    {/* ) : ( */}
+                            
+                        {/* )} */}
                 </Toolbar>
             </AppBar>
         </div>

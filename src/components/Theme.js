@@ -1,30 +1,39 @@
-import {createMuiTheme} from '@material-ui/core/styles';
+import {createMuiTheme} from "@material-ui/core/styles";
 
 
 const theme = createMuiTheme({
     typography: {
         useNextVariants: true, 
         fontFamily: [
-            'Roboto, Arial',
-            '"Bebas Neue"'
+            "Roboto, Arial",
+            "Bebas Neue",
+            "Abril Fatface"
     ]
     },
     palette: {
         primary: {
-            main: '#212121',
+            main: "#F5EB00",
 
         },
         secondary: {
-            light: 'ff80ab',
-            main: '#f50057',
-            dark: '#c51162',
-            contrastText: '#ffff',
+            main: "#650CF5",
         },
-        type: "dark"
+        background:{
+            default: "#ffff"
+        },
+        info: {
+            main: "#00000"
+        }
     },
     shape: {
         borderRadius: 10
-    }
+    },
+    textPrimary: {
+        main: "#0000"
+    },
+    textSecondary: {
+        main: "#ffff"
+    },
     
 });
 

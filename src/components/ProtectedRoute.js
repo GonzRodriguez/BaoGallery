@@ -1,50 +1,20 @@
 // import { logDOM } from "@testing-library/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import Axios from "axios";
+// import authentication from "./auth"
 
-// passed compontent as props
-
-const  ProtectedRoute = ({ component: Component, ...rest }) => {
-
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
-
-    const authentication = async () => {
-        Axios.get("http://localhost:3000/api/isAuth", { withCredentials: true })
-
-            .then(response => {
-                if (response.data === true) {
-                    setIsAuthenticated(response.data)
-                }//this.authenticated = response.data
-            })
-      }
-
-    useEffect(() => {
-        authentication()
-    })
+const ProtectedRoute = ({ component: Component, user: User, ...rest }) => {
 
     return (
         <Route
-            // passed the rest of the props to the route
             {...rest}
-            render={props => {
-                if (isAuthenticated) {
-                    return <Component {...props} />;
-                } if (isAuthenticated) {
-                    return (
-                        <Redirect
-                            to={{
-                                pathname: "/",
-                                state: {
-                                    from: props.location
-                                }
-                            }}
-                        />
-                    );
-                }
-            }}
+            render={(props) => (
+                localStorage.getItem("tokens") ? <Component {...props} user={User.user}/>
+                : <Redirect to={{ pathname: "/", state: { from: rest.location } }} />
+            )}
         />
-    );
-};
-
-export default ProtectedRoute
+        );
+    };
+    
+    export default ProtectedRoute
+    
