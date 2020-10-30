@@ -11,9 +11,11 @@ require("dotenv").config();
 
 const app = express();
 
-app.enable("trust proxy");
+// morgan is a middleware that allows us to easily log requests, errors, and more to the console
 app.use(morgan("common"));
+// Helmet.js is a Node.js module that helps you secure HTTP headers returned by your Express apps.
 app.use(helmet());
+// It is a mechanism to allow or restrict requested resources on a web server depend on where the HTTP request was initiated
 app.use(cors({
   methods: ['GET', 'POST'],
   credentials: true,
@@ -22,6 +24,8 @@ app.use(cors({
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// in order to use passport its very important that first tell express tu use the session, initialize it and then use the passport session. 
+// after that, we requiere the passport configuration and connect with the database.
 app.use(session({
   secret: process.env.SECRET_SESSION,
   saveUninitialized: false,
@@ -43,14 +47,16 @@ app.get("/", (req, res) => {
   });
 });
  
-const testAPI = require("./api/testAPI");
 const SingUp = require("./api/signup");
 const LogIn = require("./api/login");
 const Logout = require("./api/logout");
 const dashboard = require("./api/dashboard");
-const isAuth = require("./api/isAuth");
-app.use('/api/isAuth', isAuth);
-app.use('/api/testAPI', testAPI);
+const reqUser = require("./api/reqUser");
+const editProfile = require("./api/edit-profile");
+const UploadImage = require("./api/upload-image");
+app.use('/api/upload-image', UploadImage);
+app.use('/api/edit-profile', editProfile);
+app.use('/api/reqUser', reqUser);
 app.use('/api/dashboard', dashboard);
 app.use('/api/signup', SingUp);
 app.use('/api/login', LogIn);

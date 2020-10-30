@@ -4,21 +4,16 @@ const userSquema = new mongoose.Schema({
     username: String,
     email: String,
     password: String,
+    webpage: String,
+    socialMediaAccounts: {
+        instagram: { account: String, icon: String },
+        facebook: { account: String, icon: String },
+        twitter: { account: String, icon: String },
+        snapchat: { account: String, icon: String },
+        flickr: { account: String, icon: String }
+    }
 });
 
-var options = {
-    errorMessages: {
-        MissingPasswordError: 'No password was given',
-        AttemptTooSoonError: 'Account is currently locked. Try again later',
-        TooManyAttemptsError: 'Account locked due to too many failed login attempts',
-        NoSaltValueStoredError: 'Authentication not possible. No salt value stored',
-        IncorrectPasswordError: 'Password or username are incorrect',
-        IncorrectUsernameError: 'Password or username are incorrect',
-        MissingUsernameError: 'No username was given',
-        UserExistsError: 'A user with the given username is already registered'
-    }
-};
-
-userSquema.plugin(passportLocalMongoose, options);
+userSquema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model("User", userSquema);

@@ -5,9 +5,7 @@ router.get("/", (req, res) => {
     req.session.destroy(function (err) {
         if (!err) {
             req.logout();
-            // req.session = null;
-            console.log(req.user);
-            res.send("Is loged out")
+            res.send({message: "logded out", auth: false})
         }
         if (err) {console.log(err)};
     });
