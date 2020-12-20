@@ -4,14 +4,19 @@ import './index.css';
 import App from './App'
 import { BrowserRouter as Router } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { ApiContext } from "./context/ApiContext";
+import * as api from "./API/index"
+
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <CssBaseline />
-      <App />
-    </Router>
+    <ApiContext.Provider value={api}>
+              <Router>
+                <CssBaseline />
+                <App />
+              </Router>
+    </ApiContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,16 +1,18 @@
 // import { logDOM } from "@testing-library/react";
-import React from "react";
+import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 // import authentication from "./auth"
 
-const ProtectedRoute = ({ component: Component, user: User, ...rest }) => {
-
+const ProtectedRoute = ({ component: Component, ...rest }) => {
+    const user = useContext(UserContext)
+    console.log(user.auth);
     return (
         <Route
             {...rest}
             render={(props) => (
-                localStorage.getItem("tokens") ? <Component {...props} user={User.user}/>
-                : <Redirect to={{ pathname: "/", state: { from: rest.location } }} />
+                user.auth ? <Component {...props}/>
+                : <Redirect to={{ pathname: "/login", state: { from: rest.location } }} />
             )}
         />
         );

@@ -1,26 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import  {withRouter}  from "react-router";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
-import useMediaQuery from "@material-ui/core/useMediaQuery"; 
-import List from '@material-ui/core/List'; 
-import ListItem from '@material-ui/core/ListItem';
-import { notAuthenticatedMenuItems, authenticatedMenuItems } from "./drawerMenuItems"
-// import router from "../../server/api/logout";
+import { UserContext } from "../context/UserContext";
+import RightDrawer from "./Drawer/Drawer"
 
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
     },
     title: {
-        flexGrow: 1
+        flexGrow: 1,
+        color: "#074A49",
     },
     headerOptions: {
         marginRight: "3vw",
@@ -35,13 +29,7 @@ const Header = props => {
     const { history } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    // const theme = useTheme();
-    // const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-    const handleMenu = event => {
-        setAnchorEl(event.currentTarget);
-    };
+    const user = useContext(UserContext)
 
     const handleButtonClick = pageURL => {
         history.push(pageURL);
@@ -51,69 +39,30 @@ const Header = props => {
     return (
         <div className={classes.root}>
                    
-            <AppBar color="#ffff" position="static">
+            <AppBar style={{backgroundColor: "#fff"}} position="static">
                 <Toolbar  >
                     <Typography  onClick={() => handleButtonClick("/")} className={classes.title}>
-                        <label style={{ fontFamily: "Bebas Neue", fontSize: "40px"}}>Bao Gallery</label>
+                        <label  style={{fontFamily: "Bebas Neue", fontSize: "40px"}}>Bao Gallery</label>
                         </Typography>
                     {/* {isMobile ? ( */}
                         <>
-                        <div style={{ display: props.user.auth ? 'none' : 'block' }} className={classes.headerOptions}>
+                        <div style={{ display: user.auth ? 'none' : 'block' }} className={classes.headerOptions}>
                             <Button
-                                variant="outlined"
                                 color="secondary"
+                                variant="outlined"
                                 onClick={() => handleButtonClick("/signup")}
                             >
                                 SING UP
               </Button>
                             <Button
-                                color="inherit"
+                                color="secondary"
                                 onClick={() => handleButtonClick("/login")}
                             >
                                 LOGIN
               </Button>
                         </div>
-                            <IconButton
-                                edge="start"
-                                className={classes.menuButton}
-                                color="inherit"
-                                aria-label="menu"
-                                onClick={handleMenu}
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Drawer 
-                                id="menu-appbar"
-                                anchor={"right"}
-                                keepMounted
-                                open={open}
-                                onClose={() => setAnchorEl(null)}
-                            >
-                                <List style={{ display: props.user.auth ? 'none' : 'block' }} className={classes.list}>
-                                    {notAuthenticatedMenuItems.map(menuItem => {
-                                    const { key, menuTitle, pageURL} = menuItem;
-                                    return (
-                                        <MenuItem key={key} onClick={() => handleButtonClick(pageURL)}>
-                                            <ListItem>{menuTitle}</ListItem>
-                                        </MenuItem>
-                                    );
-                                })}
-                                </List>
-                                <List style={{ display: props.user.auth ? 'block' : 'none' }} className={classes.list}>
-                                    {authenticatedMenuItems.map(menuItem => {
-                                        const { key, menuTitle, pageURL, action } = menuItem;
-                                        return (
-                                            <MenuItem key={key} onClick={() => handleButtonClick(pageURL ? pageURL : action())}>
-                                                <ListItem>{menuTitle}</ListItem>
-                                            </MenuItem>
-                                        );
-                                    })}     
-                                </List>
-                            </Drawer>
+                        <RightDrawer anchor={anchorEl}/>
                         </>
-                    {/* ) : ( */}
-                            
-                        {/* )} */}
                 </Toolbar>
             </AppBar>
         </div>
