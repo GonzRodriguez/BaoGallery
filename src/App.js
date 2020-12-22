@@ -25,7 +25,6 @@ function  App() {
     try {
       let response = await api.getUser().then(response => response.data)
       setUser(response)
-      console.log(response);
       
     } catch (error) {
       console.log(error);

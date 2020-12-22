@@ -8,15 +8,17 @@ import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import EditProfileForm from "./EditProfileForm"
-// import UploadImage from "./UplaodImage"
+import Avatar from '@material-ui/core/Avatar';
+import CreatPost from "./createPost"
 // import GetImage from "./GetImage"
 import _ from "lodash"
+import { Container } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxWidth: "90%",
-        borderRadius: 20,
-        margin: "2vh auto"
+        borderRadius: "0",
+        margin: "1vh 0",
+        backgroundColor: theme.palette.primary.dark
     },
     icons: {
         color: "#000",
@@ -25,6 +27,10 @@ const useStyles = makeStyles((theme) => ({
     title:{
         fontFamily: "Abril Fatface",
         color: "primary"
+    },
+    large: {
+        width: theme.spacing(12),
+        height: theme.spacing(12),
     },
 
 }));
@@ -43,54 +49,46 @@ export default function Dashboard() {
       const accountList = accounts.map(account => {
            return( 
                 <Typography key={account.icon} variant="body2">
-                   <i className={account.account && account.icon}>&nbsp;</i>
-                    <strong>{ _.upperFirst(account.account)}&nbsp;</strong>
+                    {account.account.length > 1 && <i className={account.icon}>&nbsp;</i> }
+                    { _.upperFirst(account.account)}
                 </Typography>
                 
             )
         })
-
 
     return (
         <div>
 
             {/* ----------------------------------   Header  ----------------------------------- */}
 
-        <Card variant="outlined" className={classes.root}>
+            <Card variant="outlined" className={classes.root}>
+        <Container>
             <Box display="flex" justifyContent="space-between">
                 <Box mx={1} my={1}>
                     <CardHeader
-                        // avatar={
-                        //     <UserAvatar variant="rounded" ></UserAvatar>
-                        // }
-                        title={<Typography variant="h4" className={classes.title} color="textPrimary" >
-                        {user.data.username}
-                        </Typography>}
-                            subheader={
-                            <>
-                            <i className="fas fa-at"></i> {user.data.email} 
-                            {user.data.webpage && <span>  &nbsp; <i className="fas fa-user-circle"></i> {user.data.webpage}</span> }
-                            </>
-                            }
-                        />
+                        avatar={ <Avatar alt="Avatar" src={user.data.avatar} className={classes.large} /> }
+                        title={<Typography variant="h4" className={classes.title} color="textPrimary" > {user.data.username} </Typography>}
+                        subheader={ <> <i className="fas fa-at"></i> {user.data.email} {user.data.webpage && <span> &nbsp; <i className="fas fa-user-circle"></i> {user.data.webpage}</span> } </> }
+                    />
                 </Box>
-                    <Box mx={4} my={6}>
-                        <EditProfileForm alert={alert} />
+                <Box mx={4} my={6}>
+                    <EditProfileForm alert={alert} />
+                </Box>
+            </Box>
+            <Box style={{ width: '100%' }} >
+                <Box display="flex" justifyContent="space-between">
+                    <Box mx={1} my={1}>
+                        <CardActions >
+                            {accountList && accountList}
+                        </CardActions> 
                     </Box>
-            </Box>
-        <Box style={{ width: '100%' }} >
-            <Box display="flex" justifyContent="space-between">
-                <Box mx={1} my={1}>
-                    <CardActions >
-                        {accountList && accountList}
-                    </CardActions> 
                 </Box>
             </Box>
-        </Box>
+            </Container>
         </Card>
             {/* ----------------------------------   Photos Section  ----------------------------------- */}
-            {/* <GetImage /> */}
-            {/* <UploadImage /> */}
+            {/* <GetImage />  */}
+            <CreatPost />
         </div>
     );
 }

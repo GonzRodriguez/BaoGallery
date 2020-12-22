@@ -10,8 +10,14 @@ import Divider from '@material-ui/core/Divider';
      const handleLogout = async () => {
 
         const res = await api.logout().then(response => {return response.data })
-            .then(localStorage.clear())
-            .then(window.location = "/dashboard")   
+        
+            if (document.cookie){
+                console.log("si cookie")
+            }
+        else {
+            console.log("hohohooh");
+        }
+        // .then(window.location = "/dashboard")   
             console.log(res);
         }
 

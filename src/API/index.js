@@ -18,8 +18,7 @@ export const signup = (credentials) => axios.post(url + "/signup", credentials, 
 export const login = (credentials) => axios.post(url + "/login", credentials, headers);
 export const getlogin = () => axios.get(url + "/login", headers);
 export const logout = () => axios.post(url + "/logout", headers);
-export const editProfile = (editForm) => axios.post(url + "/edit-profile", editForm, headers);
-export const tryProfile = (id, profileData) => axios.post(url + `/try-profile/${id}`, profileData); // Prueba
+export const editProfile = (id, profileData) => axios.post(url + `/edit-profile/${id}`, profileData); 
 export const likePost = (id) => axios.patch(`${url}/${id}/likePost`);
 export const updatePost = (id, updatedPost) => axios.patch(`${url}/${id}`, updatedPost);
 export const deletePost = (id) => axios.delete(`${url}/${id}`);

@@ -12,6 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { ApiContext } from '../../context/ApiContext';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import FileBase from 'react-file-base64'
+import Avatar from '@material-ui/core/Avatar';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +35,11 @@ const useStyles = makeStyles((theme) => ({
     },
     texfield: {
         width: "100%"
-    }
+    },
+    large: {
+        width: theme.spacing(12),
+        height: theme.spacing(12),
+    },
 }));
 
 export default function EditProfileForm() {
@@ -41,13 +47,14 @@ export default function EditProfileForm() {
     const user = useContext(UserContext)
     const api = useContext(ApiContext)
 
-    const { username, email, webpage, instagram, facebook, snapchat, twitter, flickr, _id} = user.data
+    const { username, avatar, email, webpage, instagram, facebook, snapchat, twitter, flickr, _id} = user.data
 
     const [profileData, setProfileData] = useState({ 
         username: username,
+        avatar: avatar,
         email: email,
         webpage: webpage,
-        password: undefined,
+        password: "",
         facebook: facebook,
         instagram: instagram,
         twitter: twitter,  
@@ -56,10 +63,9 @@ export default function EditProfileForm() {
     });
     
 
-    const [confirmPassword, setConfirmPassword] = useState(undefined)
+    const [confirmPassword, setConfirmPassword] = useState("")
     const [passwordTag, setPasswordTag] = useState();
     const [open, setOpen] = useState(false);
-
 
     const handleOpen = () => {
         setOpen(true);
@@ -77,23 +83,11 @@ export default function EditProfileForm() {
     const updateProfile = async () => {
         
 
-        // let editFormData = new FormData(document.getElementById("form"));
-        // function convertFD2JSON(formData) {
-        //     let obj = {};
-        //     for (let key of formData.keys()) {
-        //         obj[key] = formData.get(key);
-        //     }
-        //     return JSON.stringify(obj);
-        // }
-        // let jsonData = convertFD2JSON(editFormData);
-        // console.log(jsonData);
-console.log(profileData);
-
-        api.tryProfile(_id, profileData)
+        api.editProfile(_id, profileData)
             .then(function (response) {
                 console.log(response.data);
-                handleClose()
             })
+            .then(window.location = "/dashboard")
             
     }
 // Nota Mirar el css de Modal
@@ -119,6 +113,18 @@ console.log(profileData);
                     <div className={classes.paper} >
                         <Typography variant="h6" mt={1}>Edit Your Profile</Typography>
                         <Divider/>
+                            <Box display="flex" alignItems="center">
+                                <Box m={1}  >
+                                    <Avatar alt="Avatar" src={avatar} className={classes.large} />
+                                </Box>
+                                <Box m={1} flexGrow={1} >
+                                    <FileBase
+                                        type="file"
+                                        multiple={false}
+                                        onDone={({ base64 }) => setProfileData({ ...profileData, avatar: base64 })}
+                                    />
+                                </Box>
+                            </Box>
                             <Box display="flex" >
                                 <Box m={1} flexGrow={1} >
                                 <TextField
@@ -233,6 +239,7 @@ console.log(profileData);
                                     <FormHelperText>{passwordTag && <p style={{color: "red"}}>Password don not match</p>}</FormHelperText>
                             </Box>
                         </Box>
+                       
                         <Button type="submit" color="secondary" m={1} variant="outlined" fullWidth onClick={handlePasswordOnSubmit}>Submit</Button>
                         <Button color="inherit" m={1} onClick={handleClose} fullWidth >Discard</Button>
 
