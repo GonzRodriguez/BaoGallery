@@ -1,20 +1,10 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect, useContext } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-// import getUser from "./getUser"
-import { Collapse } from '@material-ui/core';
+import _ from "lodash"
 import { ApiContext } from '../../context/ApiContext';
-import IconButton from '@material-ui/core/IconButton';
+import { IconButton, Collapse, Avatar, Button, CssBaseline, Link, Grid, Typography, makeStyles, Container, TextField  } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 
@@ -60,8 +50,8 @@ export default function SingUp() {
     const register = async (e) => {
         e.preventDefault();
         api.signup({
-            username: registerUsername,
-            email: registerEmail,
+            username: _.lowerCase(registerUsername),
+            email: _.lowerCase(registerEmail),
             password: registerPassword
         })
         .then(function (response) {

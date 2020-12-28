@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import EditProfileForm from "./EditProfileForm"
 import Avatar from '@material-ui/core/Avatar';
-import CreatPost from "./createPost"
+import CreatPost from "./createPost/CreatePost"
 // import GetImage from "./GetImage"
 import _ from "lodash"
 import { Container } from "@material-ui/core";
@@ -18,10 +18,9 @@ const useStyles = makeStyles((theme) => ({
     root: {
         borderRadius: "0",
         margin: "1vh 0",
-        backgroundColor: theme.palette.primary.dark
+        backgroundColor: theme.palette.primary.light
     },
     icons: {
-        color: "#000",
         fontSize: "2vh",
     },
     title:{
@@ -61,8 +60,8 @@ export default function Dashboard() {
 
             {/* ----------------------------------   Header  ----------------------------------- */}
 
-            <Card variant="outlined" className={classes.root}>
-        <Container>
+        <Card variant="outlined" className={classes.root}>
+            <Container maxWidth="sm">
             <Box display="flex" justifyContent="space-between">
                 <Box mx={1} my={1}>
                     <CardHeader
@@ -89,6 +88,7 @@ export default function Dashboard() {
             {/* ----------------------------------   Photos Section  ----------------------------------- */}
             {/* <GetImage />  */}
             <CreatPost />
+            <img src="200-536x354 - copia.jpg" alt=""/>
         </div>
     );
 }

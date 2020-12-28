@@ -13,7 +13,7 @@ const url = 'http://localhost:3000/api';
 
 export const fetchPosts = () => axios.get(url);
 export const getUser = () => axios.get(url + "/req-user", headers)
-export const createPost = (newPost) => axios.post(url, newPost);
+export const createPost = (newPost) => axios.post(url + "/create-post", newPost, { 'Content-Type': 'multipart/form-data' });
 export const signup = (credentials) => axios.post(url + "/signup", credentials, headers);
 export const login = (credentials) => axios.post(url + "/login", credentials, headers);
 export const getlogin = () => axios.get(url + "/login", headers);

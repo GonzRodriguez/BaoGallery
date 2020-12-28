@@ -1,20 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import { Collapse } from '@material-ui/core';
-import Container from '@material-ui/core/Container';
+import { makeStyles, Avatar, Button, CssBaseline, TextField, Link, Grid, Typography, Collapse, Container, IconButton } from '@material-ui/core';
 import { UserContext } from '../../context/UserContext'
 import { ApiContext } from '../../context/ApiContext'; 
-import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import _ from "lodash"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +48,7 @@ export default function LogIn(props) {
 
 
       try {
-           api.login({ username: loginUsername, password: loginPassword })
+           api.login({ username: _.lowerCase(loginUsername), password: loginPassword })
               .then( async function (response) {
                   localStorage.clear()
                     console.log(response.data);
