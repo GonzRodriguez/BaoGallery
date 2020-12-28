@@ -1,10 +1,11 @@
 
 const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs")
-const Busboy = require("Busboy")
 const passport = require("passport")
 const User = require("../models/users.js")
 const Post = require("../models/post.js")
+const formidable = require('formidable');
+const fs = require("fs")
 
 
 exports.dashboard = async (req, res) => {
@@ -41,78 +42,89 @@ exports.getPost = async (req, res) => {
 // exports.createpost = async (req, res) => {
 //     res.send("Reached")
 // }
-exports.createPost = async (req, res) => {
-    const { title, message, selectedFile, creator } = req.body;
+exports.createPost =  (req, res, next) => {
+    const form = formidable({ multiples: true });
 
-    const newPostMessage = new Post({ title, message, selectedFile, creator })
-    console.log(req.body );
 
-    try {
-        await newPostMessage.save();
+    form.parse(req, (err, fields, file) => {
+        if (err) {
+            next(err);
+            return;
+        }
+        const { creatorId, creator, createdAt, price, tags, title, date } = fields;
+        const path = `/users/gon_w/desktop/coding/baoGallery/public/users/${creator}/` + file.name
+        console.log(file);
 
-        res.status(201).json(newPostMessage);
-    } catch (error) {
-        res.status(409).json({ message: error.message });
-    }
-}
-// AJUSTAR LA EDICION DE PERFILES
-exports.editProfile = async (req, res) => {
-    try {
-        var busboy = new Busboy({ headers: req.headers });
-        let newUser = {}
-        busboy.on('field', function (fieldname, val) {
-            // console.log('Field [' + fieldname + ']: value: ' + inspect(val));
-            // const fieldArray = [fieldname + " " + val]
-            // console.log("Field Array "  + fieldArray);
-            User.findById(req.params.id, async function (err, user) {
 
-                let socialMedia = user.user.socialMediaAccounts
-
-                if (fieldname === "username" && val) { user.username = val }
-                if (fieldname === "email" && val) { user.email = val }
-                if (fieldname === "webpage" && val) { user.webpage = val }
-                if (fieldname === "password" && val) { user.password = bcrypt.hash(val, 10) }
-                if (fieldname === "instagram" && val) { socialMedia.set({ instagram: { account: val, icon: "fab fa-instagram" } }) }
-                if (fieldname === "facebook" && val) { socialMedia.set({ facebook: { account: val, icon: "fab fa-facebook" } }) }
-                if (fieldname === "snapchat" && val) { val = socialMedia.set({ snapchat: { account: val, icon: "fab fa-snapchat" } }) }
-                if (fieldname === "twitter" && val) { socialMedia.set({ twitter: { account: val, icon: "fab fa-twitter" } }) }
-                if (fieldname === "flickr" && val) { socialMedia.set({ flickr: { account: val, icon: "fab fa-flickr" } }) }
-
-                user.save(err, updatedUser => {
+        if (fs.existsSync(`/users/gon_w/desktop/coding/baoGallery/public/users/${creator}/`)) {
+                fs.writeFile(`/users/gon_w/desktop/coding/baoGallery/public/users/${creator}/` + title, file, (err) => {
                     if (err) throw err;
-                    newUser = updatedUser
+                    console.log("The file was appended to directory!");
+                });
+            } else {
+                fs.mkdir(`/users/gon_w/desktop/coding/baoGallery/public/users/${creator}`, (err) => {
+                    if (err) throw err;
+                    console.log("created");
                 })
-                console.log(user);
-            });
+                fs.writeFile(`/users/gon_w/desktop/coding/baoGallery/public/users/${creator}/` + title, file, (err) => {
+                    if (err) throw err;
+                    console.log("The file was appended to directory!");
+                });
+            }
+
+        const newPost = new Post({ title, creatorId, price, tags, path, creator, createdAt, date })
+
+        try {
+            newPost.save();
+            res.status(201).json(typeof file);
+        } catch (error) {
+            console.log(error);
+            res.status(409).json({ message: error });
+        }
         });
-        busboy.on('finish', function () {
-            console.log('Done parsing form!');
-            res.send(newUser)
-        });
-        req.pipe(busboy);
-    } catch (error) {
-        console.log(error);
-    }
+        
+    // console.log(creatorId, creator, createdAt, price, tags, strigifiedImage );
 }
 
-exports.tryProfile = async (req, res) => {
+exports.editProfile = async (req, res) => {
     console.log(User);
     const { username, avatar, email, password, webpage, instagram, facebook, twitter, snapchat, flickr } = req.body
-    let user = {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    
+    const withPassword = {
         username: username,
         avatar: avatar,
         email: email,
         webpage: webpage,
-        password: password,
         instagram: instagram,
         facebook: facebook,
         twitter: twitter,
         snapchat: snapchat,
         flickr: flickr
     }
+    const noPassword = {
+        username: username,
+        avatar: avatar,
+        email: email,
+        webpage: webpage,
+        password: hashedPassword,
+        instagram: instagram,
+        facebook: facebook,
+        twitter: twitter,
+        snapchat: snapchat,
+        flickr: flickr
+    }
+    function uploadUser() {
+        if (password.length > 1) {
+            return withPassword
+        }
+        return noPassword
+    }
+    console.log(uploadUser());
 try {
 
-    await User.updateOne({ _id: req.params.id }, user, { upsert: true, omitUndefined: true })
+    await User.updateOne({ _id: req.params.id }, uploadUser(), { upsert: true, omitUndefined: true })
 
 } catch (error) {
     console.log(error);
@@ -242,12 +254,37 @@ exports.logout = async (req, res, next) => {
 
     try {
         req.logout();
-        req.session.destroy()
-        req.session = null
+        console.log("session destroyed", req.session);
 
+    } catch (error) {
+        console.log(error);
+    }
+    try {
+        req.session.destroy(function(err){
+            if (err) throw err;
+            console.log("session destroyed", req.session);
+        });
+    } catch (error) {
+        console.log(error);
+    }
+    try {
+        console.log(req.session);
     } catch (error) {
         console.log(error);
     }
 } 
 
+exports.test = async (req, res, next) => {
+    
 
+    fs.readFile('/users/gon_w/desktop/coding/baoGallery/public/users/MoneySlide/imageProfile.jpg', (err, data) => {
+        if (err) throw err;
+        fs.writeFileSync("new-path.jpg", data);
+        console.log(data);
+        res.send(data)
+    });
+
+
+
+
+}
