@@ -1,17 +1,21 @@
 const express = require("express");
-const { dashboard, getPost, createPost, editProfile, updatePost, deletePost, login, signup, logout, reqUser, test } = require("../controllers/api")
+
+const { fetchPost, fetchPosts, createPost, uploadImage, editProfile, updatePost, deletePost, login, signup, logout, isAuth, test, getUser } = require("../controllers/api")
 
 const router = express.Router();
 
-router.get('/dashboard', dashboard);
-router.get('/req-user', reqUser);
+// router.get('/dashboard', dashboard);
 router.post('/edit-profile/:id', editProfile);
+router.post('/get-user', getUser);
 router.post('/create-post', createPost);
-router.get('/get-post/:id', getPost);
+router.post('/upload-image', uploadImage);
+router.get('/post/:postId', fetchPost);
+router.get('/posts/:userId', fetchPosts);
 router.patch('/update-post/:id', updatePost);
-router.delete('/delete-post/:id', deletePost);
+router.delete('/delete-post/:id/:userId', deletePost);
 router.post('/login', login);
-router.get('/test', test);
+router.post('/test', test);
+router.post('/is-auth', isAuth);
 // router.get('/login', getLogin);
 router.post('/logout', logout);
 router.post('/signup', signup);

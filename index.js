@@ -21,7 +21,7 @@ app.use(morgan("common"));
 app.use(helmet());
 // It is a mechanism to allow or restrict requested resources on a web server depend on where the HTTP request was initiated
 app.use(cors({
-  methods: ['GET', 'POST', 'OPTIONS'],
+  methods: ["GET", "POST", "OPTIONS", "DELETE", "PATCH"],
   credentials: true,
   origin: process.env.CORS_ORIGIN,
 }));
@@ -49,7 +49,7 @@ app.use(cors({
   
   require("./config/passportConfig")(passport);
 
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true }, () => { console.log("Mongoose is connected"); });
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, () => { console.log("Mongoose is connected"); });
 mongoose.set("useCreateIndex", true);
 
 
