@@ -1,43 +1,52 @@
 
-import React, { useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext"
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardActions from "@material-ui/core/CardActions";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import { Card, CardHeader, CardActions, Typography, Avatar,  makeStyles  } from "@material-ui/core";
 import EditProfileForm from "./EditProfileForm"
-import Avatar from '@material-ui/core/Avatar';
-import CreatPost from "./createPost/CreatePost"
-// import GetImage from "./GetImage"
+import Dropzone from "./createPost/Dropzone"
+import Posts from "../Posts"
+import Spinner from "../Action-Components/spinner" 
 import _ from "lodash"
-import { Container } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        borderRadius: "0",
         margin: "1vh 0",
-        backgroundColor: theme.palette.primary.light
+        border: theme.border.border,
+        marginInline: "2rem"
     },
     icons: {
         fontSize: "2vh",
     },
     title:{
-        fontFamily: "Abril Fatface",
+        fontFamily: theme.fontFamily.body,
+        fontWeight: 600,
         color: "primary"
     },
-    large: {
-        width: theme.spacing(12),
-        height: theme.spacing(12),
+    header: {
+        display: "flex",
+        marginInline: "3rem",
+        marginBlock: "2rem",
+        justifyContent: "space-between",
+        alignItems: "center"
     },
+    headerItems: {
+        display: "flex",
+        flexDirection: "column"
+    },
+    avatar: {
+        minWidth: "10vw",
+        minHeight: "10vw",
+    }
 
 }));
 
 export default function Dashboard() {
+    const [previewImages, setPreviewImages] = useState([]);
+    const [images, setImages] = useState([])
     const classes = useStyles();
     const user = useContext(UserContext)  
-    const {instagram, facebook, snapchat, twitter, flickr} = user.data  
+    if (user == null) { return ( <Spinner /> ) }
+    const {instagram, facebook, snapchat, twitter, flickr} = user
     const accounts = [
         { account: instagram, icon: "fab fa-instagram"},
         { account: facebook, icon: "fab fa-facebook"},
@@ -51,9 +60,9 @@ export default function Dashboard() {
                     {account.account.length > 1 && <i className={account.icon}>&nbsp;</i> }
                     { _.upperFirst(account.account)}
                 </Typography>
-                
             )
         })
+
 
     return (
         <div>
@@ -61,34 +70,24 @@ export default function Dashboard() {
             {/* ----------------------------------   Header  ----------------------------------- */}
 
         <Card variant="outlined" className={classes.root}>
-            <Container maxWidth="sm">
-            <Box display="flex" justifyContent="space-between">
-                <Box mx={1} my={1}>
+            <header className={classes.header} >
+                <div className={classes.headerItems} >
                     <CardHeader
-                        avatar={ <Avatar alt="Avatar" src={user.data.avatar} className={classes.large} /> }
-                        title={<Typography variant="h4" className={classes.title} color="textPrimary" > {user.data.username} </Typography>}
-                        subheader={ <> <i className="fas fa-at"></i> {user.data.email} {user.data.webpage && <span> &nbsp; <i className="fas fa-user-circle"></i> {user.data.webpage}</span> } </> }
+                        avatar={ <Avatar alt="Avatar" src={user.avatar} className={classes.avatar} /> }
+                        title={<Typography className={classes.title} variant={"h2"} color="textPrimary" > {user.username} </Typography>}
+                        subheader={ <> <i className="fas fa-at"></i> {user.email} {user.webpage && <span> &nbsp; <i className="fas fa-user-circle"></i> {user.webpage}</span> } </> }
                     />
-                </Box>
-                <Box mx={4} my={6}>
-                    <EditProfileForm alert={alert} />
-                </Box>
-            </Box>
-            <Box style={{ width: '100%' }} >
-                <Box display="flex" justifyContent="space-between">
-                    <Box mx={1} my={1}>
                         <CardActions >
                             {accountList && accountList}
                         </CardActions> 
-                    </Box>
-                </Box>
-            </Box>
-            </Container>
+                </div>
+                    <EditProfileForm alert={alert} />
+            </header>
         </Card>
             {/* ----------------------------------   Photos Section  ----------------------------------- */}
-            {/* <GetImage />  */}
-            <CreatPost />
-            <img src="200-536x354 - copia.jpg" alt=""/>
+            <Dropzone images={images} setImages={setImages} previewImages={previewImages} setPreviewImages={setPreviewImages} />
+            <Posts /> 
+            {/* <img src="/uploads/money/posts/imageProfile.jpg" alt=""/> */}
         </div>
     );
 }

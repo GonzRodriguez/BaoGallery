@@ -17,15 +17,23 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: "black",
     },
     form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(1),
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
+        backgroundColor: "#e9e9e9",
+        height: "2.5rem",
+        width: "100%",
+        marginTop: theme.spacing(4),
+        marginBottom: theme.spacing(4), 
+        boxShadow: "-5px 5px 0px black",
+        border: "solid 5px black",
+        cursor: "pointer",
+        borderRadius: 0,
+        },
     alert: {
         width: "75vh",
         margin: "auto",
@@ -48,16 +56,17 @@ export default function LogIn(props) {
 
 
       try {
-           api.login({ username: _.lowerCase(loginUsername), password: loginPassword })
+          api.login({ username: _.toLower(loginUsername), password: loginPassword })
               .then( async function (response) {
                   localStorage.clear()
-                    console.log(response.data);
+                  console.log(response);
                   if (response.data.ErrorMessage) {
                       localStorage.setItem("message", response.data.message)
-                      console.log(serverMessage);
                       window.location = response.data.redirectURI
                   }
                   if (response.data.success) {
+                      localStorage.removeItem("message");
+                      localStorage.setItem("refreshToken", response.data.token)
                       window.location = response.data.redirectURI
                   }
               })
@@ -111,7 +120,6 @@ export default function LogIn(props) {
         </Typography>
                 <form className={classes.form} noValidate onSubmit={login}>
                     <TextField
-                        variant="outlined"
                         margin="normal"
                         required
                         fullWidth
@@ -119,12 +127,11 @@ export default function LogIn(props) {
                         type="email"
                         label="Username"
                         name="email"
-                        autoComplete="email"
+                        autoComplete="username"
                         autoFocus
                         onChange={(event) => setLoginUsername(event.target.value)}
                     />
                     <TextField
-                        variant="outlined"
                         margin="normal"
                         required
                         fullWidth
@@ -148,7 +155,7 @@ export default function LogIn(props) {
                         onSubmit={login}
                     >
                         Log In
-          </Button>
+                    </Button>
                     <Grid container>
                         <Grid item xs>
                             <Link href="/login" color="textSecondary">

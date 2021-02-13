@@ -1,19 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Modal, Backdrop, Fade, Button, TextField, FormHelperText, Box, Typography, Divider, Avatar } from '@material-ui/core';
 import { UserContext } from "../../context/UserContext"
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField'
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import { ApiContext } from '../../context/ApiContext';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import MoreVertIcon from '@material-ui/icons/MoreHoriz';
 import FileBase from 'react-file-base64'
-import Avatar from '@material-ui/core/Avatar';
+import Spinner from "../Action-Components/spinner" 
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +39,7 @@ export default function EditProfileForm() {
     const user = useContext(UserContext)
     const api = useContext(ApiContext)
 
-    const { username, avatar, email, webpage, instagram, facebook, snapchat, twitter, flickr, _id} = user.data
+    const { username, avatar, email, webpage, instagram, facebook, snapchat, twitter, flickr, _id} = user
 
     const [profileData, setProfileData] = useState({ 
         username: username,
@@ -66,6 +58,7 @@ export default function EditProfileForm() {
     const [confirmPassword, setConfirmPassword] = useState("")
     const [passwordTag, setPasswordTag] = useState();
     const [open, setOpen] = useState(false);
+    if (user == null) { return (<Spinner />) }
 
     const handleOpen = () => {
         setOpen(true);
@@ -94,8 +87,8 @@ export default function EditProfileForm() {
     return (
         <div>
             <Button type="button" onClick={handleOpen}>
-                <MoreHorizIcon/>
-      </Button>
+                <MoreVertIcon/>
+            </Button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"

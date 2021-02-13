@@ -1,11 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import  {withRouter}  from "react-router";
-import { makeStyles} from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import { UserContext } from "../context/UserContext";
+import { makeStyles, useMediaQuery, AppBar, Toolbar, Typography, Button, useTheme} from "@material-ui/core";
+import { IsAuthContext } from "../context/IsAuthContext";
 import RightDrawer from "./Drawer/Drawer"
 
 const useStyles = makeStyles(theme => ({
@@ -13,8 +9,14 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
     },
     title: {
-        flexGrow: 1,
-        color: "#074A49",
+        fontFamily: "Righteous",
+        fontSize: "4vh",
+        fontWeight: "bold"
+    },
+    toolbar: {
+        display: "flex",
+        justifyContent: "space-between",
+        borderBottom: "solid 5px black"
     },
     headerOptions: {
         marginRight: "3vw",
@@ -22,50 +24,46 @@ const useStyles = makeStyles(theme => ({
     },
     list: {
         width: 250,
-    },
+    }, 
+    actionUpButton: {
+        backgroundColor: "#e9e9e9",
+        height: "2.5rem",
+        width: "7rem",
+        margin: "10px",
+        boxShadow: "-5px 5px 0px black",
+        border: "solid 5px black",
+        cursor: "pointer",
+        borderRadius: 0,
+    }
 }));
 
 const Header = props => {
-    const { history } = props;
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const user = useContext(UserContext)
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up('sm'));
+    const [anchorEl, setAnchorEl] = useState(false);
+    const authContext = useContext(IsAuthContext)
 
-    const handleButtonClick = pageURL => {
-        history.push(pageURL);
-        setAnchorEl(null)
-    };
+    function handleDrawer() {
+        !anchorEl ? setAnchorEl(true) : setAnchorEl(false);
+    }
 
     return (
-        <div className={classes.root}>
                    
-            <AppBar style={{backgroundColor: "#fff"}} position="static">
-                <Toolbar  >
-                    <Typography  onClick={() => handleButtonClick("/")} className={classes.title}>
-                        <label  style={{fontFamily: "Bebas Neue", fontSize: "40px"}}>Bao Gallery</label>
-                        </Typography>
-                    {/* {isMobile ? ( */}
-                        <>
-                        <div style={{ display: user.auth ? 'none' : 'block' }} className={classes.headerOptions}>
-                            <Button
-                                color="secondary"
-                                variant="outlined"
-                                onClick={() => handleButtonClick("/signup")}
-                            >
-                                SING UP
-              </Button>
-                            <Button
-                                color="secondary"
-                                onClick={() => handleButtonClick("/login")}
-                            >
-                                LOGIN
-              </Button>
-                        </div>
-                        <RightDrawer anchor={anchorEl}/>
-                        </>
+            <AppBar  position="static">
+                <Toolbar className={classes.toolbar}>
+                    <Typography variant="h6" className={classes.title} onClick={() => { window.location = "/" }}> BAO GALLERY </Typography>
+                        {matches ?
+                            <div className={classes.loginButtons}>
+
+                                <Button mx={2} py={2} style={{ height: "2.5rem", borderRadius: 0 }} onClick={() => { window.location = "/login" }}>LogIn</Button>
+                                <Button className={classes.actionUpButton} onClick={() => { window.location = "/signup" }}> SignUp </Button>
+                            </div>
+                            :
+                            <RightDrawer anchor={anchorEl} onClick={() => { handleDrawer() }} />
+                        }
                 </Toolbar>
             </AppBar>
-        </div>
     );
 };
 //  the header component can be wrapped in a withRouter function, 

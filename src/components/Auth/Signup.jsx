@@ -48,25 +48,33 @@ export default function SingUp() {
     const api = useContext(ApiContext)
     
     const register = async (e) => {
+
         e.preventDefault();
-        api.signup({
-            username: _.lowerCase(registerUsername),
-            email: _.lowerCase(registerEmail),
-            password: registerPassword
-        })
-        .then(function (response) {
-            console.log(response, response.data);
-            localStorage.setItem("message", response.data.message)
-            if (response.data.ErrorMessage) {
-                localStorage.setItem("message", response.data.message)
-            }
-            if (response.data.success) {
-                localStorage.clear();
-                window.location = response.data.redirectURI
-            }
-            
-        })
-        // .then(getUser())
+
+        try {
+            api.signup({
+                username: _.lowerCase(registerUsername),
+                email: _.toLower(registerEmail),
+                password: registerPassword
+            })
+                .then(function (response) {
+                    // localStorage.clear()
+                    console.log(response, response.data);
+                    if (response.data.ErrorMessage) {
+                        localStorage.setItem("message", response.data.message)
+                    }
+                    if (response.data.success) {
+                        localStorage.removeItem("message");
+                        localStorage.setItem("refreshToken", response.data.token)
+                        console.log(response.data.redirectURI);
+                        window.location = response.data.redirectURI
+                    }
+
+                })
+        } catch (error) {
+            console.log(error);
+        }
+               
     }
     
     useEffect(() => {

@@ -45,24 +45,11 @@ export default function RightDrawer(props){
     };
     return (
  <div>
-        <IconButton 
-            edge="start"
-            className={classes.menuButton}
-            color="secondary"
-            aria-label="menu"
-            onClick={handleMenu}
-        >
-        <MenuIcon />
-         </IconButton>
-
-            <Drawer
-                id="menu-appbar"
-                anchor={"right"}
-                keepMounted
-                open={open}
-                onClose={() => setAnchorEl(null)}
-            >
-                <List style={{ display: user.auth ? 'none' : 'block' }} className={classes.list}>
+        <IconButton edge="start" className={classes.menuButton} color="secondary" aria-label="menu" onClick={handleMenu} >
+            <MenuIcon />
+        </IconButton>
+        <Drawer id="menu-appbar" anchor={"right"} keepMounted open={open} onClose={() => setAnchorEl(null)} >   
+                <List style={{ display: !user ? 'block' : 'none' }} className={classes.list}>
                     {notAuthenticatedMenuItems.map(menuItem => {
                         const { key, menuTitle, pageURL } = menuItem;
                         return (
@@ -72,8 +59,9 @@ export default function RightDrawer(props){
                         );
                     })}
                 </List>
-                <List style={{ display: user.auth ? 'block' : 'none' }} className={classes.list}>
+                <List style={{ display: user ? 'block' : 'none' }} className={classes.list}>
                     {authenticatedMenuItems.map(menuItem => {
+                        
                         const { key, menuTitle, pageURL } = menuItem;
                         return (
                             <MenuItem key={key} onClick={() => handleButtonClick(pageURL)}>

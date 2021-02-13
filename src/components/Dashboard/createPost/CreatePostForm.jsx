@@ -32,13 +32,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function CreatePostForm(props) {
-    const [tags, setTags] = useState([]);
     const classes = useStyles();
-    const [inputValue, setInputValue] = useState("");
-    const [price, setPrice] = useState({required: false, value: ""});
     const user = useContext(UserContext)
     const api = useContext(ApiContext)
-    const { username, _id } = user.data
+    const [tags, setTags] = useState([]);
+    const [inputValue, setInputValue] = useState("");
+    const [price, setPrice] = useState({required: false, value: ""});
+    const { username, _id } = user
 
     const date = () => {
 
@@ -47,28 +47,32 @@ export default function CreatePostForm(props) {
         const year = new Date().getFullYear()
         return day + "-" + month + "-" + year
     }
-    
-    const handleUpload = () => {
-        const upload = () => 
-        console.log(props.previewImages);
-        props.previewImages.forEach(image => {
-            const fd = new FormData()
-            fd.append("creatorId", _id)
-            fd.append("creator", username)
-            fd.append("createdAt", date())
-            fd.append("date", new Date())
-            fd.append("price", price.value)
-            fd.append("tags", tags)
-            fd.append("title", image.name)
-            fd.append(image.name, image)
 
-            api.createPost(fd).then(res => console.log(res))
+    let post = {creatorId: _id, creator: username, createdAt: date(), date: new Date(), price: price.value, tags: tags, collection: "posts"}
+    
+    const handleUpload = (e) => {
+        // e.preventDefault()
+        const uploadImage = () => 
+        props.images.forEach(image => {
+            const fd = new FormData()
+            fd.append("creator", username)
+            fd.append("collection", "posts")
+            fd.append("image", image)
+
+            api.uploadImage(fd).then(res => console.log("uploaded image", res))
+        });
+        props.images.forEach(image => {
+            
+            post.title = image.name
+            
+            api.createPost(post).then(res => console.log("created post", res))
         });
 
+
         if (!price.value) { setPrice({required: true}) }
-        else { upload() }
+        else { uploadImage() }
     }
-    
+
     const handleKeyDown = (e) => {
         const filterTags = tags.filter(tag => tag === inputValue)
 
@@ -102,7 +106,9 @@ export default function CreatePostForm(props) {
         return (
             <Link href={tag} key={tags.indexOf(tag)} onClick={(e) => e.preventDefault()} variant="body2">
                 {" #" + tag}
-                <IconButton className={classes.iconButton} aria-label="delete" onClick={() => { tags.splice(tags.indexOf(tag), 1); setTags([...tags]);}} >
+                <IconButton 
+                    className={classes.iconButton} aria-label="delete" 
+                    onClick={() => { tags.splice(tags.indexOf(tag), 1); setTags([...tags]);}} >
                     <ClearIcon className={classes.clearIcon}/>
                 </IconButton>
             </Link>

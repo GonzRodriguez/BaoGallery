@@ -18,6 +18,7 @@ const notAuthenticatedMenuItems = [
     },
 
 ];
+    
 
 const authenticatedMenuItems = [
     {

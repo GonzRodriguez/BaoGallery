@@ -1,24 +1,22 @@
 import React, { useContext } from "react";
-import { ApiContext } from "../../context/ApiContext"
-import List from '@material-ui/core/List'; 
-import MenuItem from "@material-ui/core/MenuItem";
-import Divider from '@material-ui/core/Divider';
+import { List, Divider, MenuItem} from '@material-ui/core'; 
+import { ApiContext } from "../../context/ApiContext";
+import { UserContext } from "../../context/UserContext";
 
     function Logout() {
         const api = useContext(ApiContext)
-        
-     const handleLogout = async () => {
+        const user = useContext(UserContext)
 
-        const res = await api.logout().then(response => {return response.data })
-        
-            if (document.cookie){
-                console.log("si cookie")
-            }
-        else {
-            console.log("hohohooh");
-        }
-        // .then(window.location = "/dashboard")   
-            console.log(res);
+
+     const handleLogout = async () => {
+        try {
+            const response = api.logout({userId: user._id}).then(res => res)
+            console.log(response);
+            localStorage.clear()
+            window.location = "/login"
+        } catch (error) {
+            console.log(error);
+        } 
         }
 
         return (
