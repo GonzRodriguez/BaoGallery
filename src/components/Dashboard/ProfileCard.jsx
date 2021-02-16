@@ -34,26 +34,8 @@ const useStyles = makeStyles((theme) => ({
 function ProfileCard(props) {
     const classes = useStyles();
 
-    const { instagram, facebook, snapchat, twitter, flickr } = props.profile
-    console.log(props.profile);
-    const accounts = [
-        { account: instagram, icon: "fab fa-instagram" },
-        { account: facebook, icon: "fab fa-facebook" },
-        { account: snapchat, icon: "fab fa-snapchat" },
-        { account: twitter, icon: "fab fa-twitter" },
-        { account: flickr, icon: "fab fa-flickr" }
-    ]
-    // const accountList = accounts.map(account => {
-    //     return (
-    //         <Grid item key={account.icon} >
-    //             <Typography  variant="body1">
-    //                 {account.account.length > 0 && <i className={account.icon}>&nbsp;</i>}
-    //                 {_.upperFirst(account.account)}
-    //             </Typography>
-    //         </Grid>
+    console.log(typeof props.profile.socialMediaAccounts);
 
-    //     )
-    // })  
     return (
         !props.profile ?
             <Spinner />
@@ -73,18 +55,19 @@ function ProfileCard(props) {
                 </Grid>
                 <Grid container spacing={3} direction="row" >
 
-                    {accounts.map(account => {
+                    {props.profile.socialMediaAccounts.map(account => {
+                        for (const [key, value] of Object.entries(account)) {
                         return (
-                            <Grid item key={account.icon} >
+                            <Grid item key={account} >
                                 <Typography variant="body1">
-                                    {account.account.length > 0 && <i className={account.icon}>&nbsp;</i>}
-                                    {_.upperFirst(account.account)}
+                                    {<i className={`fab fa-${key}`}>&nbsp;</i>}
+                                    {_.upperFirst(value)}
                                 </Typography>
                             </Grid>
 
                         )
+                        }
                     })}
-                    {/* {accountList && accountList} */}
                 </Grid>
                 <EditProfileForm alert={alert} />
             </header>

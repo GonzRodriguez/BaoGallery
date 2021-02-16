@@ -6,6 +6,7 @@ import { UserContext } from "../context/UserContext"
 import { ApiContext } from "../context/ApiContext"
 import Posts from './Posts';
 import ProfileCard from './Dashboard/ProfileCard';
+import Spinner from './Action-Components/spinner';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,18 +23,21 @@ function Profile() {
     const api = useContext(ApiContext)
     const [profile, setProfile] = useState([])
     const { username } = useParams();
-    useEffect(() => {
 
+
+    useEffect(() => {
         (async () => {
             const user = await api.getUser(username).then(res => res.data)
             setProfile(user)
         })()
+        console.log(profile);
     }, [])
     
-    console.log(profile.password);
 
     return (
-        
+        !profile ?
+        <Spinner/>
+        :
 
             <Container>
             <ProfileCard profile={profile}/>
