@@ -1,7 +1,6 @@
 import React from 'react'
 import SearchIcon from '@material-ui/icons/Search'
-import { makeStyles, IconButton, useMediaQuery } from "@material-ui/core";
-import { useTheme } from '@material-ui/core/styles';
+import { makeStyles, IconButton } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
     input: {
@@ -32,8 +31,6 @@ const useStyles = makeStyles(() => ({
 
 export default function SearchInput() {
     const classes = useStyles();
-    const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
     return (
         <>

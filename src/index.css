@@ -25,3 +25,21 @@ input:focus {
   filter: brightness(0.8);
   outline: 0;
 }
+input:hover {
+  box-shadow: initial;
+  transition: ease-in-out .2s;
+}
+input {
+  transition: ease-in-out .2s;
+}
+button:hover {
+  box-shadow: initial;
+  transition: ease-in-out .2s;
+}
+button {
+  transition: ease-in-out .2s;
+}
+button:focus {
+  filter: brightness(0.8);
+  outline: 0;
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { makeStyles, CardMedia, Grid, Card } from '@material-ui/core';
+import { makeStyles, CardMedia, Grid } from '@material-ui/core';
 import DeletePostButton from "./DeletePostButton"
 
 const useStyles = makeStyles(() => ({

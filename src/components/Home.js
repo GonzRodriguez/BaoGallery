@@ -1,10 +1,8 @@
 /* eslint-disable no-unused-expressions */
-import React, { useContext, useState } from "react";
-import {UserContext} from "../context/UserContext"
+import React from "react";
 import { makeStyles, useMediaQuery } from "@material-ui/core";
 import { useTheme } from '@material-ui/core/styles';
 import SearchInput from "./Action-Components/SearchInput";
-import Header from "./Header"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -77,8 +75,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Home(props) {
-    const user = useContext(UserContext)
+function Home() {
+    // const user = useContext(UserContext)
     const classes = useStyles();
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('sm'));
@@ -108,19 +106,19 @@ function Home(props) {
                         <p style={{ margin: "1.2rem", padding: ".2rem", fontFamily: "Saira Condensed", fontSize: "3.5vw", fontWeight: 300 }}>
                             A place to <strong>share</strong> the best of your street walks. 
                         </p>
-                        <i class="fas fa-project-diagram" style={{ fontSize: "5rem", textAlign: "center" }}></i>
+                        <i className="fas fa-project-diagram" style={{ fontSize: "5rem", textAlign: "center" }}></i>
                     </div>
                     <div className={classes.aboutItemLg }>
                         <p style={{ margin: "1.2rem", padding: ".2rem", fontFamily: "Saira Condensed", fontSize: "3.5vw", fontWeight: 300 }}>
                             <strong>Get in touch</strong> with the people you find on the street when the pictures are ready. 
                         </p>
-                        <i class="far fa-paper-plane" style={{ fontSize: "5rem", textAlign: "center" }}></i>
+                        <i className="far fa-paper-plane" style={{ fontSize: "5rem", textAlign: "center" }}></i>
                     </div>
                     <div className={classes.aboutItemLg}>
                         <p style={{ margin: "1.2rem", padding: ".2rem", fontFamily: "Saira Condensed", fontSize: "3.5vw", fontWeight: 300 }}>
                             Open a door to freelancing world by <strong>selling your art</strong>. 
                         </p>
-                        <i class="far fa-handshake" style={{ fontSize: "5rem", textAlign: "center" }}></i>
+                        <i className="far fa-handshake" style={{ fontSize: "5rem", textAlign: "center" }}></i>
                     </div>
                     {/* <img src="" alt="home images" style={{ width: "30vw", height: "50vh", border: "solid 5px black", boxShadow: "-5px 5px 0px black", margin: "1.2rem" }}/> */}
                 </div>

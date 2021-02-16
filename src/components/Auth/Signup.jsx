@@ -18,14 +18,22 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: "black",
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
+        width: '100%', 
         marginTop: theme.spacing(3),
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        backgroundColor: "#e9e9e9",
+        height: "2.5rem",
+        width: "100%",
+        marginTop: theme.spacing(4),
+        marginBottom: theme.spacing(4),
+        boxShadow: "-5px 5px 0px black",
+        border: "solid 5px black",
+        cursor: "pointer",
+        borderRadius: 0,
     },
     alert: {
         width: "75vh",
@@ -42,10 +50,36 @@ export default function SingUp() {
     const [registerUsername, setRegisterUsername] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
     const [registerEmail, setRegisterEmail] = useState("");
-    const [serverMessage, setServerMessage] = useState({message: "", state: null});
     const [open, setOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState();
+    const [error, setError] = useState();
 
+
+    const pattern = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const api = useContext(ApiContext)
+    
+    const validateEmail = () => {
+        if (!registerEmail.match(pattern)) {
+            setOpen(true)
+            setError(true)
+            setErrorMessage("Please, introduce a valid email format")
+        }
+    }
+    const validatePassword = () => {
+        if (registerPassword.length < 8) {
+            setError(true)
+            setOpen(true)
+            setErrorMessage("Password must be longer than 8 characters")
+        }
+    }
+    const checkAnyEmptyInputField = () => {
+        if (!registerUsername || !registerPassword || !registerEmail) {
+            setError(true)
+            setOpen(true)
+            setErrorMessage("All the fields are required")
+        }
+        register()
+    }
     
     const register = async (e) => {
 
@@ -73,20 +107,18 @@ export default function SingUp() {
                 })
         } catch (error) {
             console.log(error);
-        }
-               
+        }      
     }
+
     
     useEffect(() => {
-        const itemMessage = localStorage.getItem("message");
-        itemMessage && setOpen(true)
-        setServerMessage({ message: itemMessage, state: true });
+
         }, []) 
     
         
     return (
         <div>
-            <Collapse in={open} style={{ display: serverMessage.message ? 'block' : 'none' }} >
+            <Collapse in={open} >
                 <Alert
                     severity="error"
                     variant="filled"
@@ -105,7 +137,7 @@ export default function SingUp() {
                     }
                 >
                     <AlertTitle>Error</AlertTitle>
-                    {serverMessage.message}
+                    {errorMessage}
                 </Alert>
             </Collapse>
         <Container component="main" maxWidth="xs">
@@ -123,9 +155,8 @@ export default function SingUp() {
                             <TextField
                                 autoComplete="fname"
                                 name="Username"
-                                variant="outlined"
-                                required
                                 fullWidth
+                                required
                                 id="username"
                                 label="Username"
                                 autoFocus
@@ -134,26 +165,26 @@ export default function SingUp() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                variant="outlined"
-                                required
                                 fullWidth
+                                required
                                 id="email"
                                 type="email"
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                onBlur={() => validateEmail()}
                                 onChange={(event) => setRegisterEmail(event.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                variant="outlined"
-                                required
                                 fullWidth
+                                required
                                 name="password"
                                 label="Password"
                                 type="password"
                                 id="password"
+                                onBlur={() => validatePassword()}
                                 autoComplete="current-password"
                                 onChange={(event) => setRegisterPassword(event.target.value)} 
                             />
@@ -170,7 +201,7 @@ export default function SingUp() {
                         fullWidth
                         variant="contained"
                         color="primary"
-                        onClick={register}
+                        onClick={() => {checkAnyEmptyInputField()}}
                         className={classes.submit}
                     >
                         Sign Up

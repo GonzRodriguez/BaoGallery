@@ -88,6 +88,7 @@ function Post(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
+                {/* TODO if user is = props.profile */}
                 <MenuItem onClick={postDeletion}>Delete</MenuItem>
 
             </Menu>

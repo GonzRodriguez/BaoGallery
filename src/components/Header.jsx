@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { useContext, useState } from "react";
 import  {withRouter}  from "react-router";
 import { makeStyles, useMediaQuery, AppBar, Toolbar, Typography, Button, useTheme} from "@material-ui/core";
@@ -11,7 +12,8 @@ const useStyles = makeStyles(theme => ({
     title: {
         fontFamily: "Righteous",
         fontSize: "4vh",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        cursor: "pointer"
     },
     toolbar: {
         display: "flex",
@@ -37,15 +39,28 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Header = props => {
+const Header = () => {
     const classes = useStyles();
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('sm'));
     const [anchorEl, setAnchorEl] = useState(false);
-    const authContext = useContext(IsAuthContext)
+    const isAuth = useContext(IsAuthContext)
 
-    function handleDrawer() {
+    function handleDrawerBreakPoint() {
         !anchorEl ? setAnchorEl(true) : setAnchorEl(false);
+    }
+
+    function handleDrawerAuth(){
+        if (isAuth.auth && matches) {return <RightDrawer anchor={anchorEl} onClick={() => { handleDrawerBreakPoint() }} />}
+    }
+    function handleDisplayButtons(){
+        if (isAuth.auth) {
+            return "hidden"
+        }
+        if (isAuth.isLoading ) {
+            return "hidden";  
+        } 
+        return "visible"
     }
 
     return (
@@ -54,14 +69,15 @@ const Header = props => {
                 <Toolbar className={classes.toolbar}>
                     <Typography variant="h6" className={classes.title} onClick={() => { window.location = "/" }}> BAO GALLERY </Typography>
                         {matches ?
-                            <div className={classes.loginButtons}>
+                    <div className={classes.loginButtons} style={{ visibility: handleDisplayButtons() }}>
 
                                 <Button mx={2} py={2} style={{ height: "2.5rem", borderRadius: 0 }} onClick={() => { window.location = "/login" }}>LogIn</Button>
                                 <Button className={classes.actionUpButton} onClick={() => { window.location = "/signup" }}> SignUp </Button>
                             </div>
                             :
-                            <RightDrawer anchor={anchorEl} onClick={() => { handleDrawer() }} />
+                            <RightDrawer anchor={anchorEl} onClick={() => { handleDrawerBreakPoint() }} />
                         }
+                {handleDrawerAuth()}
                 </Toolbar>
             </AppBar>
     );

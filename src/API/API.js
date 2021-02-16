@@ -12,8 +12,8 @@ const headers = {
 const url = 'http://localhost:3000/api';
 
 export const fetchPost = (postId) => axios.get(`${url}/post/${postId}`);
-export const fetchPosts = (userId) => axios.get(`${url}/posts/${userId}`);
-export const getUser = (userId) => axios.post(`${url}/get-user`, userId, headers)
+export const fetchPosts = (profile) => axios.get(`${url}/posts/${profile}`);
+export const getUser = (username) => axios.get(`${url}/get-user/${username}`, headers)
 // export const isAuth = (refreshToken) => axios.post(`${url}/is-auth`, refreshToken, )
 export const uploadImage = (image) => axios.post(`${url}/upload-image`, image, headers)
 export const createPost = (newPost) => axios.post(`${url}/create-post`, newPost, { 'Content-Type': 'multipart/form-data' });

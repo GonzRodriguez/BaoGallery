@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useContext, useEffect, useState} from 'react';
 import { makeStyles, Grid, Container } from "@material-ui/core"
+import { useParams } from "react-router-dom"
 import Post from "./Post"
 import { UserContext } from "../context/UserContext"
 import Spinner from "./Action-Components/spinner" 
@@ -16,27 +17,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Posts() {
+function Posts(props) {
     const classes = useStyles();
-    const user = useContext(UserContext)
     const api = useContext(ApiContext) 
     const [posts, setPosts] = useState([])
-    
-    async function fetchPosts(){
-        await user.posts.map(async postId => {
-            const res = await api.fetchPost(postId).then(res => res.data)
+        
+    posts.map((post) => {
+        console.log(post);
+    })
+    useEffect(() => {       
+        
+        (async () => {
+            const res = await api.fetchPosts(props.profile.username).then(res => res.data)
             setPosts(prevPost => prevPost.concat(res))
-        })
-    }
-    
-    useEffect(() => {        
-        fetchPosts()
+            
+        })()
     }, [])
-
+    
 
     return (
 
-        !posts.length ? <Spinner /> : (
+        !posts ? <Spinner /> : (
             <Container>
                 <Grid className={classes.root} container alignItems="stretch" spacing={3}>
                     {posts.map(post => {

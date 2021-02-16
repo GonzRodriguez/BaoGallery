@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { makeStyles, Modal, Backdrop, Fade, Button, TextField, FormHelperText, Box, Typography, Divider, Avatar } from '@material-ui/core';
 import { UserContext } from "../../context/UserContext"
 import { ApiContext } from '../../context/ApiContext';
-import MoreVertIcon from '@material-ui/icons/MoreHoriz';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FileBase from 'react-file-base64'
 import Spinner from "../Action-Components/spinner" 
 
@@ -32,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
         width: theme.spacing(12),
         height: theme.spacing(12),
     },
+    editProfileForm: {
+        position: "absolute",
+        right: 0,
+        top: 0
+    }
 }));
 
 export default function EditProfileForm() {
@@ -85,7 +90,7 @@ export default function EditProfileForm() {
     }
 // Nota Mirar el css de Modal
     return (
-        <div>
+        <div className={classes.editProfileForm}>
             <Button type="button" onClick={handleOpen}>
                 <MoreVertIcon/>
             </Button>
