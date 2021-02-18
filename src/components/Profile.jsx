@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles, Container } from "@material-ui/core"
 import { useParams } from "react-router-dom"
-import { UserContext } from "../context/UserContext"
+// import { UserContext } from "../context/UserContext"
 import { ApiContext } from "../context/ApiContext"
 import Posts from './Posts';
 import ProfileCard from './Dashboard/ProfileCard';
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 function Profile() {
     const classes = useStyles();
     const api = useContext(ApiContext)
-    const [profile, setProfile] = useState([])
+    const [profile, setProfile] = useState()
     const { username } = useParams();
 
 
@@ -30,16 +30,14 @@ function Profile() {
             const user = await api.getUser(username).then(res => res.data)
             setProfile(user)
         })()
-        console.log(profile);
     }, [])
-    
-
+        
     return (
         !profile ?
         <Spinner/>
         :
 
-            <Container>
+            <Container className={classes.root}>
             <ProfileCard profile={profile}/>
                 <Posts profile={profile}/>
             </Container>

@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext"
 import Dropzone from "./createPost/Dropzone"
 import Posts from "../Posts"
-import Spinner from "../Action-Components/spinner" 
 import ProfileCard from "./ProfileCard";
 
 
@@ -11,7 +10,6 @@ export default function Dashboard() {
     const [previewImages, setPreviewImages] = useState([]);
     const [images, setImages] = useState([])
     const user = useContext(UserContext)  
-    if (user == null) { return ( <Spinner /> ) }
 
 
 

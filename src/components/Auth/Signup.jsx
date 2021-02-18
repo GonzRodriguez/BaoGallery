@@ -52,29 +52,25 @@ export default function SingUp() {
     const [registerEmail, setRegisterEmail] = useState("");
     const [open, setOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
-    const [error, setError] = useState();
 
 
-    const pattern = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const api = useContext(ApiContext)
     
     const validateEmail = () => {
         if (!registerEmail.match(pattern)) {
             setOpen(true)
-            setError(true)
             setErrorMessage("Please, introduce a valid email format")
         }
     }
     const validatePassword = () => {
         if (registerPassword.length < 8) {
-            setError(true)
             setOpen(true)
             setErrorMessage("Password must be longer than 8 characters")
         }
     }
     const checkAnyEmptyInputField = () => {
         if (!registerUsername || !registerPassword || !registerEmail) {
-            setError(true)
             setOpen(true)
             setErrorMessage("All the fields are required")
         }

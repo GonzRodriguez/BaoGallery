@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useContext, useState } from "react";
 import _ from "lodash"
-import { Card, CardHeader, Typography, Avatar, makeStyles, Grid } from "@material-ui/core";
+import { Card, CardHeader, Typography, Avatar, makeStyles, Grid } from "@material-ui/core"
+import { UserContext } from "../../context/UserContext"
 import EditProfileForm from "./EditProfileForm"
 import Spinner from "../Action-Components/spinner"
 
@@ -33,8 +34,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 function ProfileCard(props) {
     const classes = useStyles();
+    const user = useContext(UserContext)
+    const {_id, ...accounts}  = props.profile.socialMediaAccounts
+    // const displayAccounts = () => {
+    //     for (const [key, value] of Object.entries(accounts)) {
+    //         return (
+    //             <Grid item key={key} >
+    //                 <Typography variant="body1">
+    //                     {<i className={`fab fa-${key}`}>&nbsp;</i>}
+    //                     {_.upperFirst(value)}
+    //                 </Typography>
+    //             </Grid>
 
-    console.log(typeof props.profile.socialMediaAccounts);
+    //         )}
+    // }
+    Object.entries(accounts).map(account => {
+        return console.log(account);
+
+    })
+    useEffect(() => {
+    }, [])
 
     return (
         !props.profile ?
@@ -54,22 +73,19 @@ function ProfileCard(props) {
                     </Grid>
                 </Grid>
                 <Grid container spacing={3} direction="row" >
-
-                    {props.profile.socialMediaAccounts.map(account => {
-                        for (const [key, value] of Object.entries(account)) {
-                        return (
-                            <Grid item key={account} >
-                                <Typography variant="body1">
-                                    {<i className={`fab fa-${key}`}>&nbsp;</i>}
-                                    {_.upperFirst(value)}
-                                </Typography>
-                            </Grid>
-
-                        )
-                        }
-                    })}
+                        {Object.entries(accounts).map(account => {
+                            return (
+                            account[1] &&
+                                <Grid item key={account[0]} >
+                                    <Typography variant="body1">
+                                        {<i className={`fab fa-${account[0]}`}>&nbsp;</i>}
+                                        {_.upperFirst(account[1])}
+                                    </Typography>
+                                </Grid>
+                            )
+                        })}
                 </Grid>
-                <EditProfileForm alert={alert} />
+                {user === props.profile && <EditProfileForm alert={alert} />}
             </header>
         </Card>
     )

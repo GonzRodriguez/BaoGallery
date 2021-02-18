@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useContext, useEffect, useState} from 'react';
 import { makeStyles, Grid, Container } from "@material-ui/core"
-import { useParams } from "react-router-dom"
+// import { useParams } from "react-router-dom"
 import Post from "./Post"
-import { UserContext } from "../context/UserContext"
+// import { UserContext } from "../context/UserContext"
 import Spinner from "./Action-Components/spinner" 
 import { ApiContext } from "../context/ApiContext"
 
@@ -21,10 +21,7 @@ function Posts(props) {
     const classes = useStyles();
     const api = useContext(ApiContext) 
     const [posts, setPosts] = useState([])
-        
-    posts.map((post) => {
-        console.log(post);
-    })
+
     useEffect(() => {       
         
         (async () => {

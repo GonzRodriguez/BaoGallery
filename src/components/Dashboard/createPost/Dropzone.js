@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { makeStyles, Box, Typography, Grid, CardContent, Container  } from '@material-ui/core';
+import { makeStyles, Box, Typography, Grid, Container  } from '@material-ui/core';
 import PreviewImages from "./PreviewImages"
 import CreatePostForm from "./CreatePostForm"
 
