@@ -1,19 +1,27 @@
 // import { logDOM } from "@testing-library/react";
 import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
-// import authentication from "./auth"
+import { IsAuthContext } from "../context/IsAuthContext";
+import Spinner from "./Action-Components/spinner" 
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
-    const user = useContext(UserContext)
+const ProtectedRoute =  ( { component: Component, ...rest }) => {
+    const authContext = useContext(IsAuthContext)
+
     return (
         <Route
             {...rest}
-            render={(props) => (
-                user.auth ? <Component {...props}/>
-                : <Redirect to={{ pathname: "/login", state: { from: rest.location } }} />
+            render={props => (
+                !authContext.isLoading ?
+                    (
+                        authContext.auth ?
+                            <Component {...props} />
+                            :
+                            <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
+                    )
+                    :
+                    <Spinner />
             )}
-        />
+            />
         );
     };
     

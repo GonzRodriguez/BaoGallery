@@ -7,20 +7,22 @@ const theme = createMuiTheme({
         fontFamily: [
             "Roboto, Arial",
             "Bebas Neue",
-            "Abril Fatface"
+            "Abril Fatface",
+            "Righteous", 
+            "cursive"
     ]
     },
     palette: {
         primary: {
-            light: "#327D7D",
-            main: "#00170A",
-            dark: "#330D16"
+            light: "#e9e9e9",
+            main: "#fffff",
+            dark: "#cccccc"
         },
         secondary: {
             main: "#074A4A",
         },
         background:{
-            default: "#ECF0FB"
+            default: "white"
         },
         info: {
             main: "#4A0738"
@@ -35,7 +37,14 @@ const theme = createMuiTheme({
     textSecondary: {
         main: "#ffff"
     },
-    
+    border: {
+        border: "solid 5px black"
+    },
+    fontFamily: {
+        body: "Saira Condensed"
+    }
+
+
 });
 
 export default theme;

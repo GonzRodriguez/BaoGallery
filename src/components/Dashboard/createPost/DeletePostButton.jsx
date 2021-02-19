@@ -32,9 +32,9 @@ export default function DeletePostButton(props) {
     return (
         <IconButton className={classes.iconButton} aria-label="delete" onClick={() => { handleImageState() }}>
             <DeleteIcon
-            onMouseOver={() => setHovered(true)} 
-            onMouseLeave={() => setHovered(false)} 
-            className={classes.deleteIconStyle}
+                onMouseOver={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)} 
+                className={classes.deleteIconStyle}
             />
         </IconButton>
     )
