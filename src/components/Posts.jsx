@@ -7,7 +7,7 @@ import Post from "./Post"
 import Spinner from "./Action-Components/spinner" 
 import { ApiContext } from "../context/ApiContext"
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         marginTop: "2vh",
         width: "fullWidth",
@@ -40,7 +40,7 @@ function Posts(props) {
                     {posts.map(post => {
                         return (
                             <Grid key={post._id} item xs={12} sm={6}>
-                                <Post post={post} posts={posts} setPosts={setPosts}/>
+                                <Post post={post} posts={posts} setPosts={setPosts} profile={props.profile}/>
                             </Grid>
                         )
                                 

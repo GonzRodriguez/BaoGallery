@@ -45,7 +45,7 @@ export default function RightDrawer(props){
     };
     return (
  <div>
-        <IconButton edge="start" className={classes.menuButton} color="secondary" aria-label="menu" onClick={handleMenu} >
+        <IconButton edge="start" className={classes.menuButton}  aria-label="menu" onClick={handleMenu} >
             <MenuIcon />
         </IconButton>
         <Drawer id="menu-appbar" anchor={"right"} keepMounted open={open} onClose={() => setAnchorEl(null)} >   

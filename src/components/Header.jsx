@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-expressions */
 import React, { useContext, useState } from "react";
 import  {withRouter}  from "react-router";
-import { makeStyles, useMediaQuery, AppBar, Toolbar, Typography, Button, useTheme} from "@material-ui/core";
+import { makeStyles, useMediaQuery, AppBar, Toolbar, Typography, Button, fade, InputBase, useTheme} from "@material-ui/core";
 import { IsAuthContext } from "../context/IsAuthContext";
 import RightDrawer from "./Drawer/Drawer"
+import SearchIcon from "@material-ui/icons/Search"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
         width: 250,
     }, 
     actionUpButton: {
-        backgroundColor: "#e9e9e9",
+        backgroundColor: theme.palette.action.disabledBackground,
         height: "2.5rem",
         width: "7rem",
         margin: "10px",
@@ -36,7 +37,44 @@ const useStyles = makeStyles(theme => ({
         border: "solid 5px black",
         cursor: "pointer",
         borderRadius: 0,
-    }
+    },
+    search: {
+        position: 'relative',
+        borderRadius: "5px",
+        backgroundColor: fade(theme.palette.common.black, 0.05),
+        '&:hover': {
+            backgroundColor: fade(theme.palette.common.black, 0.15),
+        },
+        marginRight: theme.spacing(2),
+        marginLeft: theme.spacing(2),
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(3),
+            width: 'auto',
+        },
+    },
+    searchIcon: {
+        padding: theme.spacing(0, 1),
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    inputRoot: {
+        color: 'inherit',
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: '20ch',
+        },
+    },
 }));
 
 const Header = () => {
@@ -65,9 +103,22 @@ const Header = () => {
 
     return (
                    
-            <AppBar  position="static">
-                <Toolbar className={classes.toolbar}>
+            <AppBar  position="static" color="transparent">
+                <Toolbar className={classes.toolbar} >
                     <Typography variant="h6" className={classes.title} onClick={() => { window.location = "/" }}> BAO GALLERY </Typography>
+                    <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                            <SearchIcon />
+                        </div>
+                        <InputBase
+                            placeholder="Search…"
+                            classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                            }}
+                            inputProps={{ 'aria-label': 'search' }}
+                        />
+                    </div>
                         {matches ?
                     <div className={classes.loginButtons} style={{ visibility: handleDisplayButtons() }}>
 

@@ -1,73 +1,42 @@
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { makeStyles, Box, Typography, Grid, Container  } from '@material-ui/core';
+import { makeStyles, Box, Typography, Grid, Container, Button  } from '@material-ui/core';
 import PreviewImages from "./PreviewImages"
 import CreatePostForm from "./CreatePostForm"
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const useStyles = makeStyles((theme, opacity) => ({
-    dropzoneWithoutImages: {
-        height: "20vh",
+    dropzone: {
+        height: "30vh",
         display: "flex",
-        margin: "0px 20px",
+        margin: "20px 0",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: theme.palette.primary,
-        backgroundImage: "url(ps-neutral.png)",
-        position: "relative",
+        flexDirection: "column",
         widht: "100%",
         border: theme.border.border,
+        borderStyle: "dashed",
+        '&:hover': {
+            opacity: "30%"
+        }
     },
-    dropzoneWithImages: {
-        height: "20vh",
-    },
-    dropzoneRowElements: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-evenly",
 
-    },
-    innerBoxDropzone:  {
-        backgroundColor: theme.palette.primary.dark,
-        borderRadius: "4px",
-        margin: "10px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100%",
-        color: "black",            
-    },
-    innerBoxDropzoneWithImages: {
-        height: "20vh",
-        backgroundColor: "#0c192e",
-        borderRadius: "4px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        color: "white", 
-    },
     previewImages: {
+        margin: "2rem"
     }, 
     form: {
         border: theme.border.border,
-        margin: "9px",
+        margin: "40px",
         borderRadius: "4px",
         backgroundColor: "#dddddd",
-    },
-    onMouseOver: opacity => {
-        return {
-            opacity: opacity ? "30%" : "60%"
-            }
-    },
+    }
 
 
 }));
 
 export default function Dropzone(props) {
     
-    const [opacity, setOpacity] = useState(false)
-    const classes = useStyles(opacity);
+    const classes = useStyles();
     const onDrop = useCallback((acceptedFiles) => {
         acceptedFiles.forEach((file) => {
             const reader = new FileReader()
@@ -90,24 +59,18 @@ export default function Dropzone(props) {
 
 
          return (
-             <Container>
-                     <Box className={classes.dropzoneWithImages} >
-                            <div {...getRootProps()}>
-                                <input {...getInputProps()} />
-                                 <Box
-                                     onMouseOver={() => setOpacity(true)}
-                                     onMouseLeave={() => setOpacity(false)}
-                                     className={`${classes.innerBoxDropzoneWithImages} ${classes.onMouseOver}`}
-                                 >
-                                     <Typography variant="button"> Drop Your Images Here </Typography>
-                                 </Box>
+             <>
+                    <div {...getRootProps()}  className={classes.dropzone}>
+                               <input {...getInputProps()} />
+                                    <CloudUploadIcon style={{ fontSize: 90 }}/>
+                                     <Typography variant="button"> Drag & Drop Your Images Here </Typography>
+                                     <Button variant="contained"> Or Select your file </Button>
                              </div>
-                        </Box>
-                        {props.previewImages.length > 0 && <CreatePostForm images={props.images} previewImages={props.previewImages} />}
+                 {props.previewImages.length > 0 && <CreatePostForm  images={props.images} previewImages={props.previewImages} />}
                         <Grid item xs className={classes.previewImages}>
                                  <PreviewImages images={props.images} setImages={props.setImages} previewImages={props.previewImages} setPreviewImages={props.setPreviewImages} />
                          </Grid>
-            </Container>
+            </>
         // }
                 )
 

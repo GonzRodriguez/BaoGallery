@@ -4,7 +4,7 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import _ from "lodash"
 import { ApiContext } from '../../context/ApiContext';
-import { IconButton, Collapse, Avatar, Button, CssBaseline, Link, Grid, Typography, makeStyles, Container, TextField  } from '@material-ui/core';
+import { IconButton, Collapse, Avatar, Button, CssBaseline, Link, Grid, InputBase, fade, Typography, makeStyles, Container, TextField  } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 
@@ -39,7 +39,34 @@ const useStyles = makeStyles((theme) => ({
         width: "75vh",
         margin: "auto",
         marginTop: theme.spacing(2)
-    }
+    },
+    search: {
+        spacing: theme.spacing(2),
+        padding: theme.spacing(1),
+        borderRadius: "5px",
+        backgroundColor: fade(theme.palette.common.black, 0.05),
+        '&:hover': {
+            backgroundColor: fade(theme.palette.common.black, 0.15),
+        },
+
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            width: 'auto',
+        },
+    },
+    
+    inputRoot: {
+        color: 'inherit',
+        width: "100%"
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 0),
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: '20ch',
+        },
+    },
 }));
 
 
@@ -148,21 +175,35 @@ export default function SingUp() {
                 <form className={classes.form}   noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <TextField
-                                autoComplete="fname"
-                                name="Username"
+                            <div className={classes.search}>
+                                <InputBase
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
                                 fullWidth
+                                placeholder="Username"
+                                name="Username"
                                 required
                                 id="username"
                                 label="Username"
                                 autoFocus
                                 onChange={(event) => setRegisterUsername(event.target.value)}
-                            />
+                                />
+                            </div>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
-                                fullWidth
+                            <div className={classes.search}>
+                            <InputBase
+                                placeholder="Email"
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
                                 required
+                                fullWidth
                                 id="email"
                                 type="email"
                                 label="Email Address"
@@ -171,19 +212,28 @@ export default function SingUp() {
                                 onBlur={() => validateEmail()}
                                 onChange={(event) => setRegisterEmail(event.target.value)}
                             />
+                            </div>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                required
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                onBlur={() => validatePassword()}
-                                autoComplete="current-password"
-                                onChange={(event) => setRegisterPassword(event.target.value)} 
-                            />
+                            <div className={classes.search}>
+                                <InputBase
+                                    placeholder="Password"
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                    }}
+                                    inputProps={{ 'aria-label': 'search' }}
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    fullWidth
+                                    id="password"
+                                    onBlur={() => validatePassword()}
+                                    autoComplete="current-password"
+                                    onChange={(event) => setRegisterPassword(event.target.value)}
+                                />                                    
+                                
+                            </div>
                         </Grid>
                         <Grid item xs={12}>
                             {/* <FormControlLabel

@@ -2,15 +2,17 @@ import React, { useState, useContext } from "react";
 import { ApiContext } from "../../../context/ApiContext";
 import { UserContext } from "../../../context/UserContext";
 import _ from "lodash"
-import { InputLabel, InputAdornment, Input, Button, Grid, Link, makeStyles, IconButton, FormGroup } from '@material-ui/core';
+import { InputLabel, InputAdornment, FilledInput , Button, Grid, Link, makeStyles, IconButton, FormGroup } from '@material-ui/core';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import CollectionsIcon from '@material-ui/icons/Collections';
 import LabelIcon from '@material-ui/icons/Label';
 import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles((theme) => ({
     inputLabel: {
-        fontSize: 13 
+        fontSize: 13,
+        margin: "10px 0"
     },
     iconButton: {
         maxWidth: "2vh",
@@ -20,12 +22,15 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: "2vh"
     },
     tagsDisplay: {
-        display: "flex"
+        display: "flex",
+        margin: "10px 0",
     },
     formGroup:{
-        backgroundColor: theme.palette.primary.light,
+        // backgroundColor: theme.palette.primary.light,
         border: theme.border.border,
-        padding: theme.spacing(3)
+        padding: theme.spacing(3),
+        marging: theme.spacing(2),
+        width: "100%"
     },
 
 
@@ -35,8 +40,9 @@ export default function CreatePostForm(props) {
     const classes = useStyles();
     const user = useContext(UserContext)
     const api = useContext(ApiContext)
-    const [tags, setTags] = useState([]);
     const [inputValue, setInputValue] = useState("");
+    const [tags, setTags] = useState([]);
+    const [collection, setCollection] = useState();
     const [price, setPrice] = useState({required: "", value: ""});
     const { username, _id } = user
 
@@ -48,12 +54,12 @@ export default function CreatePostForm(props) {
         return day + "-" + month + "-" + year
     }
 
-    let post = {creatorId: _id, creator: username, createdAt: date(), date: new Date(), price: price.value, tags: tags, collection: "posts"}
+    let post = { creatorId: _id, creator: username, createdAt: date(), date: new Date(), price: price.value, tags: tags, imgCollection: collection}
     const uploadImage = () => 
     props.images.forEach(image => {
         const fd = new FormData()
         fd.append("creator", username)
-        fd.append("collection", "posts")
+        fd.append("collection", collection)
         fd.append("image", image)
 
         api.uploadImage(fd).then(res => console.log("uploaded image", res))
@@ -119,11 +125,10 @@ export default function CreatePostForm(props) {
                     :
                     <InputLabel className={classes.inputLabel}>Choose a price</InputLabel>
                     }
-                    <Input
-                        error={!price.required}
+                    <FilledInput 
+                        error={price.required}
                         id="Price*"
                         fullWidth
-                        placeholder="5$"
                         type="number"
                         onChange={(e) => setPrice({ required: false, value: e.target.value })}
                         startAdornment={<InputAdornment position="start"> <MonetizationOnIcon /> </InputAdornment> }
@@ -131,31 +136,44 @@ export default function CreatePostForm(props) {
                 </Grid>
                 <Grid item xs>
                     <InputLabel className={classes.inputLabel}>Tags</InputLabel>
-                    <Input
+                    <FilledInput 
                         id="Tags"
                         fullWidth
                         value={inputValue}
-                        placeholder="Red dress..."
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyDown={handleKeyDown}
                         startAdornment={ <InputAdornment position="start"> <LabelIcon /> </InputAdornment> }
                         endAdornment={ <Button onClick={handleTags} > ADD </Button> }
                     />
-                </Grid>
-                <br />
-                <Grid item className={classes.tagsDisplay} >
-                        {tagsArray && tagsArray}
-                </Grid>
-                <br />
+                </Grid>   
                 <Grid item xs>
-                    <Button
+                    <InputLabel className={classes.inputLabel}>Collection</InputLabel>
+                    <FilledInput
+                        id="Colection"
                         fullWidth
-                        startIcon={<CloudUploadIcon />}
-                        onClick={handleUpload}
-                    >
-                        Upload
-                    </Button>
-                </Grid>
+                        value={collection}
+                        onChange={(e) => setCollection(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        startAdornment={<InputAdornment position="start"> <CollectionsIcon /> </InputAdornment>}
+                    />
+                </Grid>               
+            </Grid>
+            <Grid>
+            {tagsArray && 
+            <Grid item className={classes.tagsDisplay} >
+                {tagsArray}
+            </Grid>
+            }
+                <Grid container direction="row" justify="flex-end">
+                <Button
+                    size="large"
+                    variant="contained"
+                    startIcon={<CloudUploadIcon />}
+                    onClick={handleUpload}
+                >
+                    Upload
+                </Button>
+            </Grid>
             </Grid>
         </FormGroup>
     )

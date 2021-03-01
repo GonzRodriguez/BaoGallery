@@ -36,22 +36,8 @@ function ProfileCard(props) {
     const classes = useStyles();
     const user = useContext(UserContext)
     const {_id, ...accounts}  = props.profile.socialMediaAccounts
-    // const displayAccounts = () => {
-    //     for (const [key, value] of Object.entries(accounts)) {
-    //         return (
-    //             <Grid item key={key} >
-    //                 <Typography variant="body1">
-    //                     {<i className={`fab fa-${key}`}>&nbsp;</i>}
-    //                     {_.upperFirst(value)}
-    //                 </Typography>
-    //             </Grid>
 
-    //         )}
-    // }
-    Object.entries(accounts).map(account => {
-        return console.log(account);
 
-    })
     useEffect(() => {
     }, [])
 

@@ -8,7 +8,7 @@ import Posts from './Posts';
 import ProfileCard from './Dashboard/ProfileCard';
 import Spinner from './Action-Components/spinner';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         marginTop: "2vh",
         width: "fullWidth",

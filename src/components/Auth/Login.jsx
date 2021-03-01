@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { makeStyles, Avatar, Button, CssBaseline, TextField, Link, Grid, Typography, Collapse, Container, IconButton } from '@material-ui/core';
+import { makeStyles, Avatar, Button, CssBaseline, TextField, InputBase, fade, Link, Grid, Typography, Collapse, Container, IconButton } from '@material-ui/core';
 import { UserContext } from '../../context/UserContext'
 import { ApiContext } from '../../context/ApiContext'; 
 import CloseIcon from '@material-ui/icons/Close';
@@ -38,7 +38,34 @@ const useStyles = makeStyles((theme) => ({
         width: "75vh",
         margin: "auto",
         marginTop: theme.spacing(2)
-    }
+    },
+    search: {
+        spacing: theme.spacing(2),
+        padding: theme.spacing(1),
+        borderRadius: "5px",
+        backgroundColor: fade(theme.palette.common.black, 0.05),
+        "&:hover": {
+            backgroundColor: fade(theme.palette.common.black, 0.15),
+        },
+
+        width: "100%",
+        [theme.breakpoints.up("sm")]: {
+            width: "auto",
+        },
+    },
+
+    inputRoot: {
+        color: "inherit",
+        width: "100%"
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 0),
+        transition: theme.transitions.create("width"),
+        width: "100%",
+        [theme.breakpoints.up("md")]: {
+            width: "20ch",
+        },
+    },
 }));
 
 export default function LogIn(props) {
@@ -117,33 +144,49 @@ export default function LogIn(props) {
                     Log in
         </Typography>
                 <form className={classes.form} noValidate onSubmit={login}>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        type="email"
-                        label="Username"
-                        name="email"
-                        autoComplete="username"
-                        autoFocus
-                        onChange={(event) => setLoginUsername(event.target.value)}
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        onChange={(event) => setLoginPassword(event.target.value)}
-                    />
-                    {/* <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    /> */}
+
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <div className={classes.search}>
+                                <InputBase
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                    }}
+                                    inputProps={{ 'aria-label': 'search' }}
+                                    placeholder="Username"
+                                    required
+                                    fullWidth
+                                    id="Username"
+                                    type="Username"
+                                    label="Username"
+                                    name="Username"
+                                    autoComplete="username"
+                                    onChange={(event) => setLoginUsername(event.target.value)}
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <div className={classes.search}>
+                                <InputBase
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                    }}
+                                    inputProps={{ 'aria-label': 'search' }}
+                                    placeholder="Password"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    onChange={(event) => setLoginPassword(event.target.value)}
+                                />
+                            </div>
+                        </Grid>
+                    </Grid>
                     <Button
                         type="submit"
                         fullWidth
