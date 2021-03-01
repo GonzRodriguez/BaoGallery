@@ -9,25 +9,7 @@ const Post = require("../models/post.js")
 const formidable = require("formidable");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
-const { indexOf } = require("lodash");
 
-// exports.dashboard = async (req, res) => {
-//     try {
-//             req.isAuthenticated ? console.log("authenticated") : console.log("not authenticated");;
-
-//             console.log("Es user " + req.user);
-//             res.send(req.user)
-
-//             console.log(req.session);
-
-//             // Cookies that have not been signed
-//             console.log('Cookies: ', req.cookies)
-//             // Cookies that have been signed
-//             console.log('Signed Cookies: ', req.signedCookies)
-//     } catch (error) {
-//         res.status(404).json({ message: error.message });
-//     }
-// }
 
 // POSTS
 
@@ -36,7 +18,7 @@ exports.fetchPost = async (req, res) => {
 
     try {
         const post = await Post.findById(postId);
-        console.log(post);
+        console.log("The post ", post);
 
         res.status(200).json(post);
     } catch (error) {
@@ -45,18 +27,9 @@ exports.fetchPost = async (req, res) => {
 }
 
 exports.fetchPosts = async (req, res) => {
-    const { userId } = req.params;
-
+    const { profile } = req.params;
     try {
-        const user = await User.findById(userId);
-        console.log("51 ", user.posts);
-        let posts = []
-        Array.from(user.posts).forEach(post => {
-            Post.find({ '_id': { $in: [ post ] } }, function (err, docs) {
-                posts.push(docs)
-            });
-        });
-        console.log(posts);
+        const posts = await Post.find({creator: profile});
         res.status(200).send(posts);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -65,9 +38,9 @@ exports.fetchPosts = async (req, res) => {
 
 
 exports.createPost = async (req, res) => {
-    const { creatorId, creator, createdAt, price, tags, title, date, collection} = req.body
-    const postsPath = `/uploads/${creator}/${collection}/${title}`
-    const newPost = new Post({ creatorId, creator, createdAt, price, tags, title, date, postsPath})
+    const { creatorId, creator, createdAt, price, tags, title, date, imgCollection} = req.body
+    const postsPath = `/uploads/${creator}/${imgCollection}/${title}`
+    const newPost = new Post({ creatorId, creator, createdAt, price, tags, title, date, postsPath, imgCollection})
     try {
         newPost.save();
     User.findById(creatorId, (err, user) => {
@@ -130,11 +103,13 @@ exports.editProfile = async (req, res) => {
         email: email,
         webpage: webpage,
         password: hashedPassword,
-        instagram: instagram,
-        facebook: facebook,
-        twitter: twitter,
-        snapchat: snapchat,
-        flickr: flickr
+        socialMediaAccounts: [{
+            instagram: instagram,
+            facebook: facebook,
+            twitter: twitter,
+            snapchat: snapchat,
+            flickr: flickr
+        }]
     }
     function hasPassword() {
         if (password.length > 1) {
@@ -184,11 +159,16 @@ exports.deletePost = async (req, res) => {
 // AUTHENTICATION
 
 exports.getUser = async (req, res) => {
-    User.findById(req.body.id, (err, user) => {
-        if (err) throw err;
-        if (!user) return res.status(403)
-        res.json({user: user}) 
-    })
+    const { username } = req.params;
+    try {
+        const user = await User.find({ username: username });
+        const omittedUser = _.omit(user[0], ["password", "accessToken", "refreshToken"])
+        // console.log(typeof user[0]);
+        console.log("The user", omittedUser);
+        res.status(200).json(omittedUser);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
 }
 
 exports.isAuth = async (req, res) => {
@@ -235,7 +215,7 @@ exports.login = async (req, res) => {
 
     const {username, password} = req.body
 
-    function handlueLogin(){
+    function handleLogin(){
 
         User.findOne({username: username}, async (err, user) => {
                 if (err) throw err
@@ -260,37 +240,21 @@ exports.login = async (req, res) => {
             })
     }
 
-    handlueLogin()
+    handleLogin()
 
     } 
 
 exports.signup = async (req, res, next) => {
         const {username, email, password} = req.body;
-        const pattern = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
-        function credentialsAreValid() {
-            if (!username || !password || !email) {
-               return res.json({ message: "All the fields are required", redirectURI: "/signup", ErrorMessage: 1 });
-            }
-            if (password.length < 8) {
-               return res.json({ message: "Password must be longer than 8 characters", redirectURI: "/signup", ErrorMessage: 1 });
-            }
-            if (!email.match(pattern)) {
-                return res.json({ message: "Please, introduce a valid email format", ErrorMessage: 1 });
-            } 
-            return true
-        }
 
         function handleSignIn(){
-            if ( credentialsAreValid() ) {
                 User.findOne({ username: username }, async (err, user) => {
                     if (err) throw err;
                     if (user) return res.send({ message: "User Already exists", redirectURI: "/signup", ErrorMessage: 1 });
                     if (!user) {
                         const refreshToken = jwt.sign({ username: username }, process.env.JWT_REFRESH, { expiresIn: "6m" } );
                         const accessToken = jwt.sign({ username: username }, process.env.JWT_ACCESS )
-
-                        console.log(accessToken, refreshToken);
     
                         const hashedPassword = await bcrypt.hash(password, 10);
                         const newUser = new User({
@@ -298,11 +262,13 @@ exports.signup = async (req, res, next) => {
                             email: email,
                             avatar: "",
                             password: hashedPassword,
-                            instagram: "",
-                            facebook: "",
-                            twitter: "",
-                            snapchat: "",
-                            flickr: "",
+                            socialMediaAccounts: {
+                                instagram: "",
+                                facebook: "",
+                                twitter: "",
+                                snapchat: "",
+                                flickr: ""
+                            },
                             accessToken: accessToken,
                             refreshToken: refreshToken
                         });
@@ -314,7 +280,6 @@ exports.signup = async (req, res, next) => {
     
                     }
                 });
-            }
         }
 
         handleSignIn()
@@ -336,10 +301,10 @@ exports.logout = async (req, res, next) => {
 exports.test = async (req, res, next) => {
     const form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
-        var oldPath = files.profilePic.path;
-        var newPath = path.join("../public/uploads/posts/", 'MoneySlide')
+        const oldPath = files.profilePic.path;
+        const newPath = path.join("../public/uploads/posts/", 'MoneySlide')
             + '/' + files.profilePic.name
-        var rawData = fs.readFileSync(oldPath)
+        const rawData = fs.readFileSync(oldPath)
 
         fs.writeFile(newPath, rawData, function (err) {
             if (err) console.log(err)

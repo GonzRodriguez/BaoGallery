@@ -10,6 +10,7 @@ const postSchema = new Schema({
     tags: [String],
     postsPath: String,
     createdAt: String,
+    imgCollection: String,
     date: Date,
     likeCount: {
         type: Number,

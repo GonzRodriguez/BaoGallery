@@ -6,11 +6,11 @@ const router = express.Router();
 
 // router.get('/dashboard', dashboard);
 router.post('/edit-profile/:id', editProfile);
-router.post('/get-user', getUser);
+router.get('/get-user/:username', getUser);
 router.post('/create-post', createPost);
 router.post('/upload-image', uploadImage);
 router.get('/post/:postId', fetchPost);
-router.get('/posts/:userId', fetchPosts);
+router.get('/posts/:profile', fetchPosts);
 router.patch('/update-post/:id', updatePost);
 router.delete('/delete-post/:id/:userId', deletePost);
 router.post('/login', login);

@@ -1,8 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// const passportLocalMongoose = require("passport-local-mongoose")
-
+const socialMediaAccounts = new Schema({
+        instagram: String,
+        facebook: String,
+        twitter: String,
+        snapchat: String,
+        flickr: String
+})
 
 const userSquema = new Schema({
     username: String,
@@ -12,11 +17,7 @@ const userSquema = new Schema({
     accessToken: String,
     refreshToken: String,
     webpage: String,
-    instagram: String,
-    facebook: String,
-    twitter: String,
-    snapchat: String,
-    flickr: String,
+    socialMediaAccounts: socialMediaAccounts,
     posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
 });
 
