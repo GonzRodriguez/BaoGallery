@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import _ from "lodash"
 import { Card, CardHeader, Typography, Avatar, makeStyles, Grid } from "@material-ui/core"
 import { UserContext } from "../../context/UserContext"

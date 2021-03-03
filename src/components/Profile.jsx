@@ -2,7 +2,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles, Container } from "@material-ui/core"
 import { useParams } from "react-router-dom"
-// import { UserContext } from "../context/UserContext"
 import { ApiContext } from "../context/ApiContext"
 import Posts from './Posts';
 import ProfileCard from './Dashboard/ProfileCard';
@@ -27,7 +26,7 @@ function Profile() {
 
     useEffect(() => {
         (async () => {
-            const user = await api.getUser(username).then(res => res.data)
+            const user = await api.getProfile(username).then(res => res.data)
             setProfile(user)
         })()
     }, [])
@@ -39,7 +38,7 @@ function Profile() {
 
             <Container className={classes.root}>
             <ProfileCard profile={profile}/>
-                <Posts profile={profile}/>
+                <Posts collection={"profile"} query={profile.username}/>
             </Container>
         )
 }

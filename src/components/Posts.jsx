@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useContext, useEffect, useState} from 'react';
 import { makeStyles, Grid, Container } from "@material-ui/core"
-// import { useParams } from "react-router-dom"
 import Post from "./Post"
-// import { UserContext } from "../context/UserContext"
 import Spinner from "./Action-Components/spinner" 
 import { ApiContext } from "../context/ApiContext"
 
@@ -23,15 +21,14 @@ function Posts(props) {
     const [posts, setPosts] = useState([])
 
     useEffect(() => {       
-        
+
         (async () => {
-            const res = await api.fetchPosts(props.profile.username).then(res => res.data)
+            const res = await api.fetchPosts(props.collection, props.query).then(res => res.data)
             setPosts(prevPost => prevPost.concat(res))
-            
+            console.log(res);
         })()
     }, [])
     
-
     return (
 
         !posts ? <Spinner /> : (
@@ -40,7 +37,7 @@ function Posts(props) {
                     {posts.map(post => {
                         return (
                             <Grid key={post._id} item xs={12} sm={6}>
-                                <Post post={post} posts={posts} setPosts={setPosts} profile={props.profile}/>
+                                <Post post={post} posts={posts} setPosts={setPosts} profile={props.query}/>
                             </Grid>
                         )
                                 

@@ -42,8 +42,8 @@ export default function CreatePostForm(props) {
     const api = useContext(ApiContext)
     const [inputValue, setInputValue] = useState("");
     const [tags, setTags] = useState([]);
-    const [collection, setCollection] = useState();
-    const [price, setPrice] = useState({required: "", value: ""});
+    const [collection, setCollection] = useState("");
+    const [price, setPrice] = useState({required: false, value: ""});
     const { username, _id } = user
 
     const date = () => {
@@ -118,7 +118,7 @@ export default function CreatePostForm(props) {
     return (
 
             <FormGroup className={classes.formGroup}>
-            <Grid container direction="row" spacing={2} alignItems="center" justify>
+            <Grid container direction="row" spacing={2} alignItems="center" >
                 <Grid item xs>
                     { price.required === true ? 
                     <InputLabel error className={classes.inputLabel}>This field is required</InputLabel> 
@@ -149,7 +149,7 @@ export default function CreatePostForm(props) {
                 <Grid item xs>
                     <InputLabel className={classes.inputLabel}>Collection</InputLabel>
                     <FilledInput
-                        id="Colection"
+                        id="Collection"
                         fullWidth
                         value={collection}
                         onChange={(e) => setCollection(e.target.value)}

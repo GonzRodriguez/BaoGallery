@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Card, Typography, Menu, makeStyles, CardMedia, IconButton, MenuItem } from "@material-ui/core"
+import { Card, Typography, Menu, makeStyles, CardMedia, IconButton, MenuItem, Link } from "@material-ui/core"
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ApiContext } from "../context/ApiContext"
 import { UserContext } from "../context/UserContext"
@@ -55,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 function Post(props) {
-    const preventDefault = (event) => event.preventDefault();
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const api = useContext(ApiContext)
@@ -68,6 +67,7 @@ function Post(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
 
     const postDeletion = () => {
         api.deletePost(props.post._id, user._id).then(res => console.log(res))
@@ -104,14 +104,14 @@ function Post(props) {
             </Menu>
             </>}
             <div className={classes.postDescription} >
-                <Typography>Artist: <strong>{props.profile.username}</strong></Typography>
-                <Typography>Collection: <strong>{props.post.imgCollection}</strong></Typography>
+                <Typography>Artist: <Link color="inherit" href={`/profile/${props.post.creator}`} ><strong>{props.post.creator.replace(/\s+/g, '-')}</strong></Link></Typography>
+                <Typography>Collection: <Link color="inherit" href={`/collection/${props.post.imgCollection.replace(/\s+/g, '-')}`} ><strong>{props.post.imgCollection}</strong></Link></Typography>
                 {props.post.price > 0 && <Typography  className={classes.typo}> {props.post.price}$</Typography> }
                 <div className={classes.tagsAndDate}>
                     <Typography style={{ display: "flex", color: "#959c97" }} >
                     {props.post.tags.map(tag => {
                         return <IconButton 
-                        href="#" onClick={preventDefault}
+                        href={`/tags/${tag.replace(/\s+/g, '-')}`}
                         key={props.post.tags.indexOf(tag)}
                         className={classes.tag} 
                         variant="caption">#{tag}&nbsp;</IconButton>

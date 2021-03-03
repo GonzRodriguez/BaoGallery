@@ -4,7 +4,7 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import _ from "lodash"
 import { ApiContext } from '../../context/ApiContext';
-import { IconButton, Collapse, Avatar, Button, CssBaseline, Link, Grid, InputBase, fade, Typography, makeStyles, Container, TextField  } from '@material-ui/core';
+import { IconButton, Collapse, Avatar, Button, CssBaseline, Link, Grid, InputBase, fade, Typography, makeStyles, Container  } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 
@@ -84,29 +84,33 @@ export default function SingUp() {
     const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const api = useContext(ApiContext)
     
-    const validateEmail = () => {
+    const validateEmail = (e) => {
+        e.preventDefault();
+
         if (!registerEmail.match(pattern)) {
             setOpen(true)
             setErrorMessage("Please, introduce a valid email format")
         }
     }
-    const validatePassword = () => {
+    const validatePassword = (e) => {
+        e.preventDefault();
+
         if (registerPassword.length < 8) {
             setOpen(true)
             setErrorMessage("Password must be longer than 8 characters")
         }
     }
-    const checkAnyEmptyInputField = () => {
+    const checkAnyEmptyInputField = (e) => {
+        e.preventDefault();
         if (!registerUsername || !registerPassword || !registerEmail) {
             setOpen(true)
             setErrorMessage("All the fields are required")
+        } else {
+            console.log("Check");
+            return register()
         }
-        register()
     }
-    
-    const register = async (e) => {
-
-        e.preventDefault();
+    const register = async () => {
 
         try {
             api.signup({
@@ -209,7 +213,7 @@ export default function SingUp() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
-                                onBlur={() => validateEmail()}
+                                onBlur={(e) => validateEmail(e)}
                                 onChange={(event) => setRegisterEmail(event.target.value)}
                             />
                             </div>
@@ -228,7 +232,7 @@ export default function SingUp() {
                                     type="password"
                                     fullWidth
                                     id="password"
-                                    onBlur={() => validatePassword()}
+                                    onBlur={(e) => validatePassword(e)}
                                     autoComplete="current-password"
                                     onChange={(event) => setRegisterPassword(event.target.value)}
                                 />                                    
@@ -247,7 +251,7 @@ export default function SingUp() {
                         fullWidth
                         variant="contained"
                         color="primary"
-                        onClick={() => {checkAnyEmptyInputField()}}
+                        onClick={(e) => checkAnyEmptyInputField(e)}
                         className={classes.submit}
                     >
                         Sign Up

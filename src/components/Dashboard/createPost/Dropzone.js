@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { makeStyles, Box, Typography, Grid, Container, Button  } from '@material-ui/core';
+import { makeStyles, Typography, Grid, Button  } from '@material-ui/core';
 import PreviewImages from "./PreviewImages"
 import CreatePostForm from "./CreatePostForm"
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';

@@ -8,6 +8,7 @@ import Login from "./components/Auth/Login"
 import Signup from "./components/Auth/Signup"
 import Home from "./components/Home"
 import Profile from "./components/Profile"
+import Collection from "./components/Collection"
 import ProtectedRoute from "./components/ProtectedRoute"
 import { Route, Switch } from "react-router-dom";
 import Theme from "./components/Theme"
@@ -54,7 +55,8 @@ function  App() {
                 <ProtectedRoute exact path="/dashboard" component={Dashboard}/> 
                 <Route exact path="/signup" component={Signup} /> 
                 <Route exact path="/login" component={Login} />
-                <Route path="/:username" children={<Profile />} />
+                <Route path="/profile/:username" children={<Profile />} />
+                <Route path="/:collection/:query" children={<Collection />} />
                 <Route exact path="/logout" />
                 <Route path="*" component={() => "404 NOT FOUND"} />
               </Switch>

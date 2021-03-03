@@ -21,7 +21,7 @@ function TabPanel(props) {
         >
             {value === index && (
                 <Box p={3}>
-                    <Typography>{children}</Typography>
+                    <Typography component={"span"}>{children}</Typography>
                 </Box>
             )}
         </Box>
@@ -75,7 +75,7 @@ export default function Dashboard() {
                     </Tabs>
                 </AppBar>
                 <TabPanel value={value} index="one">
-                    <Posts profile={user} /> 
+                    <Posts collection={"profile"} query={user.username} /> 
                 </TabPanel>
                 <TabPanel value={value} index="two">
                     <Dropzone images={images} setImages={setImages} previewImages={previewImages} setPreviewImages={setPreviewImages} />
