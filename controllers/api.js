@@ -26,7 +26,7 @@ exports.fetchPost = async (req, res) => {
     }
 }
 
-exports.fetchPosts = async (req, res) => {
+exports.fetchProfile = async (req, res) => {
     const { profile } = req.params;
     try {
         const posts = await Post.find({creator: profile});
@@ -36,9 +36,73 @@ exports.fetchPosts = async (req, res) => {
     }
 }
 
+exports.fetchPosts = async (req, res) => {
+    const { key, entry } = req.params
+    try {
+        switch (key) {
+            case "profile":
+                const posts = await Post.find({creator: entry.replace("-", " ")});
+                res.status(200).send(posts);
+                break;
+            case "tags":
+                const tags = await Post.find({ tags: entry.replace("-", " ") });
+                res.status(200).send(tags);
+                break;
+            case "collection":
+                const collection = await Post.find({ imgCollection: entry.replace("-", " ") });
+                res.status(200).send(collection);
+                break;
+            default:
+                res.status(404).json({ message: "Something went wrong" });
+        }
+    }
+     catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+exports.search = async (req, res) => {
+    console.log(req.params.query);
+    try {
+        const posts = await Post.aggregate([
+               {
+                $search: {
+                    "compound": {
+                        
+                        "should": [
+                            
+                            { "autocomplete": { "query": req.params.query, "path": "creator", "fuzzy": { "maxEdits": 2, "prefixLength": 1, "maxExpansions": 256 } } },
+                            
+                            { "autocomplete": { "query": req.params.query, "path": "imgCollection", "fuzzy": { "maxEdits": 2, "prefixLength": 1, "maxExpansions": 256 } } },
+                            { "text": { "query": req.params.query, "path": "tags", "fuzzy": { "maxEdits": 2, "prefixLength": 1, "maxExpansions": 256 } } }
+                            
+                        ],
+                        
+                        minimumShouldMatch: 0 // if one clause fails, still get documents back
+                        
+                    }
+                }
+                },
+            {
+                $project: {
+                    "_id": 0,
+                    "creator": 1,
+                    "tags": 1,
+                    "imgCollection": 1
+                }
+            }
+            ])
+            console.log(posts);
+        res.status(200).json(posts);
+    } catch (error) {
+        console.log(error);
+        res.status(404).json({ message: error.message });
+    }
+}
+
 
 exports.createPost = async (req, res) => {
     const { creatorId, creator, createdAt, price, tags, title, date, imgCollection} = req.body
+    console.log(req.body);
     const postsPath = `/uploads/${creator}/${imgCollection}/${title}`
     const newPost = new Post({ creatorId, creator, createdAt, price, tags, title, date, postsPath, imgCollection})
     try {
@@ -164,7 +228,6 @@ exports.getUser = async (req, res) => {
         const user = await User.find({ username: username });
         const omittedUser = _.omit(user[0], ["password", "accessToken", "refreshToken"])
         // console.log(typeof user[0]);
-        console.log("The user", omittedUser);
         res.status(200).json(omittedUser);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -192,6 +255,7 @@ exports.isAuth = async (req, res) => {
                             user.accessToken = newAccessToken
                         //    only sends the safe info to client by omiting password and accesstoken
                         const omittedUser = _.omit(user.toObject(), ["password", "accessToken"])
+                        console.log(omittedUser);
                         await user.save()
                             return res.status(202).json({ user: omittedUser, token: newRefreshToken })
                     }
@@ -229,7 +293,6 @@ exports.login = async (req, res) => {
                         user.accessToken = accessToken
                         user.refreshToken = refreshToken 
                         await user.save()
-                        console.log(user);
     
                         const omittedUser = _.omit(user.toObject(), ["password", "accessToken"])
     
@@ -244,9 +307,8 @@ exports.login = async (req, res) => {
 
     } 
 
-exports.signup = async (req, res, next) => {
+exports.signup = async (req, res) => {
         const {username, email, password} = req.body;
-
 
         function handleSignIn(){
                 User.findOne({ username: username }, async (err, user) => {

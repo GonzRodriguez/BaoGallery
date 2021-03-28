@@ -49,7 +49,7 @@ app.use(cors({
   
   require("./config/passportConfig")(passport);
 
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, () => { console.log("Mongoose is connected"); });
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true}, () => { console.log("Mongoose is connected"); });
 mongoose.set("useCreateIndex", true);
 
 

@@ -1,22 +1,23 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
-
+// const mongoose_fuzzy_searching = require('mongoose-fuzzy-searching');
 
 const postSchema = new Schema({
-    title: String,
-    creator: String,
+    creator: { type: String, index: true, text: true },
     creatorId: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     price: Number,
-    tags: [String],
+    tags: { type: [String], index: true, text: true },
     postsPath: String,
-    createdAt: String,
-    imgCollection: String,
+    createdAt: { type: String, index: true, text: true },
+    imgCollection: { type: String, index: true, text: true },
     date: Date,
     likeCount: {
         type: Number,
         default: 0,
     },
 })
+
+// postSchema.plugin(mongoose_fuzzy_searching, { fields: ["tags", "imgCollection", "creator", "date"] })
 
 const PostMessage = mongoose.model('Post', postSchema);
 
