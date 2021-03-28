@@ -7,13 +7,14 @@ class spinner extends Component {
     render() {
         const spinner = {
             display: "flex",
-            height: "100vh",
+            height: "inherit",
+            width: "100%",
             justifyContent: "center",
             alignItems: "center"
         }
         return (
             <div style={spinner}>
-                <CircularProgress color="secondary" />
+                <CircularProgress color="primary" />
             </div>
         );
     }

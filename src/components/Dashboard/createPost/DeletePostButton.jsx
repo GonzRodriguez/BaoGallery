@@ -5,12 +5,12 @@ import { makeStyles } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme, hovered) => ({
-    iconButton: {
-        position: "absolute",
-        bottom: "1%",
-        right: "1%",
-        color: "white",
-    },
+    // iconButton: {
+    //     position: "absolute",
+    //     bottom: "1%",
+    //     right: "1%",
+    //     color: "white",
+    // },
     deleteIconStyle: hovered => { 
       return {
           opacity: hovered ? "100%" : "80%"
@@ -20,13 +20,14 @@ const useStyles = makeStyles((theme, hovered) => ({
 }));
 
 export default function DeletePostButton(props) {
+    const [previewImages, setPreviewImages, images, setImages] = props.handleImages
     const [hovered, setHovered] = useState(false)
     const classes = useStyles(hovered);
     const handleImageState = () => {
-        props.previewImages.splice(props.previewImages.indexOf(props.image), 1);
-        props.setPreviewImages([...props.previewImages]);
-        props.images.splice(props.previewImages.indexOf(props.image), 1);
-        props.setImages([...props.images]);
+        previewImages.splice(previewImages.indexOf(props.image), 1);
+        setPreviewImages([previewImages]);
+        images.splice(previewImages.indexOf(props.image), 1);
+        setImages([images]);
     }
 
     return (

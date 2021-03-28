@@ -3,9 +3,10 @@ import { Card, Typography, Menu, makeStyles, CardMedia, IconButton, MenuItem, Li
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ApiContext } from "../context/ApiContext"
 import { UserContext } from "../context/UserContext"
+import Spinner from "./Action-Components/spinner" 
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         maxHeight: "200vh",
         borderRadius: 0,
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     price: {
         padding: 0,
         margin: 0,
+        
     },
      typo: {
         display: "inline-flex",
@@ -47,9 +49,7 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: "fit-content",
         color: "antiquewhite"
     },
-    cardMedia: {
-        border: theme.border.border
-    }
+
 
 }));
 
@@ -68,7 +68,6 @@ function Post(props) {
         setAnchorEl(null);
     };
 
-
     const postDeletion = () => {
         api.deletePost(props.post._id, user._id).then(res => console.log(res))
         props.posts.splice(props.posts.indexOf(props.post), 1)
@@ -77,8 +76,8 @@ function Post(props) {
     }
 
     return (
-
-        <Card className={classes.root}>
+        !props.post ? <Spinner /> : (
+            <Card className={classes.root}>
             <CardMedia
                 className={classes.cardMedia}
                 component="img"
@@ -87,7 +86,7 @@ function Post(props) {
                 image={props.post.postsPath}
             />
             {
-                props.profile.username === user?.username && 
+                props.profile === user?.username && 
             <>
             <IconButton className={classes.optionsButton} onClick={handleClick}>
                 <MoreVertIcon className={classes.optionsIcon}/>
@@ -108,7 +107,7 @@ function Post(props) {
                 <Typography>Collection: <Link color="inherit" href={`/collection/${props.post.imgCollection.replace(/\s+/g, '-')}`} ><strong>{props.post.imgCollection}</strong></Link></Typography>
                 {props.post.price > 0 && <Typography  className={classes.typo}> {props.post.price}$</Typography> }
                 <div className={classes.tagsAndDate}>
-                    <Typography style={{ display: "flex", color: "#959c97" }} >
+                    <Typography style={{ display: "flex", color: "#9d9b9b" }} >
                     {props.post.tags.map(tag => {
                         return <IconButton 
                         href={`/tags/${tag.replace(/\s+/g, '-')}`}
@@ -117,11 +116,12 @@ function Post(props) {
                         variant="caption">#{tag}&nbsp;</IconButton>
                     })}
                     </Typography>
-                    <Typography style={{ fontSize: "small" , color: "#959c97" }}>Created At: {props.post.createdAt}</Typography>
+                    <Typography style={{ fontSize: "small", color: "#9d9b9b" }}>Created At: {props.post.createdAt}</Typography>
                 </div>
             </div>
         </Card>
         )
-}
+        )
+    }
 
 export default Post;

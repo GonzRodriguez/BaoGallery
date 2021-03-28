@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
         width: "100%",
         [theme.breakpoints.up("sm")]: {
-            width: "auto",
+            width: "100%",
         },
     },
 
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
         transition: theme.transitions.create("width"),
         width: "100%",
         [theme.breakpoints.up("md")]: {
-            width: "20ch",
+            width: "100%",
         },
     },
 }));

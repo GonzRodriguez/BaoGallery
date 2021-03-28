@@ -32,11 +32,7 @@ const useStyles = makeStyles((theme) => ({
         width: theme.spacing(12),
         height: theme.spacing(12),
     },
-    editProfileForm: {
-        position: "absolute",
-        right: 0,
-        top: 0
-    }
+
 }));
 
 export default function EditProfileForm() {

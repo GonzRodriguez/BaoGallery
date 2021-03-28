@@ -4,20 +4,18 @@ import { makeStyles, useMediaQuery } from "@material-ui/core";
 import { useTheme } from '@material-ui/core/styles';
 import SearchInput from "./Action-Components/SearchInput";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
     },
     heroLg: {
         width: "100%",
         height: "70vh",
-        position: "relative",
-
+        position: "relative"
     },
      heroSm: {
         width: "100%",
         height: "70vh",
-        position: "relative",
-
+        position: "relative"
     },
     heroBgCameraLg: {
         position: "absolute",
@@ -41,6 +39,24 @@ const useStyles = makeStyles((theme) => ({
         position: "absolute",
         right: "2%",
         top: "10%"
+    }, 
+    searchInput: {
+        backgroundColor: "#e9e9e9",
+        height: "3rem",
+        width: "30vw",
+        minWidth: "300px",
+        padding: "9px",
+        fontFamily: "Saira Condensed",
+        fontWeight: 600,
+        fontSize: "1rem",
+        margin: "10px",
+        boxShadow: "-5px 5px 0px black",
+        border: "solid 5px black",
+        cursor: "pointer",
+        borderRadius: 0,
+        '&:focus': {
+            boxShadow: 0,
+        }
     },
     about: {
         width: "100vw",
@@ -72,7 +88,9 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "column",
         minWidth: "30vh",
         margin: "1rem",
-    }
+    }, 
+
+
 }));
 
 function Home() {
@@ -88,14 +106,14 @@ function Home() {
                 <section className={classes.heroLg}>
                     <img src="camera.svg" alt="camera" className={classes.heroBgCameraLg}/>
                     <div className={classes.searchInputElementLg}>
-                        <SearchInput/>
+                        <SearchInput styleName={classes.searchInput}/>
                     </div>
                 </section>
                 :
                 <section className={classes.heroSm}>
                     <img src="camera.svg" alt="camera" className={classes.heroBgCameraSm} />
                         <div className={classes.searchInputElementSm}>
-                            <SearchInput />
+                        <SearchInput styleName={classes.searchInput}/>
                         </div>
                 </section>
                 }

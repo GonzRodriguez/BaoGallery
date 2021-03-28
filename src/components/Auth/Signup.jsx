@@ -212,7 +212,7 @@ export default function SingUp() {
                                 type="email"
                                 label="Email Address"
                                 name="email"
-                                autoComplete="email"
+                                autocomplete="email"
                                 onBlur={(e) => validateEmail(e)}
                                 onChange={(event) => setRegisterEmail(event.target.value)}
                             />
@@ -233,7 +233,7 @@ export default function SingUp() {
                                     fullWidth
                                     id="password"
                                     onBlur={(e) => validatePassword(e)}
-                                    autoComplete="current-password"
+                                    autocomplete="current-password"
                                     onChange={(event) => setRegisterPassword(event.target.value)}
                                 />                                    
                                 

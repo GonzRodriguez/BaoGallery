@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-expressions */
-import React, { useContext, useState } from "react";
+import React, { useContext, useState} from "react";
+import SearchInput from "./Action-Components/SearchInput";
 import  {withRouter}  from "react-router";
-import { makeStyles, useMediaQuery, AppBar, Toolbar, Typography, Button, fade, InputBase, useTheme} from "@material-ui/core";
+import { makeStyles, useMediaQuery, AppBar, Toolbar, Typography, Button, useTheme} from "@material-ui/core";
 import { IsAuthContext } from "../context/IsAuthContext";
 import RightDrawer from "./Drawer/Drawer"
 import SearchIcon from "@material-ui/icons/Search"
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -12,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         fontFamily: "Righteous",
-        fontSize: "4vh",
+        fontSize: "2.5rem",
         fontWeight: "bold",
         cursor: "pointer"
     },
@@ -28,6 +30,12 @@ const useStyles = makeStyles(theme => ({
     list: {
         width: 250,
     }, 
+    navBarButtons:{
+        display: "flex",
+        position: "relative",
+        height: "2.5rem",
+        alignItems: "center"
+    },
     actionUpButton: {
         backgroundColor: theme.palette.action.disabledBackground,
         height: "2.5rem",
@@ -38,12 +46,13 @@ const useStyles = makeStyles(theme => ({
         cursor: "pointer",
         borderRadius: 0,
     },
-    search: {
+    searchInput: {
         position: 'relative',
         borderRadius: "5px",
-        backgroundColor: fade(theme.palette.common.black, 0.05),
+        paddingInline: ".5rem",
+        backgroundColor: theme.palette.grey[200],
         '&:hover': {
-            backgroundColor: fade(theme.palette.common.black, 0.15),
+            backgroundColor: theme.palette.grey[300],
         },
         marginRight: theme.spacing(2),
         marginLeft: theme.spacing(2),
@@ -53,28 +62,7 @@ const useStyles = makeStyles(theme => ({
             width: 'auto',
         },
     },
-    searchIcon: {
-        padding: theme.spacing(0, 1),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    inputRoot: {
-        color: 'inherit',
-    },
-    inputInput: {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
-        },
-    },
+   
 }));
 
 const Header = () => {
@@ -106,27 +94,23 @@ const Header = () => {
             <AppBar  position="static" color="transparent">
                 <Toolbar className={classes.toolbar} >
                     <Typography variant="h6" className={classes.title} onClick={() => { window.location = "/" }}> BAO GALLERY </Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
-                        {matches ?
-                    <div className={classes.loginButtons} style={{ visibility: handleDisplayButtons() }}>
 
+                        {matches ?
+                            <div className={classes.navBarButtons} style={{ visibility: handleDisplayButtons() }}>
+                            {window.location.pathname !== "/" && <SearchInput styleName={classes.searchInput} /> }   
                                 <Button mx={2} py={2} style={{ height: "2.5rem", borderRadius: 0 }} onClick={() => { window.location = "/login" }}>LogIn</Button>
                                 <Button className={classes.actionUpButton} onClick={() => { window.location = "/signup" }}> SignUp </Button>
                             </div>
                             :
+                            <>
+                            <div className={classes.search}>
+                                <div className={classes.searchIcon}>
+                                    <SearchIcon  />
+                                </div>
+                            <SearchInput />
+                            </div>
                             <RightDrawer anchor={anchorEl} onClick={() => { handleDrawerBreakPoint() }} />
+                            </>
                         }
                 {handleDrawerAuth()}
                 </Toolbar>

@@ -1,15 +1,18 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { makeStyles, Typography, Grid, Button  } from '@material-ui/core';
+import { makeStyles, Typography, Button, Grid, FormControlLabel, Checkbox, Fade  } from '@material-ui/core';
 import PreviewImages from "./PreviewImages"
 import CreatePostForm from "./CreatePostForm"
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 
-const useStyles = makeStyles((theme, opacity) => ({
+const useStyles = makeStyles((theme) => ({
     dropzone: {
-        height: "30vh",
+        height: "40%",
         display: "flex",
         margin: "20px 0",
+        padding: "1.5rem",
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
@@ -17,7 +20,7 @@ const useStyles = makeStyles((theme, opacity) => ({
         border: theme.border.border,
         borderStyle: "dashed",
         '&:hover': {
-            opacity: "30%"
+            border: "5px dashed #b9b9b9"
         }
     },
 
@@ -35,41 +38,86 @@ const useStyles = makeStyles((theme, opacity) => ({
 }));
 
 export default function Dropzone(props) {
-    
     const classes = useStyles();
+    const [previewImages, setPreviewImages, images, setImages] = props.handleImages
     const onDrop = useCallback((acceptedFiles) => {
         acceptedFiles.forEach((file) => {
             const reader = new FileReader()
             reader.onabort = () => console.log('file reading was aborted')
             reader.onerror = () => console.log('file reading has failed')
             // remove duplicated images
-            reader.onloadstart = () => { props.previewImages.forEach(element => { return file.name === element.filename && props.previewImages.splice(props.previewImages.indexOf(file), 1) }) }
+            reader.onloadstart = () => { previewImages.forEach(element => { return file.name === element.filename && previewImages.splice(previewImages.indexOf(element), 1) }) }
             // add preview images
             reader.onload = () => {
                 if (reader.readyState === 2) {
-                    props.setPreviewImages(prevImages => prevImages.concat({image: reader.result, filename: file.name}))
-                    props.setImages(prevImages => prevImages.concat(file))
+                    setPreviewImages(prevImages => prevImages.concat({image: reader.result, filename: file.name, checked: true}))
+                    setImages(prevImages => prevImages.concat(file))
                 }
             }
             reader.readAsDataURL(file)
         })
         
-    }, [props])
-    const { getRootProps, getInputProps } = useDropzone({ onDrop })
+    }, [previewImages, setPreviewImages, setImages])
+    const { getRootProps, getInputProps } = useDropzone({ onDrop, noClick: true  })
+    
+    const handleChange = () => {
+        setPreviewImages(prevState => 
+        prevState.map(image =>
+                image.checked === false ? { image: image.image, filename: image.filename, checked: true } : image
+                )
+            )
+};
 
 
          return (
              <>
-                    <div {...getRootProps()}  className={classes.dropzone}>
-                               <input {...getInputProps()} />
-                                    <CloudUploadIcon style={{ fontSize: 90 }}/>
-                                     <Typography variant="button"> Drag & Drop Your Images Here </Typography>
-                                     <Button variant="contained"> Or Select your file </Button>
-                             </div>
-                 {props.previewImages.length > 0 && <CreatePostForm  images={props.images} previewImages={props.previewImages} />}
-                        <Grid item xs className={classes.previewImages}>
-                                 <PreviewImages images={props.images} setImages={props.setImages} previewImages={props.previewImages} setPreviewImages={props.setPreviewImages} />
-                         </Grid>
+                {previewImages.length > 0 && 
+                <CreatePostForm  images={images} />
+                }
+                 <div {...getRootProps()} className={classes.dropzone}>
+                    <input {...getInputProps()} />
+                    {!previewImages.length > 0 ?
+                    <>
+                    <CloudUploadIcon style={{ fontSize: 90 }} />
+                    <Typography variant="button"> Drag & Drop Your Images Here </Typography>
+                    <Button variant="contained">
+                        <label htmlFor="file-upload" > 
+                            Or Select your files
+                        </label>
+                    </Button>
+                    <input type="file" name="input" id="file-upload" multiple {...getInputProps()} hidden/>
+                     </>
+                     :
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                        {! previewImages.every(el => el.checked) &&
+                        <Fade in={! previewImages.every(el => el.checked)}>
+                            <FormControlLabel
+                            control={<Checkbox icon={<RadioButtonUncheckedIcon 
+                            />
+                            } 
+                            checked={ previewImages.every(el => el.checked)}
+                            onChange={handleChange}
+                            checkedIcon={<RadioButtonCheckedIcon />}
+                             />}
+                        />
+                        </Fade>
+                        }
+                        <Button variant="contained" size="large">
+                            <label htmlFor="file-upload" > 
+                                Select Files
+                            </label>
+                        </Button>
+                        <input type="file" name="input" id="file-upload" multiple {...getInputProps()} hidden/>
+                        </Grid>
+                        <Grid item xs={12}>
+                        <PreviewImages 
+                        handleImages={props.handleImages}
+                        />
+                        </Grid>
+                    </Grid>
+                    }
+                 </div>
             </>
         // }
                 )

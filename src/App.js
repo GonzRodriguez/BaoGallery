@@ -56,7 +56,8 @@ function  App() {
                 <Route exact path="/signup" component={Signup} /> 
                 <Route exact path="/login" component={Login} />
                 <Route path="/profile/:username" children={<Profile />} />
-                <Route path="/:collection/:query" children={<Collection />} />
+              <Route path="/collection/:collection/" children={<Collection />} />
+              <Route path="/tags/:query" children={<Collection />} />
                 <Route exact path="/logout" />
                 <Route path="*" component={() => "404 NOT FOUND"} />
               </Switch>

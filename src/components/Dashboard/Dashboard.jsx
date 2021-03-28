@@ -4,7 +4,7 @@ import { UserContext } from "../../context/UserContext"
 import Dropzone from "./createPost/Dropzone"
 import Posts from "../Posts"
 import ProfileCard from "./ProfileCard";
-import { Tabs, Tab, Box, Typography, makeStyles, AppBar, Container } from '@material-ui/core';
+import { Tabs, Tab, Box, Typography, makeStyles, AppBar, Container, Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
 
@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
     const [previewImages, setPreviewImages] = useState([]);
+    // const [allImagesChecked, setAllImagesChecked] = useState(true);
     const [images, setImages] = useState([])
     const user = useContext(UserContext)  
     const classes = useStyles();
@@ -59,33 +60,37 @@ export default function Dashboard() {
         setValue(newValue);
     };
 
-
+    const handleImages = [previewImages, setPreviewImages, images, setImages, ]
 
     return (
-        <Container>
+        <Container maxWidth="lg">
 
-            <ProfileCard profile={user}/>
-            <div className={classes.root}>
-                <AppBar position="static">
-                    <Tabs value={value} onChange={handleChange} aria-label="tabs" centered>
-                        <Tab value="one" label="All your photos"  {...a11yProps('one')}
-                        />
-                        <Tab value="two" label="Upload" {...a11yProps('two')} />
-                        <Tab value="three" label="filter" {...a11yProps('three')} />
-                    </Tabs>
-                </AppBar>
-                <TabPanel value={value} index="one">
-                    <Posts collection={"profile"} query={user.username} /> 
-                </TabPanel>
-                <TabPanel value={value} index="two">
-                    <Dropzone images={images} setImages={setImages} previewImages={previewImages} setPreviewImages={setPreviewImages} />
-                </TabPanel>
-                <TabPanel value={value} index="three">
-                    Item Three
-                </TabPanel>
-            </div>
-            
-            {/* <img src="/uploads/money/posts/imageProfile.jpg" alt=""/> */}
+            <Grid container spacing={4}>
+                <Grid item xs={12} sm={8}>
+                <div className={classes.root}>
+                    <AppBar position="static" color="secondary">
+                        <Tabs value={value} onChange={handleChange} aria-label="tabs" centered>
+                            <Tab value="one" label="All your photos"  {...a11yProps('one')}
+                            />
+                            <Tab value="two" label="Upload" {...a11yProps('two')} />
+                            <Tab value="three" label="filter" {...a11yProps('three')} />
+                        </Tabs>
+                    </AppBar>
+                    <TabPanel value={value} index="two">
+                        <Posts collection={"profile"} query={user.username} /> 
+                    </TabPanel>
+                    <TabPanel value={value} index="one">
+                        <Dropzone handleImages={handleImages} />
+                    </TabPanel>
+                    <TabPanel value={value} index="three">
+                        Item Three
+                    </TabPanel>
+                </div>            
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <ProfileCard profile={user}/>
+            </Grid>
+        </Grid>
         </Container>
     );
 }
