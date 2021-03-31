@@ -27,6 +27,7 @@ function ProfileCard(props) {
 
     useEffect(() => {
         console.log(user._id === props.profile._id );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

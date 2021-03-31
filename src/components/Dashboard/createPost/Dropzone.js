@@ -1,11 +1,9 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useEffect} from 'react'
 import { useDropzone } from 'react-dropzone'
-import { makeStyles, Typography, Button, Grid, FormControlLabel, Checkbox, Fade  } from '@material-ui/core';
+import { makeStyles, Typography, Button, Grid  } from '@material-ui/core';
 import PreviewImages from "./PreviewImages"
 import CreatePostForm from "./CreatePostForm"
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 
 const useStyles = makeStyles((theme) => ({
     dropzone: {
@@ -60,19 +58,15 @@ export default function Dropzone(props) {
     }, [previewImages, setPreviewImages, setImages])
     const { getRootProps, getInputProps } = useDropzone({ onDrop, noClick: true  })
     
-    const handleChange = () => {
-        setPreviewImages(prevState => 
-        prevState.map(image =>
-                image.checked === false ? { image: image.image, filename: image.filename, checked: true } : image
-                )
-            )
-};
+useEffect(() => {
+    console.log(images);
+})
 
 
          return (
              <>
                 {previewImages.length > 0 && 
-                <CreatePostForm  images={images} />
+                <CreatePostForm handleImages={props.handleImages}/>
                 }
                  <div {...getRootProps()} className={classes.dropzone}>
                     <input {...getInputProps()} />
@@ -90,20 +84,8 @@ export default function Dropzone(props) {
                      :
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                        {! previewImages.every(el => el.checked) &&
-                        <Fade in={! previewImages.every(el => el.checked)}>
-                            <FormControlLabel
-                            control={<Checkbox icon={<RadioButtonUncheckedIcon 
-                            />
-                            } 
-                            checked={ previewImages.every(el => el.checked)}
-                            onChange={handleChange}
-                            checkedIcon={<RadioButtonCheckedIcon />}
-                             />}
-                        />
-                        </Fade>
-                        }
-                        <Button variant="contained" size="large">
+                      
+                        <Button variant="contained" fullWidth>
                             <label htmlFor="file-upload" > 
                                 Select Files
                             </label>

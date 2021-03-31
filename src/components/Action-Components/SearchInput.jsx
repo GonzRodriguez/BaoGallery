@@ -129,12 +129,13 @@ export default function SearchInput(props) {
                 setOpen(true);
             })()
         isSearchBarOpen()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [query])
     return (
         <>
             <div className={classes.search}>
                 <InputBase placeholder="Search…" classes={{ root: props.styleName }}  value={query}
-                    onChange={e => { setQuery(e.target.value) }}
+                    onChange={e => { setQuery(e.target.value.toLowerCase()) }}
                     onKeyDown={() => { setSearchResult([]); setLink([]); handleAutocomplete(data) }}
                     inputProps={{ 'aria-label': 'search' }}
                     autoFocus

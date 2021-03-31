@@ -97,7 +97,6 @@ const Header = () => {
 
                         {matches ?
                             <div className={classes.navBarButtons} style={{ visibility: handleDisplayButtons() }}>
-                            {window.location.pathname !== "/" && <SearchInput styleName={classes.searchInput} /> }   
                                 <Button mx={2} py={2} style={{ height: "2.5rem", borderRadius: 0 }} onClick={() => { window.location = "/login" }}>LogIn</Button>
                                 <Button className={classes.actionUpButton} onClick={() => { window.location = "/signup" }}> SignUp </Button>
                             </div>
@@ -107,11 +106,11 @@ const Header = () => {
                                 <div className={classes.searchIcon}>
                                     <SearchIcon  />
                                 </div>
-                            <SearchInput />
                             </div>
                             <RightDrawer anchor={anchorEl} onClick={() => { handleDrawerBreakPoint() }} />
                             </>
                         }
+                            {window.location.pathname !== "/" && <SearchInput styleName={classes.searchInput} />}
                 {handleDrawerAuth()}
                 </Toolbar>
             </AppBar>

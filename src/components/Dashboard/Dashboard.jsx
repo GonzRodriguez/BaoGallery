@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
     const [previewImages, setPreviewImages] = useState([]);
-    // const [allImagesChecked, setAllImagesChecked] = useState(true);
     const [images, setImages] = useState([])
     const user = useContext(UserContext)  
     const classes = useStyles();
@@ -60,7 +59,7 @@ export default function Dashboard() {
         setValue(newValue);
     };
 
-    const handleImages = [previewImages, setPreviewImages, images, setImages, ]
+    const handleImages = [previewImages, setPreviewImages, images, setImages ]
 
     return (
         <Container maxWidth="lg">
@@ -70,8 +69,7 @@ export default function Dashboard() {
                 <div className={classes.root}>
                     <AppBar position="static" color="secondary">
                         <Tabs value={value} onChange={handleChange} aria-label="tabs" centered>
-                            <Tab value="one" label="All your photos"  {...a11yProps('one')}
-                            />
+                            <Tab value="one" label="All your photos"  {...a11yProps('one')} />
                             <Tab value="two" label="Upload" {...a11yProps('two')} />
                             <Tab value="three" label="filter" {...a11yProps('three')} />
                         </Tabs>
