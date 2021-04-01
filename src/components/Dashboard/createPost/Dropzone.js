@@ -1,9 +1,14 @@
-import React, { useCallback, useEffect} from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { ApiContext } from "../../../context/ApiContext";
+import { UserContext } from "../../../context/UserContext";
 import { useDropzone } from 'react-dropzone'
-import { makeStyles, Typography, Button, Grid  } from '@material-ui/core';
+import { makeStyles, Typography, Button, Grid, FormControlLabel, Checkbox, Fade   } from '@material-ui/core';
 import PreviewImages from "./PreviewImages"
 import CreatePostForm from "./CreatePostForm"
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+import ArchiveIcon from '@material-ui/icons/Archive';
 
 const useStyles = makeStyles((theme) => ({
     dropzone: {
@@ -30,47 +35,129 @@ const useStyles = makeStyles((theme) => ({
         margin: "40px",
         borderRadius: "4px",
         backgroundColor: "#dddddd",
-    }
-
+    },
+    button: {
+        height: "2.5rem",
+        width: "20rem"
+    },
 
 }));
 
 export default function Dropzone(props) {
     const classes = useStyles();
-    const [previewImages, setPreviewImages, images, setImages] = props.handleImages
+    const user = useContext(UserContext)
+    const api = useContext(ApiContext)
+    // const [previewImages, setPreviewImages] = useState([]);
+    const [images, setImages] = useState([])
+    const [collection, setCollection] = useState("");
+    const [price, setPrice] = useState({ required: false, value: "" });
+    const [tags, setTags] = useState([]);
+
+    const imageData = [collection, setCollection, price, setPrice, tags, setTags]
+
+    const date = () => {
+
+        const day = new Date().getDate()
+        const month = new Date().getMonth() + 1
+        const year = new Date().getFullYear()
+        return day + "-" + month + "-" + year
+    }
+    const { username, _id } = user
+
     const onDrop = useCallback((acceptedFiles) => {
         acceptedFiles.forEach((file) => {
             const reader = new FileReader()
             reader.onabort = () => console.log('file reading was aborted')
             reader.onerror = () => console.log('file reading has failed')
             // remove duplicated images
-            reader.onloadstart = () => { previewImages.forEach(element => { return file.name === element.filename && previewImages.splice(previewImages.indexOf(element), 1) }) }
+            reader.onloadstart = () => { images.forEach(element => { return file.name === element.filename && images.splice(images.indexOf(element), 1) }) }
             // add preview images
             reader.onload = () => {
                 if (reader.readyState === 2) {
-                    setPreviewImages(prevImages => prevImages.concat({image: reader.result, filename: file.name, checked: true}))
-                    setImages(prevImages => prevImages.concat(file))
+                    // setPreviewImages(prevImages => prevImages.concat({image: reader.result, filename: file.name, checked: true}))
+                    setImages(prevImages => prevImages.concat({
+                            previewImage: reader.result,
+                            image: file, 
+                            filename: file.name,
+                            checked: true, 
+                            creatorId: _id, 
+                            creator: username, 
+                            createdAt: date(), 
+                            date: new Date(), 
+                            price: { required: false, value: "" }, 
+                            tags: [], 
+                            imgCollection: ""
+                        })
+                    )
                 }
             }
             reader.readAsDataURL(file)
         })
         
-    }, [previewImages, setPreviewImages, setImages])
+    }, [images, setImages, _id, username])
     const { getRootProps, getInputProps } = useDropzone({ onDrop, noClick: true  })
-    
-useEffect(() => {
-    console.log(images);
-})
 
+    const handleCheckBox = () => {
+        images(prevState =>
+            prevState.map(image =>
+                image.checked === false ? { image: image.image, filename: image.filename, checked: true } : image
+            )
+        )
+    };
+
+    useEffect(() => {
+            console.log(images)
+    }, [images])
+    
+    const handleImages = [ images, setImages]
+
+    const uploadImage = () =>
+            images.forEach(image => {
+                if ( !image.checked ){
+                    api.uploadImage(image).then(res => console.log("uploaded image", res))
+                    api.createPost(image).then(res => console.log("created post", res))
+                }
+                if (image.checked) {
+                setImages(prevImage => 
+                        ...prevImage, price: price, tags: tags, collection: collection
+                    )
+            };
 
          return (
              <>
-                {previewImages.length > 0 && 
-                <CreatePostForm handleImages={props.handleImages}/>
+                {images.length > 0 && 
+                <>
+                    {!images.every(el => el.checked) &&
+                    <div style={{display: "flex", alignItems: "center"} }>
+                    <Fade in={!images.every(el => el.checked)}>
+                        <FormControlLabel
+                            control={<Checkbox icon={<RadioButtonUncheckedIcon />}
+                            checked={images.every(el => el.checked)}
+                            onChange={handleCheckBox}
+                            checkedIcon={<RadioButtonCheckedIcon />}
+                            />}
+                        />
+                    </Fade>
+                    <Typography variant="body2"> Select All</Typography>
+                    </div>
+                    }
+                     <CreatePostForm handleImages={props.handleImages} imageData={imageData} />
+                     <Grid container direction="row" justify="center">
+                         <Button
+                             type="submit"
+                             className={classes.button}
+                             variant="contained"
+                             startIcon={<CloudUploadIcon />}
+                            //  onClick={uploadImage}
+                         >
+                             Upload
+                </Button>
+                     </Grid>
+                </>
                 }
                  <div {...getRootProps()} className={classes.dropzone}>
                     <input {...getInputProps()} />
-                    {!previewImages.length > 0 ?
+                    {!images.length > 0 ?
                     <>
                     <CloudUploadIcon style={{ fontSize: 90 }} />
                     <Typography variant="button"> Drag & Drop Your Images Here </Typography>
@@ -84,8 +171,8 @@ useEffect(() => {
                      :
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                      
-                        <Button variant="contained" fullWidth>
+
+                        <Button variant="outlined" fullWidth startIcon={<ArchiveIcon/>}>
                             <label htmlFor="file-upload" > 
                                 Select Files
                             </label>
@@ -94,7 +181,8 @@ useEffect(() => {
                         </Grid>
                         <Grid item xs={12}>
                         <PreviewImages 
-                        handleImages={props.handleImages}
+                        handleImages={handleImages}
+                        imageData={imageData}
                         />
                         </Grid>
                     </Grid>

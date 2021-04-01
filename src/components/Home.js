@@ -4,7 +4,7 @@ import { makeStyles, useMediaQuery } from "@material-ui/core";
 import { useTheme } from '@material-ui/core/styles';
 import SearchInput from "./Action-Components/SearchInput";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
     },
     heroLg: {
@@ -51,12 +51,19 @@ const useStyles = makeStyles(() => ({
         fontSize: "1rem",
         margin: "10px",
         boxShadow: "-5px 5px 0px black",
-        border: "solid 5px black",
+        border: theme.border.border,
         cursor: "pointer",
+        transition: "ease-in-out .2s ",
         borderRadius: 0,
         '&:focus': {
-            boxShadow: 0,
+            backgroundColor: "#c9c9c9",
+        },
+        "&:hover": {
+            boxShadow: "0px 0px 0px black;",
+            backgroundColor: "#c9c9c9",
+            transition: "ease-in-out .2s "
         }
+
     },
     about: {
         width: "100vw",

@@ -49,8 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
-    const [previewImages, setPreviewImages] = useState([]);
-    const [images, setImages] = useState([])
+
     const user = useContext(UserContext)  
     const classes = useStyles();
     const [value, setValue] = React.useState('one');
@@ -59,7 +58,6 @@ export default function Dashboard() {
         setValue(newValue);
     };
 
-    const handleImages = [previewImages, setPreviewImages, images, setImages ]
 
     return (
         <Container maxWidth="lg">
@@ -78,7 +76,7 @@ export default function Dashboard() {
                         <Posts collection={"profile"} query={user.username} /> 
                     </TabPanel>
                     <TabPanel value={value} index="one">
-                        <Dropzone handleImages={handleImages} />
+                        <Dropzone />
                     </TabPanel>
                     <TabPanel value={value} index="three">
                         Item Three

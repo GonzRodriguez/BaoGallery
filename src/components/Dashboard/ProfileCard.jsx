@@ -24,12 +24,6 @@ function ProfileCard(props) {
     const user = useContext(UserContext)
     const {_id, ...accounts}  = props.profile.socialMediaAccounts
 
-
-    useEffect(() => {
-        console.log(user._id === props.profile._id );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
     return (
 
         <Card variant="outlined" className={classes.root}>

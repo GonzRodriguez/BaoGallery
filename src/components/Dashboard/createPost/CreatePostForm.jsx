@@ -1,16 +1,11 @@
 import React, { useState, useContext } from "react";
-import { ApiContext } from "../../../context/ApiContext";
-import { UserContext } from "../../../context/UserContext";
+
 import _ from "lodash"
-import { InputLabel, InputAdornment, InputBase, Button, Grid, fade, Link, makeStyles, IconButton, FormControlLabel, Checkbox, Fade} from '@material-ui/core';
+import { InputLabel, InputAdornment, InputBase, Button, Grid, fade, Link, makeStyles, IconButton} from '@material-ui/core';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CollectionsIcon from '@material-ui/icons/Collections';
 import LabelIcon from '@material-ui/icons/Label';
 import ClearIcon from '@material-ui/icons/Clear';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
-
 
 
 const useStyles = makeStyles((theme) => ({
@@ -19,19 +14,15 @@ const useStyles = makeStyles((theme) => ({
         margin: "10px 0"
     },
     input: {
-        // spacing: theme.spacing(2),
-        // padding: theme.spacing(1),
-        // borderRadius: "5px",
-        // height: "2.5rem",
+        borderRadius: "5px",
+        padding: theme.spacing(1),
         fontSize: 16,
         backgroundColor: fade(theme.palette.common.black, 0.05),
         "&:hover": {
             backgroundColor: fade(theme.palette.common.black, 0.15),
         },
     },
-    button: {
-        height: "2.5rem",
-    },
+
     iconButton: {
         maxWidth: "2rem",
         height: "1rem"
@@ -44,10 +35,7 @@ const useStyles = makeStyles((theme) => ({
         margin: "10px 0",
     },
     formGroup:{
-        // backgroundColor: theme.palette.primary.light,
-        // border: theme.border.border,
-        // padding: theme.spacing(3),
-        // marging: theme.spacing(2),
+        marging: theme.spacing(2),
         width: "100%"
     },
 
@@ -56,43 +44,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CreatePostForm(props) {
     const classes = useStyles();
-    const user = useContext(UserContext)
-    const api = useContext(ApiContext)
+
     const [tagInput, setTagInput] = useState("");
-    const [tags, setTags] = useState([]);
-    const [collection, setCollection] = useState("");
-    const [price, setPrice] = useState({required: false, value: ""});
-    const { username, _id } = user
-    const [previewImages, images, setPreviewImages] = props.handleImages
-
-    const date = () => {
-
-        const day = new Date().getDate()
-        const month = new Date().getMonth() + 1
-        const year = new Date().getFullYear()
-        return day + "-" + month + "-" + year
-    }
-
-    let post = { creatorId: _id, creator: username, createdAt: date(), date: new Date(), price: price.value, tags: tags, imgCollection: collection}
-    const uploadImage = () => 
-        !price.value ? setPrice({ required: true }) : 
-    images.forEach(image => {
-        const fd = new FormData()
-        fd.append("creator", username)
-        fd.append("collection", collection)
-        fd.append("image", image)
-
-        api.uploadImage(fd).then(res => console.log("uploaded image", res))
-        post.title = image.name
-        
-        api.createPost(post).then(res => console.log("created post", res))
-    });
-
-    
-    // const handleUpload = () => {
-    //     !price.value ?  setPrice({ required: true }) : uploadImage()
-        
-    // }
+    const [collection, setCollection, price, setPrice, tags, setTags] = props.imageData
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && tagInput.length > 1) {
@@ -115,15 +69,8 @@ export default function CreatePostForm(props) {
             setTagInput("")
         }
     }
-    const handleChange = () => {
-        setPreviewImages(prevState =>
-            prevState.map(image =>
-                image.checked === false ? { image: image.image, filename: image.filename, checked: true } : image
-            )
-        )
-    };
 
-    
+
     const tagsArray = tags.map(tag => {
         return (
             <Link href={tag} key={tags.indexOf(tag)} onClick={(e) => e.preventDefault()} variant="body2">
@@ -142,19 +89,7 @@ export default function CreatePostForm(props) {
             <form className={classes.formGroup}>
             <Grid container direction="row" spacing={2} alignItems="center" >
                 <Grid item xs>
-                    {!previewImages.every(el => el.checked) &&
-                        <Fade in={!previewImages.every(el => el.checked)}>
-                            <FormControlLabel
-                                control={<Checkbox icon={<RadioButtonUncheckedIcon
-                                />
-                                }
-                                    checked={previewImages.every(el => el.checked)}
-                                    onChange={handleChange}
-                                    checkedIcon={<RadioButtonCheckedIcon />}
-                                />}
-                            />
-                        </Fade>
-                    }
+
                     { price.required === true ? 
                     <InputLabel error shrink className={classes.inputLabel}>This field is required</InputLabel> 
                     :
@@ -205,18 +140,7 @@ export default function CreatePostForm(props) {
                 {tagsArray}
             </Grid>
             }
-                <Grid container direction="row" justify="flex-end">
-                <Button
-                    size="large"
-                    type="submit"
-                    className={classes.button}
-                    variant="contained"
-                    startIcon={<CloudUploadIcon />}
-                    onClick={uploadImage}
-                >
-                    Upload
-                </Button>
-            </Grid>
+
             </Grid>
         </form>
     )
