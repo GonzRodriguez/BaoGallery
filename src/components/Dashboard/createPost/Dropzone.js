@@ -117,11 +117,13 @@ export default function Dropzone(props) {
                     api.uploadImage(image).then(res => console.log("uploaded image", res))
                     api.createPost(image).then(res => console.log("created post", res))
                 }
-                if (image.checked) {
-                setImages(prevImage => 
-                        ...prevImage, price: price, tags: tags, collection: collection
-                    )
-            };
+                    // setImages(prevImage =>
+                    //     prevImage.map(i => {
+                    //         i.checked ? {...i, price: price, tags: tags, collection: collection} : i
+                    //     })
+                    // )
+                }
+            );
 
          return (
              <>
