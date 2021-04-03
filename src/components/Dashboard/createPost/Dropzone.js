@@ -47,13 +47,13 @@ export default function Dropzone(props) {
     const classes = useStyles();
     const user = useContext(UserContext)
     const api = useContext(ApiContext)
-    // const [previewImages, setPreviewImages] = useState([]);
+    const [tagInput, setTagInput] = useState("");
     const [images, setImages] = useState([])
     const [collection, setCollection] = useState("");
     const [price, setPrice] = useState({ required: false, value: "" });
-    const [tags, setTags] = useState([]);
+    const [tags, setTags] = useState({ required: false, value: [] });
 
-    const imageData = [collection, setCollection, price, setPrice, tags, setTags]
+    const imageData = { collection, setCollection, price, setPrice, tags, setTags, tagInput, setTagInput}
 
     const date = () => {
 
@@ -74,18 +74,18 @@ export default function Dropzone(props) {
             // add preview images
             reader.onload = () => {
                 if (reader.readyState === 2) {
-                    // setPreviewImages(prevImages => prevImages.concat({image: reader.result, filename: file.name, checked: true}))
                     setImages(prevImages => prevImages.concat({
                             previewImage: reader.result,
                             image: file, 
-                            filename: file.name,
+                            title: file.name,
                             checked: true, 
                             creatorId: _id, 
                             creator: username, 
                             createdAt: date(), 
                             date: new Date(), 
+                            tagInput: tagInput,
                             price: { required: false, value: "" }, 
-                            tags: [], 
+                            tags: { required: false, value: [] }, 
                             imgCollection: ""
                         })
                     )
@@ -94,42 +94,59 @@ export default function Dropzone(props) {
             reader.readAsDataURL(file)
         })
         
-    }, [images, setImages, _id, username])
+    }, [images, setImages, _id, username, tagInput])
     const { getRootProps, getInputProps } = useDropzone({ onDrop, noClick: true  })
 
     const handleCheckBox = () => {
-        images(prevState =>
+        setImages(prevState =>
             prevState.map(image =>
-                image.checked === false ? { image: image.image, filename: image.filename, checked: true } : image
+                image.checked === false ? { ...image, checked: true, price: price, tags: { required: image.tags.required, value: tags.value.map(tag => tag) }, imgCollection: collection, tagInput: tagInput } : image
             )
         )
     };
-
-    useEffect(() => {
-            console.log(images)
-    }, [images])
     
     const handleImages = [ images, setImages]
 
-    const uploadImage = () =>
-            images.forEach(image => {
-                if ( !image.checked ){
-                    api.uploadImage(image).then(res => console.log("uploaded image", res))
-                    api.createPost(image).then(res => console.log("created post", res))
-                }
-                    // setImages(prevImage =>
-                    //     prevImage.map(i => {
-                    //         i.checked ? {...i, price: price, tags: tags, collection: collection} : i
-                    //     })
-                    // )
-                }
-            );
+    const uploadImage = () => {
+        console.log(images);
+        images.forEach(image => {
+            if (image.tagInput.length ){
+                setImages(prevImage =>
+                    prevImage.map(i => i.title === image.title ? {...i, tags: {required: true, value: i.tags.value}} : i))
+            }
+            if (!image.price.value) {
+                setImages(prevImage =>
+                    prevImage.map(i => i.title === image.title ? { ...i, price: { required: true, value: i.price.value } } : i))
+            }
+            if (!price.value ) {
+                setPrice({ required: true, value: "" })
+            }
+            if (tagInput.length) {
+                setTags(prevTags => ({ required: true, value: prevTags.value }))
+            } else {
 
+                    const fd = new FormData()
+                    fd.append("image", image.image, "creator", _id, "collection", collection)
+                    api.uploadImage(fd).then(res => console.log("uploaded image", res))
+                    api.createPost(image).then(res => console.log("created post", res))
+            }
+        }
+        );
+    }
+
+    useEffect(() => {
+        setImages(prevImage =>
+            prevImage.map(i =>
+                i.checked ? { ...i, price: price, tags: { required: i.tags.required, value: tags.value.map(tag => tag) }, imgCollection: collection, tagInput: tagInput } : i
+            ))
+            console.log(tags);
+    }, [collection, price, tags, tagInput])
          return (
              <>
                 {images.length > 0 && 
                 <>
-                    {!images.every(el => el.checked) &&
+                    {images.some(el => el.checked) &&
+                    !images.every(el => el.checked) &&
                     <div style={{display: "flex", alignItems: "center"} }>
                     <Fade in={!images.every(el => el.checked)}>
                         <FormControlLabel
@@ -143,14 +160,16 @@ export default function Dropzone(props) {
                     <Typography variant="body2"> Select All</Typography>
                     </div>
                     }
+                     {images.some(el => el.checked) &&
                      <CreatePostForm handleImages={props.handleImages} imageData={imageData} />
+                     }
                      <Grid container direction="row" justify="center">
                          <Button
                              type="submit"
                              className={classes.button}
                              variant="contained"
                              startIcon={<CloudUploadIcon />}
-                            //  onClick={uploadImage}
+                             onClick={uploadImage}
                          >
                              Upload
                 </Button>

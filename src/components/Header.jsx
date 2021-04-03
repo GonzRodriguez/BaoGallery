@@ -94,7 +94,7 @@ const Header = () => {
             <AppBar  position="static" color="transparent">
                 <Toolbar className={classes.toolbar} >
                     <Typography variant="h6" className={classes.title} onClick={() => { window.location = "/" }}> BAO GALLERY </Typography>
-
+                {!isAuth.auth && window.location.pathname !== "/" && <SearchInput styleName={classes.searchInput} /> }
                         {matches ?
                             <div className={classes.navBarButtons} style={{ visibility: handleDisplayButtons() }}>
                                 <Button mx={2} py={2} style={{ height: "2.5rem", borderRadius: 0 }} onClick={() => { window.location = "/login" }}>LogIn</Button>
@@ -110,7 +110,7 @@ const Header = () => {
                             <RightDrawer anchor={anchorEl} onClick={() => { handleDrawerBreakPoint() }} />
                             </>
                         }
-                            {window.location.pathname !== "/" && <SearchInput styleName={classes.searchInput} />}
+                {isAuth.auth && window.location.pathname !== "/" && <SearchInput styleName={classes.searchInput} />}
                 {handleDrawerAuth()}
                 </Toolbar>
             </AppBar>

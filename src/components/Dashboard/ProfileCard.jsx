@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import _ from "lodash"
 import { Card, CardHeader, Typography, Avatar, makeStyles, Grid } from "@material-ui/core"
 import { UserContext } from "../../context/UserContext"
@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         border: theme.border.border,
         height: "fit-content",
-        padding: "1rem",
     },
     icons: {
         fontSize: "2vh",
@@ -33,19 +32,19 @@ function ProfileCard(props) {
                 subheader={<> <i className="fas fa-at"></i> {props.profile.email} {props.profile.webpage && <span> &nbsp; <i className="fas fa-props.profile-circle"></i> {props.profile.webpage}</span>} </>}
                 action={user._id === props.profile._id && <EditProfileForm alert={alert} />}
             />
-            <Grid container spacing={3} direction="row" >
+            {/* <Grid container spacing={3} direction="row" > */}
             {Object.entries(accounts).map(account => {
                 return (
                 account[1] &&
                     <Grid item key={account[0]} >
-                        <Typography variant="body1">
+                        <Typography variant="body1" style={{ marginInline: "1rem" }}>
                             {<i className={`fab fa-${account[0]}`}>&nbsp;</i>}
                             {_.upperFirst(account[1])}
                         </Typography>
                     </Grid>
                 )
             })}
-            </Grid>                
+            {/* </Grid>                 */}
         </Card>
     )
 }

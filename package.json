@@ -1,24 +1,24 @@
 {
-<<<<<<< HEAD
-  "name": "vamoss",
+  "name": "baogallery",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
+    "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.9.1",
-    "@material-ui/lab": "^4.0.0-alpha.56",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "helmet": "^4.1.0",
     "image-to-base64": "^2.1.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.3",
     "morgan": "^1.10.0",
-    "react": "^16.13.1",
+    "react": "^16.14.0",
     "react-alert": "^7.0.2",
     "react-alert-template-basic": "^1.0.0",
     "react-dom": "^16.13.1",
@@ -33,6 +33,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "nodemon": "^2.0.3"
   },
+  "react-scripts": "^3.4.1",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -42,6 +43,10 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "resolutions": {
+    "browserslist": "4.6.2",
+    "caniuse-lite": "1.0.30000974"
   },
   "browserslist": {
     "production": [
@@ -55,37 +60,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-=======
-  "name": "api",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "nodemon index.js"
-  },
-  "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/lab": "^4.0.0-alpha.56",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "cookie-parser": "~1.4.4",
-    "cors": "^2.8.5",
-    "crypto": "^1.0.1",
-    "debug": "~2.6.9",
-    "dotenv": "^8.2.0",
-    "express": "~4.16.1",
-    "express-session": "^1.17.1",
-    "formidable": "^1.2.2",
-    "http-errors": "~1.6.3",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.20",
-    "method-override": "^3.0.0",
-    "mongoose-fuzzy-searching": "^2.0.2",
-    "morgan": "~1.9.1",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^6.0.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
->>>>>>> origin/master
   }
 }

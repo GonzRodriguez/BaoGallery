@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState} from 'react'
 import { makeStyles, CardMedia, Grid, FormControlLabel, Checkbox, Card, CardActions, InputLabel, fade, InputBase, IconButton, Link, Typography, Popover, Button, InputAdornment } from '@material-ui/core';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
@@ -73,40 +73,46 @@ export default function PreviewImages(props) {
     const [images, setImages] = props.handleImages
     const [tagInput, setTagInput] = useState("");
     const [anchorEl, setAnchorEl] = useState(null);
-    
+    const {collection, price, tags} = props.imageData 
     const handleCheckBox = (event, i) => {
         setImages(prevState =>
             prevState.map(image =>
-                image.filename === i.filename ? { ...image, checked: !i.checked } : image
+                image.title === i.title ? { ...image, checked: !i.checked, price: price, tags: { required: i.tags.required, value: tags.value.map(tag => tag) }, imgCollection: collection } : image
             ))
     };
     const handleCollection = (event, i) => {
         event.persist()
-        console.log(event.target.value);
         setImages(prevState =>
             prevState.map(image =>
-                image.filename === i.filename ? { ...image, imgCollection: event.target.value } : image
+                image.title === i.title ? { ...image, imgCollection: event.target.value } : image
             ))
     };
     const handlePrice = (event, i) => {
         event.persist()
         setImages(prevState =>
             prevState.map(image =>
-                image.filename === i.filename ? { ...image, price: { required: false, value: event.target.value } } : image
+                image.title === i.title ? { ...image, price: { required: false, value: event.target.value } } : image
+            ))
+    };
+    const handleTagInput = (event, i) => {
+        event.persist()
+        setImages(prevState =>
+            prevState.map(image =>
+                image.title === i.title ? { ...image, tagInput: event.target.value  } : image
             ))
     };
     const handleKeyDown = (e, i) => {
         if (e.key === 'Enter' && tagInput.length > 1) {
             setImages(prevState =>
                 prevState.map(image =>
-                    image.filename === i.filename ? { ...image, tags: image.tags.concat(tagInput.toLowerCase()) } : image
+                    image.title === i.title ? { ...image, tags: image.tags.concat(tagInput.toLowerCase()) } : image
                 ))
             setTagInput("")
         }
 
     }
     const handleTags = (i) => {
-        const filterTags = i.tags.filter(tag => tag === tagInput)
+        const filterTags = i.tags.value.filter(tag => tag === tagInput)
 
         if (filterTags.length > 0) {
             setTagInput("");
@@ -115,13 +121,13 @@ export default function PreviewImages(props) {
         } else {
             setImages(prevState =>
                 prevState.map(image =>
-                    image.filename === i.filename ? { ...image, tags: image.tags.concat(tagInput.toLowerCase()) } : image
+                    image.title === i.title ? { ...image, tags: { required: false, value: image.tags.value.concat(tagInput.toLowerCase()) } } : image
                 ))
             setTagInput("")
         }
     }
     const handleDelete = (image) => {
-        setImages(images.filter(i => i.filename !== image.filename));
+        setImages(images.filter(i => i.title !== image.title));
     }
 
     const handlePopoverOpen = (event) => {
@@ -131,6 +137,8 @@ export default function PreviewImages(props) {
     const handlePopoverClose = () => {
         setAnchorEl(null);
     };
+
+
 
     const open = Boolean(anchorEl);
 
@@ -211,14 +219,20 @@ export default function PreviewImages(props) {
                                     />
                                 </Grid>
                                 <Grid item xs>
-                                    <InputLabel shrink className={classes.inputLabel}>Tags</InputLabel>
+                                    {image.tags.required ?
+                                        <InputLabel error shrink className={classes.inputLabel}>Add or delete tag to be submited </InputLabel>
+                                        :
+                                        <InputLabel shrink className={classes.inputLabel}>Tags</InputLabel>
+                                    }
                                     <InputBase
+                                        error={image.tags.required}
                                         id="Tags"
+                                        variant="outlined"
                                         className={classes.input}
                                         margin="none"
                                         fullWidth
                                         value={tagInput}
-                                        onChange={(e) => setTagInput(e.target.value)}
+                                        onChange={(e) => {setTagInput(e.target.value); handleTagInput(e, image)} }
                                         onKeyDown={(e) => handleKeyDown(e, image)}
                                         startAdornment={<InputAdornment position="start"> <LabelIcon /> </InputAdornment>}
                                         endAdornment={<Button onClick={() => handleTags(image)} > ADD </Button>}
@@ -240,9 +254,9 @@ export default function PreviewImages(props) {
                             </Grid>
                             <Grid>
                                 <Grid item className={classes.tagsDisplay} >
-                                    {image.tags.map(tag => {
+                                    {image.tags.value.map(tag => {
                                         return (
-                                            <Link href={tag} key={image.tags.indexOf(tag)} onClick={(e) => e.preventDefault()} variant="body1" style={{ color: "#8a8a8a"}}>
+                                            <Link href={tag} key={image.tags.value.indexOf(tag)} onClick={(e) => e.preventDefault()} variant="body1" style={{ color: "#8a8a8a"}}>
                                                 {" #" + tag}
                                                 <IconButton
                                                     className={classes.iconButton} aria-label="delete"

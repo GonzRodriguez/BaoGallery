@@ -138,7 +138,6 @@ export default function SearchInput(props) {
                     onChange={e => { setQuery(e.target.value.toLowerCase()) }}
                     onKeyDown={() => { setSearchResult([]); setLink([]); handleAutocomplete(data) }}
                     inputProps={{ 'aria-label': 'search' }}
-                    autoFocus
                 />
                 <ClickAwayListener onClickAway={handleClickAway}>
                     <div className={classes.dropDownMenu}>

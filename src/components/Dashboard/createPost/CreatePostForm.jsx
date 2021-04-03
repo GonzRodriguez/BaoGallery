@@ -1,6 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, {useEffect} from "react";
 
-import _ from "lodash"
 import { InputLabel, InputAdornment, InputBase, Button, Grid, fade, Link, makeStyles, IconButton} from '@material-ui/core';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import CollectionsIcon from '@material-ui/icons/Collections';
@@ -45,12 +44,11 @@ const useStyles = makeStyles((theme) => ({
 export default function CreatePostForm(props) {
     const classes = useStyles();
 
-    const [tagInput, setTagInput] = useState("");
-    const [collection, setCollection, price, setPrice, tags, setTags] = props.imageData
+    const { collection, setCollection, price, setPrice, tags, setTags, tagInput, setTagInput} = props.imageData
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && tagInput.length > 1) {
-            setTags(prevTags => prevTags.concat(_.lowerCase(tagInput)))
+            setTags(prevTags => ({ required: false, value: prevTags.value.concat(tagInput.toLowerCase()) }))
             setTagInput("")
         }
         
@@ -58,26 +56,29 @@ export default function CreatePostForm(props) {
 
     
     const handleTags = () => {
-        const filterTags = tags.filter(tag => tag === tagInput)
+        const filterTags = tags.value.filter(tag => tag === tagInput)
         
         if (filterTags.length > 0) {
             setTagInput("");
         } else if (tagInput < 1){
             setTagInput("")
         } else {
-            setTags(prevTags => prevTags.concat(_.lowerCase(tagInput)))
+            setTags(prevTags => ({ required: false, value: prevTags.value.concat(tagInput.toLowerCase()) }))
             setTagInput("")
         }
     }
 
-
-    const tagsArray = tags.map(tag => {
+useEffect(() => {
+    
+    console.log(tags);
+}, [price, tags, tagInput])
+    const tagsArray = tags.value.map(tag => {
         return (
-            <Link href={tag} key={tags.indexOf(tag)} onClick={(e) => e.preventDefault()} variant="body2">
+            <Link href={tag} key={tags.value.indexOf(tag)}onClick={(e) => e.preventDefault()} variant="body2">
                 {" #" + tag}
                 <IconButton 
                     className={classes.iconButton} aria-label="delete" 
-                    onClick={() => { tags.splice(tags.indexOf(tag), 1); setTags([...tags]);}} >
+                    onClick={() => { setTags(prevTags => ({ required: prevTags.required, value: prevTags.value.filter(t => t !== tag) }))}} >
                     <ClearIcon className={classes.clearIcon}/>
                 </IconButton>
             </Link>
@@ -90,7 +91,7 @@ export default function CreatePostForm(props) {
             <Grid container direction="row" spacing={2} alignItems="center" >
                 <Grid item xs>
 
-                    { price.required === true ? 
+                    {price.required ? 
                     <InputLabel error shrink className={classes.inputLabel}>This field is required</InputLabel> 
                     :
                     <InputLabel shrink className={classes.inputLabel}>Choose a price</InputLabel>
@@ -107,9 +108,13 @@ export default function CreatePostForm(props) {
                     />  
                 </Grid>
                 <Grid item xs>
-                    <InputLabel shrink className={classes.inputLabel}>Tags</InputLabel>
+                    {tags.required ?
+                        <InputLabel error shrink className={classes.inputLabel}>Add or delete tag to be submited </InputLabel>
+                        :
+                        <InputLabel shrink className={classes.inputLabel}>Tags</InputLabel>
+                    }
                     <InputBase
-                        id="Tags"
+                        error={tags.required}
                         className={classes.input}
                         margin="none"
                         fullWidth
