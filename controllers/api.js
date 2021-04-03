@@ -102,9 +102,9 @@ exports.search = async (req, res) => {
 
 exports.createPost = async (req, res) => {
     const { creatorId, creator, createdAt, price, tags, title, date, imgCollection} = req.body
-    console.log(req.body);
+    console.log(creatorId, creator, createdAt, price, tags, title, date, imgCollection);
     const postsPath = `/uploads/${creator}/${imgCollection}/${title}`
-    const newPost = new Post({ creatorId, creator, createdAt, price, tags, title, date, postsPath, imgCollection})
+    const newPost = new Post({ creatorId, creator, createdAt, price: price.value, tags, title, date, postsPath, imgCollection})
     try {
         newPost.save();
     User.findById(creatorId, (err, user) => {
@@ -123,8 +123,8 @@ exports.createPost = async (req, res) => {
 exports.uploadImage =  (req, res, next) => {
     const dir = "../public/uploads/"
     const form = new formidable.IncomingForm();
-
     form.parse(req, (err, fields, files) => {
+        console.log(fields, files)
         if (err)  throw err
         const oldPath = files.image.path;
         const newPath = path.join(dir, fields.creator) + `/${fields.collection}/` + files.image.name
