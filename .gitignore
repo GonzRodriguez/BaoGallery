@@ -38,18 +38,14 @@ bower_components
 build/Release
 
 # Dependencies
-<<<<<<< HEAD
-=======
+
 src/node_modules/**
 server/node_modules/**
-<<<<<<< HEAD
 **/src/node_modules
 **/server/node_modules
 src/node_modules/
 server/node_modules/
-=======
->>>>>>> c6054608dde916e90c7ab795ce51d71a71508503
->>>>>>> 9557649fc84d2b025f810c234c0b303eeeef92b9
+
 node_modules/
 jspm_packages/
 */node_modules/*
@@ -86,19 +82,15 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-<<<<<<< HEAD
+
 **/src/.env
 **/server/.env
 src/.env
 server/.env
 **/.env
-=======
-<<<<<<< HEAD
-=======
 src/.env
 server/.env
->>>>>>> c6054608dde916e90c7ab795ce51d71a71508503
->>>>>>> 9557649fc84d2b025f810c234c0b303eeeef92b9
+
 .env
 .env.test
 .env.*
