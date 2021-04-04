@@ -38,18 +38,20 @@ bower_components
 build/Release
 
 # Dependencies
-<<<<<<< HEAD
-=======
 src/node_modules/**
 server/node_modules/**
->>>>>>> c6054608dde916e90c7ab795ce51d71a71508503
+**/src/node_modules
+**/server/node_modules
+src/node_modules/
+server/node_modules/
+
 node_modules/
 jspm_packages/
 */node_modules/*
 /node_modules
 /.pnp
 .pnp.js
-**node_modules
+**/node_modules
 
 # TypeScript v1 declaration files
 typings/
@@ -79,14 +81,17 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-<<<<<<< HEAD
-=======
+**/src/.env
+**/server/.env
 src/.env
 server/.env
->>>>>>> c6054608dde916e90c7ab795ce51d71a71508503
+**/.env
+src/.env
+server/.env
+
 .env
 .env.test
-
+.env.*
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
@@ -117,9 +122,16 @@ dist
 
 # TernJS port file
 .tern-port
+<<<<<<< HEAD
+node_modules
+=======
 node_modules
 <<<<<<< HEAD
 .env
 =======
 >>>>>>> c6054608dde916e90c7ab795ce51d71a71508503
+<<<<<<< HEAD
 .env
+=======
+>>>>>>> 9557649fc84d2b025f810c234c0b303eeeef92b9
+>>>>>>> 6bf2d33c1e8592430ac21063c02f1dabc235edc7
