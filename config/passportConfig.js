@@ -1,17 +1,16 @@
 
     const User = require("../models/users");
     const bcrypt = require("bcryptjs");
-    const localStrategy = require("passport-local").Strategy;
+    const LocalStrategy = require("passport-local").Strategy;
 
-module.exports =  function (passport) {
+module.exports =  async function (passport) {
 
 // uses the passport strategy and checks if credentials matches with logged user
-    passport.use(
-        new localStrategy((username, password, done) =>  {
-            User.findOne({ username: username }, async (err, user) => {
+    await passport.use(new LocalStrategy(async (username, password, done)  =>  {
+           await  User.findOne({ username: username }, (err, user) => {
                 if (err) throw err;
                 if (!user) return done(null, false);
-              await bcrypt.compare(password, user.password, (err, result) => {
+                bcrypt.compare(password, user.password, (err, result) => {
                     if (err) throw err;
                     if (result === true) {
                         return done(null, user);
@@ -22,16 +21,45 @@ module.exports =  function (passport) {
             });
         })
     );
-// establish and destroys the user session 
-    passport.serializeUser((user, cb) => {
-        cb(null, user.id);
+
+    passport.serializeUser(function (user, done) {
+        console.log(user);
+        try {
+            console.log("serialize User");
+            done(null, user._id);
+        } catch (error) {
+            console.log(error);
+        }
     });
-    passport.deserializeUser((id, cb) => {
-        User.findOne({ _id: id }, (err, user) => {
-            const userInformation = {
-                username: user.username,
-            };
-            cb(err, userInformation);
+
+    passport.deserializeUser(function (id, done) {
+        try {
+            console.log("deserialize User", id);
+            User.findById(id, function (err, user) {
+            done(err, user);
         });
+        } catch (error) {
+            console.log(error);
+        }
+        
     });
 };
+
+// const passport = require("passport")
+// const User = require('../models/users');
+
+// // CHANGE: USE "createStrategy" INSTEAD OF "authenticate"
+
+// module.exports = function(){
+
+//     try {
+//         passport.use(User.createStrategy());
+
+//         passport.serializeUser(User.serializeUser());
+//         passport.deserializeUser(User.deserializeUser());
+//     } catch (error) {
+//         console.log(error);
+//     }
+
+    
+// }

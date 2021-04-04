@@ -1,0 +1,6 @@
+[submodule "C:\Users\gon_w\Desktop\Coding\BaoGallery\server"] 
+  path = server 
+  url = git://https://github.com/GonzRodriguez/BaoGallery/
+[submodule "server"]
+	path = server
+	url = https://github.com/GonzRodriguez/BaoGallery
