@@ -30,7 +30,7 @@ function ProfileCard(props) {
                 avatar={<Avatar alt="Avatar" src={props.profile.avatar}  />}
                 title={<Typography className={classes.title} variant="h2" color="textPrimary" > {props.profile.username} </Typography>}
                 subheader={<> <i className="fas fa-at"></i> {props.profile.email} {props.profile.webpage && <span> &nbsp; <i className="fas fa-props.profile-circle"></i> {props.profile.webpage}</span>} </>}
-                action={user._id === props.profile._id && <EditProfileForm alert={alert} />}
+                action={user?._id === props.profile._id && <EditProfileForm alert={alert} />}
             />
             {/* <Grid container spacing={3} direction="row" > */}
             {Object.entries(accounts).map(account => {

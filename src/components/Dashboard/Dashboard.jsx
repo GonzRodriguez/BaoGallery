@@ -72,10 +72,10 @@ export default function Dashboard() {
                             <Tab value="three" label="filter" {...a11yProps('three')} />
                         </Tabs>
                     </AppBar>
-                    <TabPanel value={value} index="two">
+                    <TabPanel value={value} index="one">
                         <Posts collection={"profile"} query={user.username} /> 
                     </TabPanel>
-                    <TabPanel value={value} index="one">
+                    <TabPanel value={value} index="two">
                         <Dropzone />
                     </TabPanel>
                     <TabPanel value={value} index="three">

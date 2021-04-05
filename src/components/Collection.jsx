@@ -16,10 +16,9 @@ const useStyles = makeStyles(() => ({
 
 function Collection() {
     const classes = useStyles();
-    // const api = useContext(ApiContext)
-    // const [coll, setCollection] = useState()
     const { collection, query } = useParams();
 
+    console.log(collection, query);
 
     return (
             <Container className={classes.root}>

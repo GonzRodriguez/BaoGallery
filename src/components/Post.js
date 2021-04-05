@@ -103,7 +103,7 @@ function Post(props) {
             </Menu>
             </>}
             <div className={classes.postDescription} >
-                <Typography>Artist: <Link color="inherit" href={`/profile/${props.post.creator}`} ><strong>{props.post.creator.replace(/\s+/g, '-')}</strong></Link></Typography>
+                <Typography>Artist: <Link color="inherit" href={`/profile/${props.post.creator.replace(/\s+/g, '-')}`} ><strong>{props.post.creator.replace(/\s+/g, '-')}</strong></Link></Typography>
                 <Typography>Collection: <Link color="inherit" href={`/collection/${props.post.imgCollection.replace(/\s+/g, '-')}`} ><strong>{props.post.imgCollection}</strong></Link></Typography>
                 {props.post.price > 0 && <Typography  className={classes.typo}> {props.post.price}$</Typography> }
                 <div className={classes.tagsAndDate}>

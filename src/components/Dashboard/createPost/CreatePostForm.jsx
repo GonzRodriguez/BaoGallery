@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
     },
     tagsDisplay: {
         display: "flex",
-        margin: "10px 0",
+        flexWrap: "wrap",
+        margin: theme.spacing(1)
     },
     formGroup:{
         marging: theme.spacing(2),
@@ -70,7 +71,6 @@ export default function CreatePostForm(props) {
 
 useEffect(() => {
     
-    console.log(tags);
 }, [price, tags, tagInput])
     const tagsArray = tags.value.map(tag => {
         return (

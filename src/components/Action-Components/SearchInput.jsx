@@ -70,10 +70,9 @@ export default function SearchInput(props) {
     }
     const handleAutocomplete = (data) => {
 
-        if (Boolean(query.length)) {
+        if (query.length) {
             // 1. Extract all tags to a single array
             let tagsArray = []
-            console.log(open);
 
             data.map(item => item.tags.map(tag => tagsArray.push(tag)))
             const creatorArray = data.map(item => item.creator)
@@ -89,23 +88,18 @@ export default function SearchInput(props) {
             const creatorArrayOfSingles = removeDuplicates(creatorIncludesQuery)
             const collectionArrayOfSinlges = removeDuplicates(collectionIncludesQuery)
             const tagsArrayOfSinlges = removeDuplicates(tagsIncludesQuery)
-            console.log(creatorArrayOfSingles);
-            console.log(collectionArrayOfSinlges);
-            console.log(tagsArrayOfSinlges);
+
 
             // 4. add to set
             for (const el of creatorArrayOfSingles) {
-                console.log(el);
 
                 el.length > 1 && setSearchResult(prevLink => [...prevLink, { type: "profile", value: el, icon: <AccountCircleIcon /> }])
-                console.log(el);
             }
             for (const el of collectionArrayOfSinlges) {
                 el.length > 1 && setSearchResult(prevLink => [...prevLink, { type: "collection", value: el, icon: <CollectionsIcon /> }])
             }
 
             for (const el of tagsArrayOfSinlges) {
-                console.log(el);
                 el.length > 1 && setSearchResult(prevLink => [...prevLink, { type: "tags", value: el, icon: <LabelIcon /> }])
             }
             // 5. handle links state

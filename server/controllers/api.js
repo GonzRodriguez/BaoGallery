@@ -38,6 +38,7 @@ exports.fetchProfile = async (req, res) => {
 
 exports.fetchPosts = async (req, res) => {
     const { key, entry } = req.params
+    console.log(key, entry);
     try {
         switch (key) {
             case "profile":
@@ -104,7 +105,7 @@ exports.createPost = async (req, res) => {
     const { creatorId, creator, createdAt, price, tags, title, date, imgCollection} = req.body
     console.log(req.body);
     const postsPath = `/uploads/${creator}/${imgCollection}/${title}`
-    const newPost = new Post({ creatorId, creator, createdAt, price, tags, title, date, postsPath, imgCollection})
+    const newPost = new Post({ creatorId, creator, createdAt, title, price: price.value, tags: tags.value, date, postsPath, imgCollection })
     try {
         newPost.save();
     User.findById(creatorId, (err, user) => {
@@ -123,8 +124,9 @@ exports.createPost = async (req, res) => {
 exports.uploadImage =  (req, res, next) => {
     const dir = "../public/uploads/"
     const form = new formidable.IncomingForm();
-
+    console.log(path);
     form.parse(req, (err, fields, files) => {
+        console.log("fileds", fields, "files", files );
         if (err)  throw err
         const oldPath = files.image.path;
         const newPath = path.join(dir, fields.creator) + `/${fields.collection}/` + files.image.name
@@ -359,18 +361,3 @@ exports.logout = async (req, res, next) => {
     }
     
 } 
-
-exports.test = async (req, res, next) => {
-    const form = new formidable.IncomingForm();
-    form.parse(req, function (err, fields, files) {
-        const oldPath = files.profilePic.path;
-        const newPath = path.join("../public/uploads/posts/", 'MoneySlide')
-            + '/' + files.profilePic.name
-        const rawData = fs.readFileSync(oldPath)
-
-        fs.writeFile(newPath, rawData, function (err) {
-            if (err) console.log(err)
-            return res.send("Successfully uploaded")
-        })
-    }) 
-}

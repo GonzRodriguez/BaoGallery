@@ -108,7 +108,6 @@ export default function Dropzone(props) {
     const handleImages = [ images, setImages]
 
     const uploadImage = () => {
-        console.log(images);
         images.forEach(image => {
             if (image.tagInput.length ){
                 setImages(prevImage =>
@@ -124,11 +123,13 @@ export default function Dropzone(props) {
             if (tagInput.length) {
                 setTags(prevTags => ({ required: true, value: prevTags.value }))
             } else {
-
-                    const fd = new FormData()
-                    fd.append("image", image.image, "creator", _id, "collection", collection)
-                    api.uploadImage(fd).then(res => console.log("uploaded image", res))
-                    api.createPost(image).then(res => console.log("created post", res))
+                const { previewImage, ...img} = image
+                const fd = new FormData()
+                fd.append("image", image.image)
+                fd.append("creator", username)
+                fd.append("collection", collection)
+                api.uploadImage(fd).then(res => console.log("uploaded image", res))
+                api.createPost(img).then(res => console.log("created post", res))
             }
         }
         );
@@ -139,7 +140,6 @@ export default function Dropzone(props) {
             prevImage.map(i =>
                 i.checked ? { ...i, price: price, tags: { required: i.tags.required, value: tags.value.map(tag => tag) }, imgCollection: collection, tagInput: tagInput } : i
             ))
-            console.log(tags);
     }, [collection, price, tags, tagInput])
          return (
              <>

@@ -16,7 +16,6 @@ router.get('/posts/:profile', fetchProfile);
 router.patch('/update-post/:id', updatePost);
 router.delete('/delete-post/:id/:userId', deletePost);
 router.post('/login', login);
-router.post('/test', test);
 router.post('/is-auth', isAuth);
 router.post('/logout', logout);
 router.post('/signup', signup);
