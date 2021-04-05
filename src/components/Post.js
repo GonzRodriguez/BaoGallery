@@ -28,6 +28,7 @@ const useStyles = makeStyles(() => ({
     },
     tagsAndDate: {
         display: "flex",
+        flexWrap: "wrap",
         justifyContent: "space-between"
     },
     tag: {

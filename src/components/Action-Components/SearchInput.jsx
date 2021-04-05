@@ -5,7 +5,9 @@ import LabelIcon from '@material-ui/icons/Label';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CollectionsIcon from '@material-ui/icons/Collections'
 const useStyles = makeStyles((theme) => ({
-
+    search:{
+        position: "relative"
+    },
     searchIcon: {
         padding: theme.spacing(0, 1),
         height: '100%',
@@ -29,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
     dropDownMenu: {
         position: "absolute",
         zIndex: "100",
-        width: "100%",
-        left: 0
+        width: "90%",
+        right: 0
     },
     menuItem: {
         backgroundColor: theme.palette.grey[200],
@@ -106,9 +108,9 @@ export default function SearchInput(props) {
 
             for (let item of searchResult.values()) {
                 setLink(prevLink => [...prevLink,
-                <MenuItem key={searchResult._id} className={classes.menuItem}>
+                <MenuItem key={item.value} className={classes.menuItem}>
                     <Link href={`/${item.type}/${item.value}`} color="inherit" variant="button">
-                        <Typography style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly" }} variant="button">{item.icon}{item.value}</Typography>
+                        <Typography style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly" }} variant="button">{item.icon}&nbsp;{item.value}</Typography>
                     </Link>
                 </MenuItem>])
             }
@@ -123,6 +125,7 @@ export default function SearchInput(props) {
                 setOpen(true);
             })()
         isSearchBarOpen()
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [query])
     return (

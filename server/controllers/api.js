@@ -67,12 +67,10 @@ exports.search = async (req, res) => {
         const posts = await Post.aggregate([
                {
                 $search: {
+                    "index": "default",
                     "compound": {
-                        
                         "should": [
-                            
                             { "autocomplete": { "query": req.params.query, "path": "creator", "fuzzy": { "maxEdits": 2, "prefixLength": 1, "maxExpansions": 256 } } },
-                            
                             { "autocomplete": { "query": req.params.query, "path": "imgCollection", "fuzzy": { "maxEdits": 2, "prefixLength": 1, "maxExpansions": 256 } } },
                             { "text": { "query": req.params.query, "path": "tags", "fuzzy": { "maxEdits": 2, "prefixLength": 1, "maxExpansions": 256 } } }
                             
@@ -92,7 +90,7 @@ exports.search = async (req, res) => {
                 }
             }
             ])
-            console.log(posts);
+            console.log(95, posts);
         res.status(200).json(posts);
     } catch (error) {
         console.log(error);

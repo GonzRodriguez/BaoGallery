@@ -1,10 +1,11 @@
 
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext"
 import Dropzone from "./createPost/Dropzone"
 import Posts from "../Posts"
+import { useTheme } from '@material-ui/core/styles';
 import ProfileCard from "./ProfileCard";
-import { Tabs, Tab, Box, Typography, makeStyles, AppBar, Container, Grid } from '@material-ui/core';
+import { Tabs, Tab, Box, Typography, makeStyles, AppBar, Container,useMediaQuery, Grid, } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
 
@@ -52,7 +53,9 @@ export default function Dashboard() {
 
     const user = useContext(UserContext)  
     const classes = useStyles();
-    const [value, setValue] = React.useState('one');
+    const [value, setValue] = useState('one');
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -61,7 +64,10 @@ export default function Dashboard() {
 
     return (
         <Container maxWidth="lg">
-
+            {!matches && 
+            <Grid item xs={12} md={4}>
+                <ProfileCard profile={user} />
+            </Grid>}
             <Grid container spacing={4}>
                 <Grid item xs={12} sm={8}>
                 <div className={classes.root}>
@@ -78,14 +84,12 @@ export default function Dashboard() {
                     <TabPanel value={value} index="two">
                         <Dropzone />
                     </TabPanel>
-                    <TabPanel value={value} index="three">
-                        Item Three
-                    </TabPanel>
                 </div>            
             </Grid>
+            {matches && 
             <Grid item xs={12} sm={4}>
-                <ProfileCard profile={user}/>
-            </Grid>
+                <ProfileCard profile={user} />
+            </Grid>}
         </Grid>
         </Container>
     );

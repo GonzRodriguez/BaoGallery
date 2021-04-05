@@ -1,6 +1,5 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
-// const mongoose_fuzzy_searching = require('mongoose-fuzzy-searching');
 
 const postSchema = new Schema({
     creator: { type: String, index: true, text: true },
@@ -17,7 +16,6 @@ const postSchema = new Schema({
     },
 })
 
-// postSchema.plugin(mongoose_fuzzy_searching, { fields: ["tags", "imgCollection", "creator", "date"] })
 
 const PostMessage = mongoose.model('Post', postSchema);
 
