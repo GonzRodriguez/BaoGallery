@@ -9,6 +9,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import ArchiveIcon from '@material-ui/icons/Archive';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
     dropzone: {
@@ -50,6 +51,7 @@ export default function Dropzone(props) {
     const [tagInput, setTagInput] = useState("");
     const [images, setImages] = useState([])
     const [collection, setCollection] = useState("");
+    const [alert, setAlert] = useState(false)
     const [price, setPrice] = useState({ required: false, value: "" });
     const [tags, setTags] = useState({ required: false, value: [] });
 
@@ -107,32 +109,38 @@ export default function Dropzone(props) {
     
     const handleImages = [ images, setImages]
 
-    const uploadImage = () => {
+    const checkInputCorrectness = () => {
+
         images.forEach(image => {
-            if (image.tagInput.length ){
+            image.tagInput.length &&
                 setImages(prevImage =>
-                    prevImage.map(i => i.title === image.title ? {...i, tags: {required: true, value: i.tags.value}} : i))
-            }
-            if (!image.price.value) {
+                    prevImage.map(i => i.title === image.title ? { ...i, tags: { required: true, value: i.tags.value } } : i))
+
+            !image.price.value &&
                 setImages(prevImage =>
                     prevImage.map(i => i.title === image.title ? { ...i, price: { required: true, value: i.price.value } } : i))
-            }
-            if (!price.value ) {
+
+            !price.value &&
                 setPrice({ required: true, value: "" })
-            }
-            if (tagInput.length) {
+
+            tagInput.length &&
                 setTags(prevTags => ({ required: true, value: prevTags.value }))
-            } else {
-                const { previewImage, ...img} = image
-                const fd = new FormData()
-                fd.append("image", image.image)
-                fd.append("creator", username)
-                fd.append("collection", collection)
-                api.uploadImage(fd).then(res => console.log("uploaded image", res))
-                api.createPost(img).then(res => console.log("created post", res))
-            }
-        }
-        );
+            
+
+            !image.tagInput.length && image.price.value && price.value && !tagInput.length ? uploadImage(image) : setAlert(true)
+            })
+    }
+
+    const uploadImage = (image) => {
+       
+            const { previewImage, ...img} = image
+            const fd = new FormData()
+            fd.append("image", image.image)
+            fd.append("creator", username)
+            fd.append("collection", image.imgCollection)
+            api.uploadImage(fd).then(res => console.log("uploaded image", res))
+            api.createPost(img).then(res => console.log("created post", res))
+        
     }
 
     useEffect(() => {
@@ -143,6 +151,12 @@ export default function Dropzone(props) {
     }, [collection, price, tags, tagInput])
          return (
              <>
+                {alert && 
+                <Alert severity="warning" onClose={() => {setAlert(false)}}>
+                    <AlertTitle>Warning</AlertTitle>
+                    One or more fields require your attention, <strong> make sure you've submited all the tags and chosen the price of your pictures</strong>
+                </Alert>
+                }
                 {images.length > 0 && 
                 <>
                     {images.some(el => el.checked) &&
@@ -169,7 +183,7 @@ export default function Dropzone(props) {
                              className={classes.button}
                              variant="contained"
                              startIcon={<CloudUploadIcon />}
-                             onClick={uploadImage}
+                             onClick={checkInputCorrectness}
                          >
                              Upload
                 </Button>

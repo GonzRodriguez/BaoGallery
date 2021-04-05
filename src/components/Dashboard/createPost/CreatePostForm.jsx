@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 
-import { InputLabel, InputAdornment, InputBase, Button, Grid, fade, Link, makeStyles, IconButton} from '@material-ui/core';
+import { InputLabel, InputAdornment, InputBase, Button, Grid, fade, List, makeStyles, IconButton} from '@material-ui/core';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import CollectionsIcon from '@material-ui/icons/Collections';
 import LabelIcon from '@material-ui/icons/Label';
@@ -70,18 +70,18 @@ export default function CreatePostForm(props) {
     }
 
 useEffect(() => {
-    
+    console.log(price.required, tags.required);
 }, [price, tags, tagInput])
     const tagsArray = tags.value.map(tag => {
         return (
-            <Link href={tag} key={tags.value.indexOf(tag)}onClick={(e) => e.preventDefault()} variant="body2">
+            <List  key={tags.value.indexOf(tag)}onClick={(e) => e.preventDefault()} variant="body2">
                 {" #" + tag}
                 <IconButton 
                     className={classes.iconButton} aria-label="delete" 
                     onClick={() => { setTags(prevTags => ({ required: prevTags.required, value: prevTags.value.filter(t => t !== tag) }))}} >
                     <ClearIcon className={classes.clearIcon}/>
                 </IconButton>
-            </Link>
+            </List>
         )
     })
 

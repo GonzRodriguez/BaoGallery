@@ -1,5 +1,5 @@
 import React, { useState} from 'react'
-import { makeStyles, CardMedia, Grid, FormControlLabel, Checkbox, Card, CardActions, InputLabel, fade, InputBase, IconButton, Link, Typography, Popover, Button, InputAdornment } from '@material-ui/core';
+import { makeStyles, CardMedia, Grid, FormControlLabel, Checkbox, Card, CardActions, InputLabel, fade, InputBase, IconButton, Typography, Popover, Button, InputAdornment, List } from '@material-ui/core';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -105,8 +105,9 @@ export default function PreviewImages(props) {
         if (e.key === 'Enter' && tagInput.length > 1) {
             setImages(prevState =>
                 prevState.map(image =>
-                    image.title === i.title ? { ...image, tags: image.tags.concat(tagInput.toLowerCase()) } : image
+                    image.title === i.title ? { ...image, tagInput: "", tags: { required: false, value: image.tags.value.concat(tagInput.toLowerCase()) }} : image
                 ))
+                
             setTagInput("")
         }
 
@@ -115,13 +116,21 @@ export default function PreviewImages(props) {
         const filterTags = i.tags.value.filter(tag => tag === tagInput)
 
         if (filterTags.length > 0) {
+            setImages(prevState =>
+                prevState.map(image =>
+                    image.title === i.title ? { ...image, tagInput: "" } : image
+                ))
             setTagInput("");
         } else if (tagInput < 1) {
+            setImages(prevState =>
+                prevState.map(image =>
+                    image.title === i.title ? { ...image, tagInput: "" } : image
+                ))
             setTagInput("")
         } else {
             setImages(prevState =>
                 prevState.map(image =>
-                    image.title === i.title ? { ...image, tags: { required: false, value: image.tags.value.concat(tagInput.toLowerCase()) } } : image
+                    image.title === i.title ? { ...image, tagInput: "", tags: { required: false, value: image.tags.value.concat(tagInput.toLowerCase()) } } : image
                 ))
             setTagInput("")
         }
@@ -231,7 +240,7 @@ export default function PreviewImages(props) {
                                         className={classes.input}
                                         margin="none"
                                         fullWidth
-                                        value={tagInput}
+                                        value={image.tagInput}
                                         onChange={(e) => {setTagInput(e.target.value); handleTagInput(e, image)} }
                                         onKeyDown={(e) => handleKeyDown(e, image)}
                                         startAdornment={<InputAdornment position="start"> <LabelIcon /> </InputAdornment>}
@@ -256,19 +265,19 @@ export default function PreviewImages(props) {
                                 <Grid item className={classes.tagsDisplay} >
                                     {image.tags.value.map(tag => {
                                         return (
-                                            <Link href={tag} key={image.tags.value.indexOf(tag)} onClick={(e) => e.preventDefault()} variant="body1" style={{ color: "#8a8a8a"}}>
+                                            <List key={image.tags.value.indexOf(tag)} onClick={(e) => e.preventDefault()} variant="body2" style={{ color: "#8a8a8a"}}>
                                                 {" #" + tag}
                                                 <IconButton
                                                     className={classes.iconButton} aria-label="delete"
                                                     onClick={() => {
                                                         setImages(prevState =>
                                                             prevState.map(i =>
-                                                                i.filename === image.filename ? { ...i, tags: i.tags.filter(t => t !== tag) } : i
+                                                                i.filename === image.filename ? { ...i, tags: {required: false, value: image.tags.value.filter(t => t !== tag)} } : i
                                                             ))
                                                     }} >
                                                     <ClearIcon className={classes.clearIcon} />
                                                 </IconButton>
-                                            </Link>
+                                            </List>
                                         )
                                     })}
                                 </Grid>

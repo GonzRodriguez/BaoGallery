@@ -124,9 +124,8 @@ exports.createPost = async (req, res) => {
 exports.uploadImage =  (req, res, next) => {
     const dir = "../public/uploads/"
     const form = new formidable.IncomingForm();
-    console.log(path);
     form.parse(req, (err, fields, files) => {
-        console.log("fileds", fields, "files", files );
+        console.log("fileds", fields );
         if (err)  throw err
         const oldPath = files.image.path;
         const newPath = path.join(dir, fields.creator) + `/${fields.collection}/` + files.image.name

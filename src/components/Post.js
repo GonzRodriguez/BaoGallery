@@ -107,7 +107,7 @@ function Post(props) {
                 <Typography>Collection: <Link color="inherit" href={`/collection/${props.post.imgCollection.replace(/\s+/g, '-')}`} ><strong>{props.post.imgCollection}</strong></Link></Typography>
                 {props.post.price > 0 && <Typography  className={classes.typo}> {props.post.price}$</Typography> }
                 <div className={classes.tagsAndDate}>
-                    <Typography style={{ display: "flex", color: "#9d9b9b" }} >
+                    <Typography style={{ display: "flex", color: "#9d9b9b", flexWrap: "wrap" }} >
                     {props.post.tags.map(tag => {
                         return <IconButton 
                         href={`/tags/${tag.replace(/\s+/g, '-')}`}
