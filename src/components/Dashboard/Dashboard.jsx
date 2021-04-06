@@ -61,7 +61,6 @@ export default function Dashboard() {
         setValue(newValue);
     };
 
-
     return (
         <Container maxWidth="lg">
             {!matches && 
@@ -79,7 +78,14 @@ export default function Dashboard() {
                         </Tabs>
                     </AppBar>
                     <TabPanel value={value} index="one">
+                        {!user.posts ? 
+                        <div style={{display: "flex", justifyContent: "center", flexDirection: "column"}}>
+                            <Typography variant="h4" align="center">Nothing uploaded yet</Typography>
+                            <img src="/nothing-uploaded.svg" alt="No posts yet" style={{ height: "70vmin"}}/>
+                        </div>
+                        :
                         <Posts collection={"profile"} query={user.username} /> 
+                        }
                     </TabPanel>
                     <TabPanel value={value} index="two">
                         <Dropzone />

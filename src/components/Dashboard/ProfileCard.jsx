@@ -32,19 +32,19 @@ function ProfileCard(props) {
                 subheader={<> <i className="fas fa-at"></i> {props.profile.email} {props.profile.webpage && <span> &nbsp; <i className="fas fa-props.profile-circle"></i> {props.profile.webpage}</span>} </>}
                 action={user?._id === props.profile._id && <EditProfileForm alert={alert} />}
             />
-            {/* <Grid container spacing={3} direction="row" > */}
+            <div style={{display: "flex", flexWrap: "wrap"}} >
             {Object.entries(accounts).map(account => {
                 return (
                 account[1] &&
                     <Grid item key={account[0]} >
-                        <Typography variant="body1" style={{ marginInline: "1rem" }}>
+                        <Typography variant="body1" style={{ marginInline: ".3rem" }}>
                             {<i className={`fab fa-${account[0]}`}>&nbsp;</i>}
                             {_.upperFirst(account[1])}
                         </Typography>
                     </Grid>
                 )
             })}
-            {/* </Grid>                 */}
+            </div>                
         </Card>
     )
 }

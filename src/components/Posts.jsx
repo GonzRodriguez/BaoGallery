@@ -1,10 +1,11 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useContext, useEffect, useState} from 'react';
-import { makeStyles, Grid, Container, InputBase, Button, ButtonGroup  } from "@material-ui/core"
+import { makeStyles, Grid, Container, InputBase, Button, ButtonGroup } from "@material-ui/core"
 import Post from "./Post"
 import Spinner from "./Action-Components/spinner" 
 import { ApiContext } from "../context/ApiContext"
+import Error404 from './Error404';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -12,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
         borderRadius: 0,
     },
-    inputInput: {
+    input: {
         backgroundColor: theme.palette.grey[200],
         margin: "1rem 1rem 1rem 0",
         borderRadius: "5px",
@@ -50,7 +51,7 @@ function Posts(props) {
         const newFormat = day + "-" + month + "-" + date.slice(0, 4)
         setDate(newFormat)
     }
-    const filter = (filter) =>{
+    const filter = () =>{
         setFiltering(true)
         setFilteredPosts(prevPosts => prevPosts.concat(
             posts.filter(post => post.imgCollection === coll)
@@ -70,8 +71,12 @@ function Posts(props) {
         setDate([])
     }
     useEffect(() => {       
+        let mounted = true
         try {
-            getPosts()
+            if(mounted) {
+                getPosts()
+                return () => mounted = false;
+            }
         } catch (error) {
             console.log(error);
         }   
@@ -79,26 +84,27 @@ function Posts(props) {
     
     return (
     <>
-    <form styles={{display: "flex", felxWrap: "wrap"}}>
+    {posts.length > 0 ? 
+    <form style={{display: "flex", flexWrap: "wrap", margin: "1rem", alignItems: "center", justifyContent: "center"}}>
         <InputBase
-            className={classes.inputInput}
+            className={classes.input}
             placeholder="collection"
             value={coll}
             onChange={(e) => setCollection(e.target.value) }
         />
         <InputBase
-            className={classes.inputInput}
+            className={classes.input}
             placeholder="tags"
             value={tags}
             onChange={(e) => setTags(e.target.value)}
         />
         <InputBase
-            className={classes.inputInput}
+            className={classes.input}
             placeholder="Search…"
             type="date"
             onChange={(e) => changeDateFormat(e.target.value) }
         />
-        <ButtonGroup variant="outlined" color="secondary" aria-label="contained primary button group">
+        <ButtonGroup variant="outlined" style={{ height: "-webkit-fill-available" }} color="secondary" aria-label="contained primary button group">
         <Button
         size="large"
         onClick={filter}
@@ -113,6 +119,9 @@ function Posts(props) {
         </Button>
         </ButtonGroup>
     </form>
+    :
+    <Error404/>
+    }
     {!posts ? 
     <Spinner /> 
     : 

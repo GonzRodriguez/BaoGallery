@@ -15,6 +15,7 @@ import Theme from "./components/Theme"
 import {ThemeProvider} from '@material-ui/core/styles';
 import { UserContext } from "./context/UserContext";
 import { IsAuthContext } from "./context/IsAuthContext";
+import Error404 from "./components/Error404"
 import Spinner from "./components/Action-Components/spinner" 
 
 function  App() {
@@ -58,7 +59,7 @@ function  App() {
                 <Route path="/profile/:username" children={<Profile />} />
                 <Route path="/:collection/:query" children={<Collection />} />
                 <Route exact path="/logout" />
-                <Route path="*" component={() => "404 NOT FOUND"} />
+                <Route path="*" component={Error404} />
               </Switch>
             <Footer/>
           </IsAuthContext.Provider>

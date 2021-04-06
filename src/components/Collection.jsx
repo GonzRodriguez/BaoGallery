@@ -17,9 +17,7 @@ const useStyles = makeStyles(() => ({
 function Collection() {
     const classes = useStyles();
     const { collection, query } = useParams();
-
-    console.log(collection, query);
-
+    
     return (
             <Container className={classes.root}>
                 <Posts collection={collection} query={query} />
