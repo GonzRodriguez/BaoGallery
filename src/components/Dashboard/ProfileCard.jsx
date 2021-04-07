@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import _ from "lodash"
-import { Card, CardHeader, Typography, Avatar, makeStyles, Grid } from "@material-ui/core"
+import { Card, CardHeader, Typography, Avatar, makeStyles, Grid, Divider } from "@material-ui/core"
 import { UserContext } from "../../context/UserContext"
 import EditProfileForm from "./EditProfileForm"
 
@@ -29,10 +29,11 @@ function ProfileCard(props) {
             <CardHeader
                 avatar={<Avatar alt="Avatar" src={props.profile.avatar}  />}
                 title={<Typography className={classes.title} variant="h2" color="textPrimary" > {props.profile.username} </Typography>}
-                subheader={<> <i className="fas fa-at"></i> {props.profile.email} {props.profile.webpage && <span> &nbsp; <i className="fas fa-props.profile-circle"></i> {props.profile.webpage}</span>} </>}
+                subheader={<> {props.profile.email} {props.profile.webpage && <span> &nbsp; {props.profile.webpage}</span>} </>}
                 action={user?._id === props.profile._id && <EditProfileForm alert={alert} />}
             />
-            <div style={{display: "flex", flexWrap: "wrap"}} >
+            <Divider/>
+            <div style={{display: "flex", flexWrap: "wrap", margin: "1rem"}} >
             {Object.entries(accounts).map(account => {
                 return (
                 account[1] &&

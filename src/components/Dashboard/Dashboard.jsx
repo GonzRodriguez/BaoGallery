@@ -62,7 +62,7 @@ export default function Dashboard() {
     };
 
     return (
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" style={{margin: "1rem 0 1rem 0"}}>
             {!matches && 
             <Grid item xs={12} md={4}>
                 <ProfileCard profile={user} />

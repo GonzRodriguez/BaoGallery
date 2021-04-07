@@ -9,6 +9,7 @@ const Post = require("../models/post.js")
 const formidable = require("formidable");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
+const { rest } = require("lodash");
 
 
 // POSTS
@@ -157,13 +158,14 @@ exports.uploadImage =  (req, res, next) => {
 }
 
 exports.editProfile = async (req, res) => {
-    const { username, avatar, email, password, webpage, instagram, facebook, twitter, snapchat, flickr } = req.body
+    const { username, avatar, email, password, webpage, instagram, facebook, twitter, snapchat, flickr, bio } = req.body
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const withPassword = {
         username: username,
         avatar: avatar,
         email: email,
+        bio: bio,
         webpage: webpage,
         password: hashedPassword,
         socialMediaAccounts: [{
@@ -175,10 +177,11 @@ exports.editProfile = async (req, res) => {
         }]
     }
     function hasPassword() {
-        if (password.length > 1) {
+        if (withPassword.password.length > 1) {
             return withPassword
         }
-        return _.omit(withPassword, ["password"])
+        const { password, ...withoutPassword} = withPassword
+        return withoutPassword
     }
     try {
 

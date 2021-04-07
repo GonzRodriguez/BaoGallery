@@ -7,7 +7,7 @@ class spinner extends Component {
     render() {
         const spinner = {
             display: "flex",
-            height: "inherit",
+            height: "20rem",
             width: "100%",
             justifyContent: "center",
             alignItems: "center"

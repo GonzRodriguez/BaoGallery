@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { makeStyles, Modal, Backdrop, Fade, Button, TextField, FormHelperText, Box, Typography, Divider, Avatar } from '@material-ui/core';
+import { makeStyles, Modal, Backdrop, Fade, Button, FilledInput, FormHelperText, Box, Typography, InputLabel, Divider, FormControl, Avatar } from '@material-ui/core';
 import { UserContext } from "../../context/UserContext"
 import { ApiContext } from '../../context/ApiContext';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2, 4, 3),
     },
     texfield: {
-        width: "100%"
+        width: "100%",
     },
     large: {
         width: theme.spacing(12),
@@ -40,7 +40,7 @@ export default function EditProfileForm() {
     const user = useContext(UserContext)
     const api = useContext(ApiContext)
 
-    const { username, avatar, email, webpage, instagram, facebook, snapchat, twitter, flickr, _id} = user
+    const { username, avatar, email, webpage, instagram, facebook, snapchat, twitter, flickr, _id, bio} = user
 
     const [profileData, setProfileData] = useState({ 
         username: username,
@@ -48,6 +48,7 @@ export default function EditProfileForm() {
         email: email,
         webpage: webpage,
         password: "",
+        bio: bio,
         facebook: facebook,
         instagram: instagram,
         twitter: twitter,  
@@ -111,129 +112,175 @@ export default function EditProfileForm() {
                                 <Box m={1}  >
                                     <Avatar alt="Avatar" src={avatar} className={classes.large} />
                                 </Box>
-                                <Box m={1} flexGrow={1} >
+                                
                                     <FileBase
                                         type="file"
                                         multiple={false}
                                         onDone={({ base64 }) => setProfileData({ ...profileData, avatar: base64 })}
                                     />
                                 </Box>
-                            </Box>
-                            <Box display="flex" >
-                                <Box m={1} flexGrow={1} >
-                                <TextField
+                                <Box m={1}>
+                                <FormControl variant="filled" fullWidth>
+                                <InputLabel htmlFor="Username">Username</InputLabel>
+                                <FilledInput
+                                disableUnderline
                                 value={profileData.username}
                                 onChange={(e) => setProfileData({ ...profileData, username: e.target.value })}
-                                label="Username" 
+                                placeholder="Username" 
                                 name="username"
                                 id="Username" 
                                 className={classes.texfield}
                                 />
+                                </FormControl>
                                 </Box>
-                                <Box m={1} flexGrow={1}  >
-                                <TextField
+                            <Box m={1} >
+                                <FormControl variant="filled" fullWidth>
+                                <InputLabel htmlFor="Email">Email</InputLabel>
+                                <FilledInput
+                                disableUnderline
                                 value={profileData.email}
                                 onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
-                                label="Email" 
+                                placeholder="Email" 
                                 name="email"
                                 id="email"
                                 className={classes.texfield}
                                 />
-                                </Box>
-                            </Box>            
+                                </FormControl>
+                            </Box>
+                            <Box m={1} >
+                                <FormControl variant="filled" fullWidth>
+                                <InputLabel htmlFor="Bio">Bio</InputLabel>
+                                <FilledInput
+                                disableUnderline
+                                value={profileData.biography}
+                                onChange={(e) => setProfileData({ ...profileData, biography: e.target.value })}
+                                placeholder="Bio" 
+                                rows="3"
+                                name="email"
+                                id="email"
+                                className={classes.texfield}
+                                />
+                                </FormControl>
+                            </Box>
                         <Typography variant="h6">Contact details</Typography>
                         <Divider />
                             <Box display="block" >
                             <Box m={1} >
-                                <TextField
+                            <FormControl variant="filled" fullWidth>
+                            <InputLabel htmlFor="Web Page">Web Page</InputLabel>
+                                <FilledInput
+                                disableUnderline
                                 value={profileData.webpage}
                                 onChange={(e) => setProfileData({ ...profileData, webpage: e.target.value })}
-                                label="Web Page" 
+                                placeholder="Web Page" 
                                 name="webpage"
                                 id="webPage" 
                                 className={classes.texfield}
                                 />
+                                </FormControl>
                             </Box>
                             <Box m={1} >
-                                <TextField
+                            <FormControl variant="filled" fullWidth>
+                                <InputLabel htmlFor="Instagram">Instagram</InputLabel>
+                                <FilledInput
+                                disableUnderline
                                 value={profileData.instagram}
                                 onChange={(e) => setProfileData({ ...profileData, instagram: e.target.value })}
-                                label="Instagram" 
+                                placeholder="Instagram" 
                                 id="Instagram"
                                 name="instagram"
                                 className={classes.texfield}
                                 />
+                                </FormControl>
                             </Box>
                             <Box  m={1} >
-                                <TextField
+                            <FormControl variant="filled" fullWidth>
+                                <InputLabel htmlFor="Facebook">Facebook</InputLabel>
+                                <FilledInput
+                                disableUnderline
                                 value={profileData.facebook}
                                 onChange={(e) => setProfileData({ ...profileData, facebook: e.target.value })}
-                                label="Facebook" 
+                                placeholder="Facebook" 
                                 name="facebook"
                                 id="Facebook" 
                                 className={classes.texfield}
                                 />
+                                </FormControl>
                             </Box>
                             <Box  m={1} >
-                                <TextField
+                            <FormControl variant="filled" fullWidth>
+                                <InputLabel htmlFor="Twitter">Twitter</InputLabel>
+                                <FilledInput
+                                disableUnderline
                                 value={profileData.twitter}
                                 onChange={(e) => setProfileData({ ...profileData, twitter: e.target.value })}
-                                label="Twitter" 
+                                placeholder="Twitter" 
                                 name="twitter"
                                 id="Twitter" 
                                 className={classes.texfield}
                                 />
+                                </FormControl>
                             </Box>
                             <Box  m={1} >
-                                <TextField
+                            <FormControl variant="filled" fullWidth>
+                            <InputLabel htmlFor="Snapchat">Snapchat</InputLabel>
+                                <FilledInput
+                                disableUnderline
                                 value={profileData.snapchat}
                                 onChange={(e) => setProfileData({ ...profileData, snapchat: e.target.value })}
-                                label="Snapchat" 
+                                placeholder="Snapchat" 
                                 name="snapchat" 
                                 id="Snapchat" 
                                 className={classes.texfield}
                                 />
+                                </FormControl>
                             </Box>
                             <Box  m={1} >
-                                <TextField
+                            <FormControl variant="filled" fullWidth>
+                                <InputLabel htmlFor="Flickr">Flickr</InputLabel>
+                                <FilledInput
+                                disableUnderline
                                 value={profileData.flickr}
                                 onChange={(e) => setProfileData({ ...profileData, flickr: e.target.value })}
-                                label="Flickr" 
+                                placeholder="Flickr" 
                                 name="flickr"
                                 id="Flickr" 
                                 className={classes.texfield}
                                 />
+                                </FormControl>
                             </Box>
                         </Box> 
                     <Typography variant="h6">Change your Password</Typography>
                     <Divider />
-                            <Box display="flex" >
-                                <Box m={1} flexGrow={1} >
-                                    <TextField
-                                        value={profileData.password}
-                                        onChange={(e) => setProfileData({ ...profileData, password: e.target.value })}
-                                        label="Password" 
-                                        error={ passwordTag }
-                                        type="password"
-                                        name="password"
-                                        id="Password"
-                                        className={classes.texfield}
-                                         />
-                                    <FormHelperText>{passwordTag && <p style={{ color: "red" }}>Passwords don not match</p>}</FormHelperText>
-                            </Box>
-                                <Box m={1} mb={3} flexGrow={1}>
-                                    <TextField
-                                        label="Confirm your Password" 
-                                        error={ passwordTag }
-                                        type="password"
-                                        name="confirmPassword"
-                                        id="confirmPassword"
-                                        className={classes.texfield}
-                                        onChange={(event) => setConfirmPassword(event.target.value)} />
-                                    <FormHelperText>{passwordTag && <p style={{color: "red"}}>Password don not match</p>}</FormHelperText>
-                            </Box>
-                        </Box>
-                       
+                                
+                        <FormControl variant="filled" fullWidth>
+                            <InputLabel htmlFor="Password">Password</InputLabel>
+                            <FilledInput
+                            disableUnderline
+                            value={profileData.password}
+                            onChange={(e) => setProfileData({ ...profileData, password: e.target.value })}
+                            placeholder="Password" 
+                            error={ passwordTag }
+                            type="password"
+                            name="password"
+                            id="Password"
+                            className={classes.texfield}
+                                />
+                                </FormControl>
+                            <FormHelperText>{passwordTag && <p style={{ color: "red" }}>Passwords don not match</p>}</FormHelperText>
+                        <FormControl variant="filled" fullWidth>
+                            <InputLabel htmlFor="Confirm your Password">Confirm your Password</InputLabel>
+                            <FilledInput
+                            disableUnderline
+                            placeholder="Confirm your Password" 
+                            error={ passwordTag }
+                            type="password"
+                            name="confirmPassword"
+                            id="confirmPassword"
+                            className={classes.texfield}
+                            onChange={(event) => setConfirmPassword(event.target.value)} />
+                            </FormControl>
+                            <FormHelperText>{passwordTag && <p style={{color: "red"}}>Password don not match</p>}</FormHelperText>
                         <Button type="submit" color="secondary" m={1} variant="outlined" fullWidth onClick={handlePasswordOnSubmit}>Submit</Button>
                         <Button color="inherit" m={1} onClick={handleClose} fullWidth >Discard</Button>
 

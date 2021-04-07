@@ -38,10 +38,12 @@ function Posts(props) {
     const [tags, setTags] = useState([])
     const [coll, setCollection] = useState([])
     const [date, setDate] = useState([])
+    const [isLoading, setIsloading] = useState(true)
 
     const getPosts = async () => {
         const res = await api.fetchPosts(collection, query).then(res => res.data)
         setPosts(prevPost => prevPost.concat(res))
+        setIsloading(false)
     }
     const changeDateFormat = (date) => {
         let day
@@ -84,7 +86,10 @@ function Posts(props) {
     
     return (
     <>
-    {posts.length > 0 ? 
+    {isLoading ? 
+    <Spinner /> 
+    : 
+    posts.length > 0 ? 
     <form style={{display: "flex", flexWrap: "wrap", margin: "1rem", alignItems: "center", justifyContent: "center"}}>
         <InputBase
             className={classes.input}
@@ -122,7 +127,7 @@ function Posts(props) {
     :
     <Error404/>
     }
-    {!posts ? 
+    {isLoading ? 
     <Spinner /> 
     : 
     !filtering ? 

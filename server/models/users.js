@@ -13,6 +13,7 @@ const userSquema = new Schema({
     username: String,
     avatar: String,
     email: String,
+    bio: String,
     password: String,
     accessToken: String,
     refreshToken: String,
