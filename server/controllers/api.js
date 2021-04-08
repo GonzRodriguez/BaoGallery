@@ -9,8 +9,6 @@ const Post = require("../models/post.js")
 const formidable = require("formidable");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
-const { rest } = require("lodash");
-
 
 // POSTS
 
@@ -19,7 +17,6 @@ exports.fetchPost = async (req, res) => {
 
     try {
         const post = await Post.findById(postId);
-        console.log("The post ", post);
 
         res.status(200).json(post);
     } catch (error) {
@@ -39,7 +36,6 @@ exports.fetchProfile = async (req, res) => {
 
 exports.fetchPosts = async (req, res) => {
     const { key, entry } = req.params
-    console.log(key, entry);
     try {
         switch (key) {
             case "profile":
@@ -124,7 +120,6 @@ exports.uploadImage =  (req, res, next) => {
     const dir = "../public/uploads/"
     const form = new formidable.IncomingForm();
     form.parse(req, (err, fields, files) => {
-        console.log("fileds", fields );
         if (err)  throw err
         const oldPath = files.image.path;
         const newPath = path.join(dir, fields.creator) + `/${fields.collection}/` + files.image.name
@@ -161,32 +156,26 @@ exports.editProfile = async (req, res) => {
     const { username, avatar, email, password, webpage, instagram, facebook, twitter, snapchat, flickr, bio } = req.body
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const withPassword = {
+    const updatedUser = {
         username: username,
         avatar: avatar,
         email: email,
         bio: bio,
         webpage: webpage,
-        password: hashedPassword,
-        socialMediaAccounts: [{
-            instagram: instagram,
-            facebook: facebook,
+        password: password ? hashedPassword : undefined,
+        socialMediaAccounts: {
+        instagram: instagram,
+        facebook: facebook,
             twitter: twitter,
             snapchat: snapchat,
             flickr: flickr
-        }]
-    }
-    function hasPassword() {
-        if (withPassword.password.length > 1) {
-            return withPassword
         }
-        const { password, ...withoutPassword} = withPassword
-        return withoutPassword
     }
+
     try {
 
-        await User.updateOne({ _id: req.params.id }, hasPassword(), { upsert: true, omitUndefined: true })
-
+        await User.findOneAndUpdate({ _id: req.params.id }, updatedUser, {upsert: true, omitUndefined: true })
+        console.log("updatedUser", updatedUser, "password", password);
     } catch (error) {
         console.log(error);
     }
@@ -256,7 +245,7 @@ exports.isAuth = async (req, res) => {
                             const newRefreshToken = jwt.sign({ username: user.username }, process.env.JWT_REFRESH, { expiresIn: "12m" })
                             user.accessToken = newAccessToken
                         //    only sends the safe info to client by omiting password and accesstoken
-                        const omittedUser = _.omit(user.toObject(), ["password", "accessToken"])
+                        const omittedUser = _.omit(user.toObject(), ["password", "accessToken", "avatar"])
                         console.log(omittedUser);
                         await user.save()
                             return res.status(202).json({ user: omittedUser, token: newRefreshToken })

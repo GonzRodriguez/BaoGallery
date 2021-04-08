@@ -40,7 +40,7 @@ export default function EditProfileForm() {
     const user = useContext(UserContext)
     const api = useContext(ApiContext)
 
-    const { username, avatar, email, webpage, instagram, facebook, snapchat, twitter, flickr, _id, bio} = user
+    const { username, avatar, email, webpage, socialMediaAccounts, _id, bio} = user
 
     const [profileData, setProfileData] = useState({ 
         username: username,
@@ -49,11 +49,11 @@ export default function EditProfileForm() {
         webpage: webpage,
         password: "",
         bio: bio,
-        facebook: facebook,
-        instagram: instagram,
-        twitter: twitter,  
-        snapchat: snapchat,
-        flickr: flickr,
+        facebook: socialMediaAccounts.facebook,
+        instagram: socialMediaAccounts.instagram,
+        twitter: socialMediaAccounts.twitter,  
+        snapchat: socialMediaAccounts.snapchat,
+        flickr: socialMediaAccounts.flickr,
     });
     
 
@@ -127,7 +127,7 @@ export default function EditProfileForm() {
                                 value={profileData.username}
                                 onChange={(e) => setProfileData({ ...profileData, username: e.target.value })}
                                 placeholder="Username" 
-                                name="username"
+                                name="Username"
                                 id="Username" 
                                 className={classes.texfield}
                                 />
@@ -152,8 +152,8 @@ export default function EditProfileForm() {
                                 <InputLabel htmlFor="Bio">Bio</InputLabel>
                                 <FilledInput
                                 disableUnderline
-                                value={profileData.biography}
-                                onChange={(e) => setProfileData({ ...profileData, biography: e.target.value })}
+                                value={profileData.bio}
+                                onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
                                 placeholder="Bio" 
                                 rows="3"
                                 name="email"

@@ -93,13 +93,13 @@ function Posts(props) {
     <form style={{display: "flex", flexWrap: "wrap", margin: "1rem", alignItems: "center", justifyContent: "center"}}>
         <InputBase
             className={classes.input}
-            placeholder="collection"
+            placeholder="Collection"
             value={coll}
             onChange={(e) => setCollection(e.target.value) }
         />
         <InputBase
             className={classes.input}
-            placeholder="tags"
+            placeholder="Tags"
             value={tags}
             onChange={(e) => setTags(e.target.value)}
         />
