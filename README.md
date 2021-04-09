@@ -1,5 +1,5 @@
 # Bao gallery, upload the images you take on the street and sell them if you will.
-https://img.shields.io/github/last-commit/GonzRodriguez/BaoGallery
+![GitHub last commit](https://img.shields.io/github/last-commit/GonzRodriguez/BaoGallery)
 
 ### Since I show a beautiful picture of a girl that wasn't clearly aware that she was being captured by a camera, I had this idea that everyone would want to be the protagonist of that picture. In fact, she was the one who posted on facebook. 
 
