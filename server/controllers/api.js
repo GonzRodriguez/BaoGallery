@@ -9,6 +9,7 @@ const Post = require("../models/post.js")
 const formidable = require("formidable");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
+const Client = require("../models/client.js");
 
 // POSTS
 
@@ -36,6 +37,7 @@ exports.fetchProfile = async (req, res) => {
 
 exports.fetchPosts = async (req, res) => {
     const { key, entry } = req.params
+
     try {
         switch (key) {
             case "profile":
@@ -97,10 +99,10 @@ exports.search = async (req, res) => {
 
 
 exports.createPost = async (req, res) => {
-    const { creatorId, creator, createdAt, price, tags, title, date, imgCollection} = req.body
+    const { creatorId, creator, createdAt, price, tags, title, date, imgCollection, client} = req.body
     console.log(req.body);
     const postsPath = `/uploads/${creator}/${imgCollection}/${title}`
-    const newPost = new Post({ creatorId, creator, createdAt, title, price: price.value, tags: tags.value, date, postsPath, imgCollection })
+    const newPost = new Post({ creatorId, creator, createdAt, title, price: price.value, tags: tags.value, date, postsPath, imgCollection, client })
     try {
         newPost.save();
     User.findById(creatorId, (err, user) => {
@@ -196,7 +198,6 @@ exports.updatePost = async (req, res) => {
 
 exports.deletePost = async (req, res) => {
     const { id, userId } = req.params;
-    console.log(req.params);
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
     try {
@@ -350,3 +351,41 @@ exports.logout = async (req, res, next) => {
     }
     
 } 
+
+exports.createClient = async (req, res) => {
+    const { email, name, keywords, notes, _id: creatorId} = req.body;
+    console.log("the body ", req.body);
+    const newClient = new Client({ email, name, keywords, notes, creatorId })
+    await newClient.save()
+    User.findById(creatorId, (err, user) => {
+        if (err) throw err;
+        if (!user) return res.status(403)
+        user.clients.push(newClient._id)
+        user.save()
+        console.log(newClient);
+    })
+    return res.status(201).json("Added contact details to your list");
+}
+exports.getClientList = async (req, res) => {
+    const {_id} = req.body;
+    User.findById({_id: _id}).populate("clients").exec((err, user) => {
+        if (err) throw err;
+        return res.status(200).json(user.clients)
+    })
+}
+exports.deleteClientFromList = async (req, res) => {
+    const { clientId, userId } = req.body
+    console.log(req.body);
+    try {
+        if (!mongoose.Types.ObjectId.isValid(clientId)) return res.status(404).send(`No client with id: ${clientId} or user wiht id ${userId}, ${req.body}`);
+        await Client.findByIdAndRemove(clientId).then(res.status(202    ).send(`Post with id${clientId} deleted`));
+        const user = await User.findById(userId)
+        user.clients.splice(user.posts.indexOf(clientId), 1)
+        await user.save()
+    } catch (error) {
+        console.log(error);
+    }
+}
+exports.updateClient = async (req, res) => {
+
+}

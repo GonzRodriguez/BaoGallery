@@ -32,15 +32,15 @@ function ProfileCard(props) {
                 subheader={<> {props.profile.bio}  </>}
                 action={user?._id === props.profile._id && <EditProfileForm alert={alert} />}
             />
-            <Typography variant="body2" style={{ marginInline: "1rem" }}><span>{props.profile.email}</span></Typography>
-            <Typography variant="body2" style={{ marginInline: "1rem" }}><span>{props.profile.webpage && props.profile.webpage}</span></Typography>
+            <Typography variant="subtitle2" style={{ marginInline: "1rem" }}><span>{props.profile.email}</span></Typography>
+            <Typography variant="subtitle2" style={{ marginInline: "1rem" }}><span>{props.profile.webpage && props.profile.webpage}</span></Typography>
             <Divider/>
             <div style={{display: "flex", flexWrap: "wrap", margin: "1rem"}} >
             {Object.entries(accounts).map(account => {
                 return (
                 account[1] &&
                     <Grid item key={account[0]} >
-                        <Typography variant="body1" style={{ marginInline: ".3rem" }}>
+                        <Typography variant="caption" style={{ marginInline: ".3rem" }}>
                             {<i className={`fab fa-${account[0]}`}>&nbsp;</i>}
                             {_.upperFirst(account[1])}
                         </Typography>

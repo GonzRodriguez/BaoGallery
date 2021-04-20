@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const postSchema = new Schema({
     creator: { type: String, index: true, text: true },
     creatorId: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    client: [{ type: Schema.Types.ObjectId, ref: 'Client' }],
     price: Number,
     tags: { type: [String], index: true, text: true },
     postsPath: String,

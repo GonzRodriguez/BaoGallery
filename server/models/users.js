@@ -19,7 +19,8 @@ const userSquema = new Schema({
     refreshToken: String,
     webpage: String,
     socialMediaAccounts: socialMediaAccounts,
-    posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
+    posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
+    clients: [{ type: Schema.Types.ObjectId, ref: 'Client' }],
 });
 
 // userSquema.plugin(passportLocalMongoose);
