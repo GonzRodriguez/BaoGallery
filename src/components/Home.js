@@ -1,70 +1,32 @@
 /* eslint-disable no-unused-expressions */
 import React from "react";
-import { makeStyles, useMediaQuery } from "@material-ui/core";
+import { makeStyles, useMediaQuery, Divider } from "@material-ui/core";
 import { useTheme } from '@material-ui/core/styles';
-import SearchInput from "./Action-Components/SearchInput";
-
+import Login from "./Auth/Login"
 const useStyles = makeStyles((theme) => ({
     root: {
     },
+    loginComponent: {
+        width: "50%"
+    },
+    heroImg:{
+        width: "40%",
+        height: "80vmin"
+    },
     heroLg: {
         width: "100%",
-        height: "70vh",
-        position: "relative"
+        paddingInline: "10rem",
+        paddingTop: "3rem",
+        position: "relative",
+        display: "flex", 
+        justifyContent: "space-between"
     },
      heroSm: {
         width: "100%",
         height: "70vh",
         position: "relative"
     },
-    heroBgCameraLg: {
-        position: "absolute",
-        width: "100vw",
-        height: "inherit",
-        padding: "30px"
-    },
-    heroBgCameraSm: {
-        position: "absolute",
-        width: "inherit",
-        height: "inherit",
-        right: "-20%",
-        top: "15%"
-    },
-    searchInputElementLg: {
-        position: "absolute",
-        right: "15%",
-        top: "41%"
-    },
-    searchInputElementSm: {
-        position: "absolute",
-        right: "2%",
-        top: "10%"
-    }, 
-    searchInput: {
-        backgroundColor: "#e9e9e9",
-        height: "3rem",
-        width: "30vw",
-        minWidth: "300px",
-        padding: "9px",
-        fontFamily: "Saira Condensed",
-        fontWeight: 600,
-        fontSize: "1rem",
-        margin: "10px",
-        boxShadow: "-5px 5px 0px black",
-        border: theme.border.border,
-        cursor: "pointer",
-        transition: "ease-in-out .2s ",
-        borderRadius: 0,
-        '&:focus': {
-            backgroundColor: "#c9c9c9",
-        },
-        "&:hover": {
-            boxShadow: "0px 0px 0px black;",
-            backgroundColor: "#c9c9c9",
-            transition: "ease-in-out .2s "
-        }
-
-    },
+ 
     about: {
         width: "100vw",
         height: "fit-content",
@@ -111,17 +73,15 @@ function Home() {
         <>
                 { matches ? 
                 <section className={classes.heroLg}>
-                    <img src="camera.svg" alt="camera" className={classes.heroBgCameraLg}/>
-                    <div className={classes.searchInputElementLg}>
-                        <SearchInput styleName={classes.searchInput}/>
+                    <Login className={classes.loginComponent}/>
+                    <Divider orientation="vertical" flexItem />
+                    <div className={classes.heroImg}>
+                        <img src="./084-photographer-monochrome.svg" alt="Hero" style={{ height: "80%", width: "100%"}}/>
                     </div>
                 </section>
                 :
                 <section className={classes.heroSm}>
-                    <img src="camera.svg" alt="camera" className={classes.heroBgCameraSm} />
-                        <div className={classes.searchInputElementSm}>
-                        <SearchInput styleName={classes.searchInput}/>
-                        </div>
+                    <Login />
                 </section>
                 }
             <section className={classes.about} >
