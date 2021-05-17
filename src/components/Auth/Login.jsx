@@ -5,7 +5,6 @@ import { makeStyles, Avatar, Button, CssBaseline, InputBase, fade, Link, Grid, T
 import { UserContext } from '../../context/UserContext'
 import { ApiContext } from '../../context/ApiContext'; 
 import CloseIcon from '@material-ui/icons/Close';
-import _ from "lodash"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -83,7 +82,7 @@ export default function LogIn(props) {
 
 
       try {
-          api.login({ username: _.toLower(loginUsername), password: loginPassword })
+          api.login({ username: loginUsername.toLowerCase(), password: loginPassword })
               .then( async function (response) {
                   localStorage.clear()
                   console.log(response);
@@ -198,14 +197,9 @@ export default function LogIn(props) {
                         Log In
                     </Button>
                     <Grid container>
-                        <Grid item xs>
-                            <Link href="/login" color="textSecondary">
-                                Forgot password?
-                            </Link>
-                        </Grid>
                         <br/>
                         <Grid item >
-                            <Link href="/login" color="textSecondary">
+                            <Link href="/signup" color="textSecondary">
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>

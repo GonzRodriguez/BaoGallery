@@ -8,11 +8,16 @@ const notAuthenticatedMenuItems = [
     },
     {
         key: 1,
+        menuTitle: "About",
+        pageURL: "/about"
+    },
+    {
+        key: 2,
         menuTitle: "Login",
         pageURL: "/login"
     },
     {
-        key: 2,
+        key: 3,
         menuTitle: "Sign up",
         pageURL: "/signup"
     },
@@ -30,6 +35,11 @@ const authenticatedMenuItems = [
         key: 1,
         menuTitle: "Dashboard",
         pageURL: "/dashboard"
+    },
+     {
+        key: 2,
+        menuTitle: "About",
+        pageURL: "/about"
     },
 
 

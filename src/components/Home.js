@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import React from "react";
-import { makeStyles, useMediaQuery, Divider } from "@material-ui/core";
+import { makeStyles, useMediaQuery, Divider, Grid, Card, CardContent, CardMedia, Typography } from "@material-ui/core";
 import { useTheme } from '@material-ui/core/styles';
 import Login from "./Auth/Login"
 const useStyles = makeStyles((theme) => ({
@@ -21,18 +21,11 @@ const useStyles = makeStyles((theme) => ({
         display: "flex", 
         justifyContent: "space-between"
     },
-     heroSm: {
-        width: "100%",
-        height: "70vh",
-        position: "relative"
-    },
- 
     about: {
         width: "100vw",
         height: "fit-content",
         position: "relative",
         display: "flex",
-        alignItems: "center"
     },
     aboutBg: {
         backgroundColor: "#efefefcc",
@@ -44,21 +37,12 @@ const useStyles = makeStyles((theme) => ({
     },
     aboutDescription: {
         height: "fit-content",
-        width: "100vw",
         display: "flex",
-        justifyContent: "center",
-        alignItems: "baseline",
         padding: "10%",
-        flexWrap: "wrap"
     },
-    aboutItemLg: {
-        display: "flex",
-        flexBasis: "30%",
-        flexDirection: "column",
-        minWidth: "30vh",
-        margin: "1rem",
-    }, 
-
+    card: {
+        marginBlock: "20px"
+    }
 
 }));
 
@@ -66,7 +50,7 @@ function Home() {
     // const user = useContext(UserContext)
     const classes = useStyles();
     const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.up('sm'));
+    const matches = useMediaQuery(theme.breakpoints.up('md'));
     
 
     return (
@@ -76,7 +60,7 @@ function Home() {
                     <Login className={classes.loginComponent}/>
                     <Divider orientation="vertical" flexItem />
                     <div className={classes.heroImg}>
-                        <img src="./084-photographer-monochrome.svg" alt="Hero" style={{ height: "80%", width: "100%"}}/>
+                        <img src="./084-photographer-monochrome.svg" alt="Hero" style={{ height: "80%",  minWidht: "400px", margin: "2rem"}}/>
                     </div>
                 </section>
                 :
@@ -86,27 +70,86 @@ function Home() {
                 }
             <section className={classes.about} >
                 <div className={classes.aboutBg}/>
-                <div className={classes.aboutDescription}>
-                    <div className={classes.aboutItemLg} >
-                        <p style={{ margin: "1.2rem", padding: ".2rem", fontFamily: "Saira Condensed", fontSize: "3.5vw", fontWeight: 300 }}>
-                            A place to <strong>share</strong> the best of your street walks. 
-                        </p>
-                        <i className="fas fa-project-diagram" style={{ fontSize: "5rem", textAlign: "center" }}></i>
-                    </div>
-                    <div className={classes.aboutItemLg }>
-                        <p style={{ margin: "1.2rem", padding: ".2rem", fontFamily: "Saira Condensed", fontSize: "3.5vw", fontWeight: 300 }}>
-                            <strong>Get in touch</strong> with the people you find on the street when the pictures are ready. 
-                        </p>
-                        <i className="far fa-paper-plane" style={{ fontSize: "5rem", textAlign: "center" }}></i>
-                    </div>
-                    <div className={classes.aboutItemLg}>
-                        <p style={{ margin: "1.2rem", padding: ".2rem", fontFamily: "Saira Condensed", fontSize: "3.5vw", fontWeight: 300 }}>
-                            Open a door to freelancing world by <strong>selling your art</strong>. 
-                        </p>
-                        <i className="far fa-handshake" style={{ fontSize: "5rem", textAlign: "center" }}></i>
-                    </div>
-                    {/* <img src="" alt="home images" style={{ width: "30vw", height: "50vh", border: "solid 5px black", boxShadow: "-5px 5px 0px black", margin: "1.2rem" }}/> */}
-                </div>
+                    <Grid container spacing={1} className={classes.aboutDescription}>
+                        <Grid item xs={12} sm={6}>
+                            <Grid item>
+                                <Card className={classes.card}>
+                                    <CardMedia
+                                        className={classes.media}
+                                        component="img"
+                                        image="https://i.gyazo.com/e4ed5a0cd9b0084dc558e3b3f1850c3e.png"
+                                        title="Authenticated Users"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            User Authentication
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary" component="p">
+                                            Create diferent profiles using JWT refresh and access token.
+                                            All the users get stored in MongoDB atlas
+                                        </Typography>
+
+                                    </CardContent>
+                                </Card>                        
+                                <Card className={classes.card}>
+                                    <CardMedia
+                                        className={classes.media}
+                                        component="img"
+                                        image="https://i.gyazo.com/12bfee8dc9e7cdfdacf12fa5f8e75b74.png"
+                                        title="search bar"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            Search Bar
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary" component="p">
+                                            Search users, tags & collections with the powered by MongoDB Atlas search bar.
+                                        </Typography>
+
+                                    </CardContent>
+                                </Card>
+                                
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Grid item>
+                                <Card className={classes.card}>
+                                    <CardMedia
+                                        className={classes.media}
+                                        component="img"
+                                        image="https://i.gyazo.com/6445f4bfc1cba22fd5dfbca5b1c7bd57.png"
+                                        title="upload images"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            Upload Images
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary" component="p">
+                                            Drag and drop or select feature in order to upload the images to the node.js server.
+                                        </Typography>
+
+                                    </CardContent>
+                                </Card>
+                            <Card className={classes.card}>
+                                    <CardMedia
+                                        className={classes.media}
+                                        component="img"
+                                        image="https://i.gyazo.com/5f6d3189e031d243a995d5ac3e3169ba.png"
+                                        title="filter images"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            Filter Images
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary" component="p">
+                                            Find images in the dashboard by tag, date or collection
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+
+                            </Grid>
+                        </Grid>
+                    </Grid>
             </section>
         </>
     );

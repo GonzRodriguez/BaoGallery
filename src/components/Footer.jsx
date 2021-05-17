@@ -1,34 +1,54 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Link from '@material-ui/core/Link';
-
+import { Divider, Link, Typography, Grid, List, ListItemText, ListItem} from "@material-ui/core/"
 
 function Copyright() {
     return (
-        <Typography variant="body2" color="textSecondary" align="center">
+        <Typography variant="body2" color="textSecondary" align="center" style={{marginTop: "3rem"}}>
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Photure
-            </Link>{' '}
+            <Link color="inherit" href="https://www.baogallery.herokuapp.com">
+                Bao Gallery
+            </Link>
+            {' '}
             {new Date().getFullYear()}
-            {'.'}
         </Typography>
     );
 }
-
+function ListItemLink(props) {
+    return <ListItem button component="a" {...props} />;
+}
 
 export default function footer() {
     return (
-        <Grid position="fixed"  >
-                    {/* <Typography className={classes.text} variant="h5" align="center">{"A ver que sale"}</Typography> */}
-                <Box mt={5}>
-                    <Copyright />
-                </Box>
+        <div style={{ padding: "5rem" }}>
+        <Grid container spacing={2} >
+            <Grid container xs={6} alignItems="center" justify="center"> 
+                <Typography variant="body2" color="textPrimary" align="center">
+                    Made with ❤ by&nbsp;         
+                    <Link color="textPrimary" href="https://www.grgslamanca.com/" >
+                        <b>Gonzalo Rodriguez</b>
+                    </Link>
+                </Typography>
+            </Grid>
+                    <Divider orientation="vertical" flexItem />
+            <Grid item xs>
+                    <List component="nav" aria-label="secondary mailbox folders">
+                        <ListItemLink href="/about">
+                            <ListItemText primary="About This Website" />
+                        </ListItemLink>
+                        <ListItemLink href="https://github.com/GonzRodriguez">
+                            <ListItemText primary="GitHub" />
+                        </ListItemLink>
+                        <ListItemLink href="https://www.linkedin.com/in/developer-gonzalo-rgs/">
+                            <ListItemText primary="Linkedin" />
+                        </ListItemLink>
+                    </List>
+            </Grid>
         </Grid>
+            <Copyright />
+
+        </div>
       
     )
 }

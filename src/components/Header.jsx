@@ -2,11 +2,9 @@
 import React, { useContext, useState} from "react";
 import SearchInput from "./Action-Components/SearchInput";
 import  {withRouter}  from "react-router";
-import { makeStyles, useMediaQuery, AppBar, Toolbar, Typography, Button, useTheme} from "@material-ui/core";
+import { makeStyles, useMediaQuery, AppBar, Toolbar, Typography, Button, useTheme, Link} from "@material-ui/core";
 import { IsAuthContext } from "../context/IsAuthContext";
 import RightDrawer from "./Drawer/Drawer"
-import SearchIcon from "@material-ui/icons/Search"
-
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -16,7 +14,8 @@ const useStyles = makeStyles(theme => ({
         fontFamily: "Righteous",
         fontSize: "2.5rem",
         fontWeight: "bold",
-        cursor: "pointer"
+        cursor: "pointer",
+        flex: 1
     },
     toolbar: {
         display: "flex",
@@ -68,7 +67,7 @@ const useStyles = makeStyles(theme => ({
 const Header = () => {
     const classes = useStyles();
     const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.up('sm'));
+    const matches = useMediaQuery(theme.breakpoints.up('md'));
     const [anchorEl, setAnchorEl] = useState(false);
     const isAuth = useContext(IsAuthContext)
 
@@ -94,29 +93,26 @@ const Header = () => {
             <AppBar  position="static" color="transparent">
                 <Toolbar className={classes.toolbar} >
                     <Typography variant="h6" className={classes.title} onClick={() => { window.location = "/" }}> BAO GALLERY </Typography>
-                {!isAuth.auth && window.location.pathname !== "/" && <SearchInput styleName={classes.searchInput} /> }
-                        {matches ?
-                            <div className={classes.navBarButtons} style={{ visibility: handleDisplayButtons() }}>
-                                <Button mx={2} py={2} style={{ height: "2.5rem", borderRadius: 0 }} onClick={() => { window.location = "/login" }}>LogIn</Button>
-                                <Button className={classes.actionUpButton} onClick={() => { window.location = "/signup" }}> SignUp </Button>
-                            </div>
-                            :
+                            {matches ? 
                             <>
-                            <div className={classes.search}>
-                                <div className={classes.searchIcon}>
-                                    <SearchIcon  />
+                            {window.location.pathname !== "/about" && <Link href="/about"  color="textPrimary" variant="button">ABOUT</Link>}
+                            <SearchInput styleName={classes.searchInput} />
+                            {window.location.pathname !== ("/" || "/login" || "/signup") &&
+                                <div className={classes.navBarButtons} style={{ visibility: handleDisplayButtons() }}>
+                                    <Button mx={2} py={2} style={{ height: "2.5rem", borderRadius: 0 }} onClick={() => { window.location = "/login" }}>LogIn</Button>
+                                    <Button className={classes.actionUpButton} onClick={() => { window.location = "/signup" }}> SignUp </Button>
                                 </div>
-                            </div>
-                            <RightDrawer anchor={anchorEl} onClick={() => { handleDrawerBreakPoint() }} />
+                            }
+
                             </>
+                            :
+                            <RightDrawer anchor={anchorEl} onClick={() => { handleDrawerBreakPoint() }} />
                         }
-                {isAuth.auth && window.location.pathname !== "/" && <SearchInput styleName={classes.searchInput} />}
                 {handleDrawerAuth()}
                 </Toolbar>
             </AppBar>
     );
 };
-//  the header component can be wrapped in a withRouter function, 
-// This gives the Header component access to this.props.history, which means the header can now redirect the user.:
+
 
 export default withRouter(Header);

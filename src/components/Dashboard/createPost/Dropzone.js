@@ -140,6 +140,7 @@ export default function Dropzone(props) {
             fd.append("collection", image.imgCollection)
             api.uploadImage(fd).then(res => console.log("uploaded image", res))
             api.createPost(img).then(res => console.log("created post", res))
+            window.location = "/dashboard"
         
     }
 

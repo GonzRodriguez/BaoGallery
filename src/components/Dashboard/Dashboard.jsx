@@ -60,7 +60,6 @@ export default function Dashboard() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
     return (
         <Container maxWidth="lg" style={{margin: "1rem 0 1rem 0"}}>
             {!matches && 
@@ -74,17 +73,16 @@ export default function Dashboard() {
                         <Tabs value={value} onChange={handleChange} aria-label="tabs" centered>
                             <Tab value="one" label="All your photos"  {...a11yProps('one')} />
                             <Tab value="two" label="Upload" {...a11yProps('two')} />
-                            <Tab value="three" label="filter" {...a11yProps('three')} />
                         </Tabs>
                     </AppBar>
                     <TabPanel value={value} index="one">
-                        {!user.posts ? 
+                        {user.posts.length > 0 ? 
+                        <Posts collection={"profile"} query={user.username} /> 
+                        :
                         <div style={{display: "flex", justifyContent: "center", flexDirection: "column"}}>
                             <Typography variant="h4" align="center">Nothing uploaded yet</Typography>
                             <img src="/nothing-uploaded.svg" alt="No posts yet" style={{ height: "70vmin"}}/>
                         </div>
-                        :
-                        <Posts collection={"profile"} query={user.username} /> 
                         }
                     </TabPanel>
                     <TabPanel value={value} index="two">

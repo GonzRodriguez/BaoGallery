@@ -8,6 +8,7 @@ import Login from "./components/Auth/Login"
 import Signup from "./components/Auth/Signup"
 import Home from "./components/Home"
 import Profile from "./components/Profile"
+import About from "./components/About"
 import Collection from "./components/Collection"
 import ProtectedRoute from "./components/ProtectedRoute"
 import { Route, Switch } from "react-router-dom";
@@ -51,8 +52,9 @@ function  App() {
           <CssBaseline />
             <Header />
               <Switch>
-                <Route exact from="/Home" component={Home} />
+                <Route exact from="/home" component={Home} />
                 <Route exact from="/" component={Home} />
+                <Route exact from="/about" component={About} />
                 <ProtectedRoute exact path="/dashboard" component={Dashboard}/> 
                 <Route exact path="/signup" component={Signup} /> 
                 <Route exact path="/login" component={Login} />

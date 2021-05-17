@@ -6,7 +6,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MenuIcon from "@material-ui/icons/Menu";
 import IconButton from "@material-ui/core/IconButton";
 import Drawer from "@material-ui/core/Drawer";
+import SearchInput from "../Action-Components/SearchInput";
 import List from '@material-ui/core/List';
+import { useMediaQuery, useTheme } from "@material-ui/core";
 import { notAuthenticatedMenuItems, authenticatedMenuItems } from "./drawerMenuItems"
 
 
@@ -25,10 +27,27 @@ const useStyles = makeStyles(theme => ({
     list: {
         width: 250,
     },
+    searchInput: {
+        position: 'relative',
+        borderRadius: "5px",
+        paddingInline: ".5rem",
+        backgroundColor: theme.palette.grey[200],
+        '&:hover': {
+            backgroundColor: theme.palette.grey[300],
+        },
+        marginTop: theme.spacing(2),
+        marginInline: theme.spacing(2),
+        width: '90%',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(3),
+            width: 'auto',
+        },
+    }
 }));
 
 export default function RightDrawer(props){
-
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up('md'));
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(props.anchorEl);
     const user = useContext(UserContext)
@@ -49,6 +68,7 @@ export default function RightDrawer(props){
             <MenuIcon />
         </IconButton>
         <Drawer id="menu-appbar" anchor={"right"} keepMounted open={open} onClose={() => setAnchorEl(null)} >   
+                {!matches && <SearchInput styleName={classes.searchInput} />}
                 <List style={{ display: !user ? 'block' : 'none' }} className={classes.list}>
                     {notAuthenticatedMenuItems.map(menuItem => {
                         const { key, menuTitle, pageURL } = menuItem;
