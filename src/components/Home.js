@@ -39,9 +39,6 @@ const useStyles = makeStyles((theme) => ({
         height: "fit-content",
         display: "flex",
         padding: "10%",
-    },
-    card: {
-        marginBlock: "20px"
     }
 
 }));
@@ -71,9 +68,14 @@ function Home() {
             <section className={classes.about} >
                 <div className={classes.aboutBg}/>
                     <Grid container spacing={1} className={classes.aboutDescription}>
+                    <Grid item xs={12} align="right">
+                    <Typography variant="h2" color="textPrimary" gutterBottom>
+                        Website features
+                    </Typography>
+                    </Grid>
                         <Grid item xs={12} sm={6}>
                             <Grid item>
-                                <Card className={classes.card}>
+                                <Card >
                                     <CardMedia
                                         className={classes.media}
                                         component="img"
@@ -91,7 +93,7 @@ function Home() {
 
                                     </CardContent>
                                 </Card>                        
-                                <Card className={classes.card}>
+                                <Card style={{marginTop: "10px"}}>
                                     <CardMedia
                                         className={classes.media}
                                         component="img"
@@ -103,7 +105,7 @@ function Home() {
                                             Search Bar
                                         </Typography>
                                         <Typography variant="body2" color="textSecondary" component="p">
-                                            Search users, tags & collections with the powered by MongoDB Atlas search bar.
+                                            Search bar powered by MongoDB Atlas to search for users, tags and collections among the database.  
                                         </Typography>
 
                                     </CardContent>
@@ -113,7 +115,7 @@ function Home() {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <Grid item>
-                                <Card className={classes.card}>
+                                <Card >
                                     <CardMedia
                                         className={classes.media}
                                         component="img"
@@ -130,7 +132,7 @@ function Home() {
 
                                     </CardContent>
                                 </Card>
-                            <Card className={classes.card}>
+                            <Card style={{marginTop: "10px"}}>
                                     <CardMedia
                                         className={classes.media}
                                         component="img"

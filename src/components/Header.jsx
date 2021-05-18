@@ -2,7 +2,7 @@
 import React, { useContext, useState} from "react";
 import SearchInput from "./Action-Components/SearchInput";
 import  {withRouter}  from "react-router";
-import { makeStyles, useMediaQuery, AppBar, Toolbar, Typography, Button, useTheme, Link} from "@material-ui/core";
+import { makeStyles, useMediaQuery, AppBar, Toolbar, Typography, Button, useTheme} from "@material-ui/core";
 import { IsAuthContext } from "../context/IsAuthContext";
 import RightDrawer from "./Drawer/Drawer"
 
@@ -95,7 +95,7 @@ const Header = () => {
                     <Typography variant="h6" className={classes.title} onClick={() => { window.location = "/" }}> BAO GALLERY </Typography>
                             {matches ? 
                             <>
-                            {window.location.pathname !== "/about" && <Link href="/about"  color="textPrimary" variant="button">ABOUT</Link>}
+                        {window.location.pathname !== "/about" && <Button href="/about" style={{ height: "2.5rem", borderRadius: 0 }}>ABOUT</Button>}
                             <SearchInput styleName={classes.searchInput} />
                             {window.location.pathname !== ("/" || "/login" || "/signup") &&
                                 <div className={classes.navBarButtons} style={{ visibility: handleDisplayButtons() }}>
