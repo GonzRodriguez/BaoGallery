@@ -20,8 +20,14 @@ export default function About() {
                 <img src="tenor.gif" alt="hello" width="400px"/>
                 <Typography variant="subtitle1" color="textSecondary" component="p">
                 <br/>
-                Once all the jokes are made, I wanted to explain the meaning of this website. Due all the noobie mistakes I've made in the first place and seeing what a professional web looks like and the amount of improvements this web could have,
-                I decided to deploy the app, and start the app from scratch. The new web will use tools like dockers, CI/CD, typescript, next.js among other, and I will work on improving the security. But is not all bad news about deploying an unfinished app. It is a representation of what I'm able to achieve and that I'm able to get things done.
+                Once all the jokes are made, I wanted to explain the meaning of this website. 
+                Due all the newbie mistakes I've made in the first place and seeing what a professional web looks like and the amount of improvements this 
+                web could have. I'm aware of the security problems, the mess in the code, the unfinished components and much more.
+                So I decided to deploy the app, and start from scratch. The new web will use tools like dockers, CI/CD, typescript, next.js among 
+                other, and I will work on improving the security. 
+                <br />
+                But not everithing is wrong about deploying an unfinished app. 
+                I've learn a lot building it and It's a representation of what I'm able to achieve and that I'm able to get many things done.
                 <br/>
                 I hope that at least you can come through all these mistakes and see my real skills.
                 <br />

@@ -3,7 +3,6 @@ import { makeStyles, Modal, Backdrop, Fade, Button, FilledInput, FormHelperText,
 import { UserContext } from "../../context/UserContext"
 import { ApiContext } from '../../context/ApiContext';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import FileBase from 'react-file-base64'
 import Spinner from "../Action-Components/spinner" 
 
 
@@ -112,12 +111,6 @@ export default function EditProfileForm() {
                                 <Box m={1}  >
                                     <Avatar alt="Avatar" src={avatar} className={classes.large} />
                                 </Box>
-                                
-                                    <FileBase
-                                        type="file"
-                                        multiple={false}
-                                        onDone={({ base64 }) => setProfileData({ ...profileData, avatar: base64 })}
-                                    />
                                 </Box>
                                 <Box m={1}>
                                 <FormControl variant="filled" fullWidth>

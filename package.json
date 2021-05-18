@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-  "node": "v12.18.3"
+    "node": "v12.18.3"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
@@ -25,12 +25,11 @@
     "react-alert-template-basic": "^1.0.0",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.2.4",
-    "react-file-base64": "^1.0.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
+    "babel-cli": "^6.18.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-0": "^6.24.1",
     "nodemon": "^2.0.3"
