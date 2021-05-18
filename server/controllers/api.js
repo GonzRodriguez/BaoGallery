@@ -1,10 +1,8 @@
 
 const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs")
-// const passport = require("passport")
 const fs = require("fs"); 
 const path = require("path")
-
 const Client = require("../models/client.js");
 const User = require("../models/users.js")
 const Post = require("../models/post.js")

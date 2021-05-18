@@ -6,7 +6,6 @@ const helmet = require("helmet");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
-const passport = require("passport");
 const methodOverride = require('method-override');
 const session = require("express-session")
 const cookieParser = require("cookie-parser")
@@ -43,11 +42,7 @@ app.use(cors({
     }
   }));
 
-  
-  app.use(passport.initialize());
-  app.use(passport.session());
-  
-  require("./config/passportConfig")(passport);
+
 
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true}, () => { console.log("Mongoose is connected"); });
 mongoose.set("useCreateIndex", true);
