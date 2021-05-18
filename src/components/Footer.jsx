@@ -16,7 +16,7 @@ function Copyright() {
     );
 }
 function ListItemLink(props) {
-    return <ListItem button component="a" {...props} />;
+    return <ListItem button component="a" {...props} target="_blank" rel="noreferrer" />;
 }
 
 export default function footer() {
