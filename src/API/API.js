@@ -5,11 +5,11 @@ const headers = {
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "https://localhost:3001"
+                "Access-Control-Allow-Origin": "https://baogallery.herokuapp.com/"
                     }
             }
 
-const url = 'http://localhost:3000/api';
+const url = 'https://baogallery.herokuapp.com/api';
 
 export const fetchPost = (postId) => axios.get(`${url}/post/${postId}`);
 export const fetchPosts = (collection, query) => axios.get(`${url}/posts/${collection}/${query}`);
