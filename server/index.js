@@ -43,7 +43,6 @@ app.use(cors({
   }));
 
 
-
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true}, () => { console.log("Mongoose is connected"); });
 mongoose.set("useCreateIndex", true);
 

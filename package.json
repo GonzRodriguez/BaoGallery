@@ -2,8 +2,10 @@
   "name": "baogallery",
   "version": "0.1.0",
   "private": true,
+  "main": "server/index.js",
   "engines": {
-    "node": "v12.18.3"
+    "node": "v12.18.3",
+    "npm": "7.9.0"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
