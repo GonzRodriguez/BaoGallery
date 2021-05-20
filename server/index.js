@@ -1,5 +1,5 @@
 // import routes from "./router/api.mjs"
-
+require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
@@ -10,7 +10,7 @@ const methodOverride = require('method-override');
 const session = require("express-session")
 const cookieParser = require("cookie-parser")
 
-require("dotenv").config();
+
 
 const app = express();
 
