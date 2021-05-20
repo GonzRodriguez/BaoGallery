@@ -5,7 +5,7 @@ const headers = {
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "http://localhost:3001"
+                "Access-Control-Allow-Origin": "http://localhost:3001/"
                     }
             }
 

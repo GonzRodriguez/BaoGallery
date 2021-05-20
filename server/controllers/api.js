@@ -119,10 +119,11 @@ exports.createPost = async (req, res) => {
 }
 
 exports.uploadImage =  (req, res, next) => {
-    const dir = "../public/uploads/"
+    const dir = "./client/public/uploads/"
     const form = new formidable.IncomingForm();
     form.parse(req, (err, fields, files) => {
         if (err)  throw err
+        console.log(fields);
         const oldPath = files.image.path;
         const newPath = path.join(dir, fields.creator) + `/${fields.collection}/` + files.image.name
         const rawData = fs.readFileSync(oldPath)
@@ -132,6 +133,7 @@ exports.uploadImage =  (req, res, next) => {
         if (fs.existsSync(dir + fields.creator + `/${fields.collection}/`)) {
             fs.writeFile(newPath, rawData, function (err) {
                 if (err) console.log(err)
+                console.log(`uploaded in ${newPath}` );
                 return res.send("Successfully uploaded")
             })
         } else {
@@ -139,6 +141,7 @@ exports.uploadImage =  (req, res, next) => {
                 if (err) throw err;
                 fs.writeFile(newPath, rawData, function (err) {
                     if (err) console.log(err)
+                    console.log(`uploaded in ${newPath}`);
                     return res.send("Successfully uploaded")
                 })
                 console.log("created");
@@ -270,6 +273,7 @@ exports.isAuth = async (req, res) => {
 exports.login = async (req, res) => {
 
     const {username, password} = req.body
+    console.log(username, password)
 
     function handleLogin(){
 

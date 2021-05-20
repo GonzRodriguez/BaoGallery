@@ -10,13 +10,11 @@ const methodOverride = require('method-override');
 const session = require("express-session")
 const cookieParser = require("cookie-parser")
 
-
-
 const app = express();
 
 // morgan is a middleware that allows us to easily log requests, errors, and more to the console
 app.use(morgan("common"));
-// Helmet.js is a Node.js module that helps you secure HTTP headers returned by your Express apps.
+// Helmet.js helps to secure HTTP headers returned by your Express apps.
 app.use(helmet());
 // It is a mechanism to allow or restrict requested resources on a web server depend on where the HTTP request was initiated
 app.use(cors({
@@ -49,8 +47,6 @@ mongoose.set("useCreateIndex", true);
 
 const postRutes = require("./router/api.js");
 app.use('/api', postRutes)
-
-
 
 app.get("/", (req, res) => {
   res.json({
