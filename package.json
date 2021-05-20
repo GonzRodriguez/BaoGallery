@@ -10,7 +10,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "build:ui": "cd client && npm install && npm run build",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd ./client && npm install && npm run build"
 
   },
   "dependencies": {
