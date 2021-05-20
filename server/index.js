@@ -50,9 +50,7 @@ const postRutes = require("./router/api.js");
 app.use('/api', postRutes)
 
 app.get("/", (req, res) => {
-  res.json({
-    message: "Hello World!",
-  });
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
 });
 
 
