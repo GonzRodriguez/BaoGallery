@@ -2,6 +2,7 @@
 require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
+const path = require('path')
 const helmet = require("helmet");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -24,7 +25,7 @@ app.use(cors({
 }));
 
   app.use(express.json({ limit: "50mb" }));
-  app.use(express.static(__dirname));
+  app.use(express.static(path.join(__dirname, 'build')))
   app.use(methodOverride('_method'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({limit: "50mb", extended: true }));
