@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "nodemon index.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "build:ui": "cd client && npm install && npm run build"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
