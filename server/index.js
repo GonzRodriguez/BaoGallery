@@ -25,7 +25,7 @@ app.use(cors({
 }));
 
   app.use(express.json({ limit: "50mb" }));
-  app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.static(path.join(__dirname, 'client/build')))
   app.use(methodOverride('_method'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({limit: "50mb", extended: true }));
@@ -49,7 +49,7 @@ const postRutes = require("./router/api.js");
 app.use('/api', postRutes)
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+  res.sendFile('index.html', { root: "client/build" })
 });
 
 
