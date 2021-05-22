@@ -48,36 +48,36 @@ function Home() {
     const classes = useStyles();
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('md'));
-    const [state, setState] = useState()
+    // const [state, setState] = useState()
 
-    useEffect(() => {
-        callApi()
-            .then(res => setState({ response: res.express }))
-            .catch(err => console.log(err));
-    }, [])
+//     useEffect(() => {
+//         callApi()
+//             .then(res => setState({ response: res.express }))
+//             .catch(err => console.log(err));
+//     }, [])
 
 
-   const callApi = async () => {
-        const response = await fetch('/api/hello');
-        const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
+//    const callApi = async () => {
+//         const response = await fetch('/api/hello');
+//         const body = await response.json();
+//         if (response.status !== 200) throw Error(body.message);
 
-        return body;
-    };
+//         return body;
+//     };
 
-   const handleSubmit = async e => {
-        e.preventDefault();
-        const response = await fetch('/api/world', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ post: state.post }),
-        });
-        const body = await response.text();
+//    const handleSubmit = async e => {
+//         e.preventDefault();
+//         const response = await fetch('/api/world', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({ post: state.post }),
+//         });
+//         const body = await response.text();
 
-        setState({ responseToPost: body });
-    };
+//         setState({ responseToPost: body });
+//     };
 
 
     return (
@@ -95,7 +95,7 @@ function Home() {
                     <Login />
                 </section>
                 }
-            <p>{state?.response}</p>
+            {/* <p>{state?.response}</p>
             <form onSubmit={handleSubmit}>
                 <p>
                     <strong>Post to Server:</strong>
@@ -107,7 +107,7 @@ function Home() {
                 />
                 <button type="submit">Submit</button>
             </form>
-            <p>{state?.responseToPost}</p>
+            <p>{state?.responseToPost}</p> */}
             <section className={classes.about} >
                 <div className={classes.aboutBg}/>
                     <Grid container spacing={1} className={classes.aboutDescription}>
