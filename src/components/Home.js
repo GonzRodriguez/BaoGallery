@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, useMediaQuery, Divider, Grid, Card, CardContent, CardMedia, Typography } from "@material-ui/core";
 import { useTheme } from '@material-ui/core/styles';
 import Login from "./Auth/Login"
@@ -48,7 +48,37 @@ function Home() {
     const classes = useStyles();
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('md'));
-    
+    const [state, setState] = useState()
+
+    useEffect(() => {
+        callApi()
+            .then(res => setState({ response: res.express }))
+            .catch(err => console.log(err));
+    }, [])
+
+
+   const callApi = async () => {
+        const response = await fetch('/api/hello');
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+
+        return body;
+    };
+
+   const handleSubmit = async e => {
+        e.preventDefault();
+        const response = await fetch('/api/world', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ post: state.post }),
+        });
+        const body = await response.text();
+
+        setState({ responseToPost: body });
+    };
+
 
     return (
         <>
@@ -65,6 +95,19 @@ function Home() {
                     <Login />
                 </section>
                 }
+            <p>{state?.response}</p>
+            <form onSubmit={handleSubmit}>
+                <p>
+                    <strong>Post to Server:</strong>
+                </p>
+                <input
+                    type="text"
+                    value={state?.post}
+                    onChange={e => setState(e.target.value )}
+                />
+                <button type="submit">Submit</button>
+            </form>
+            <p>{state?.responseToPost}</p>
             <section className={classes.about} >
                 <div className={classes.aboutBg}/>
                     <Grid container spacing={1} className={classes.aboutDescription}>

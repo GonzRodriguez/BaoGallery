@@ -5,11 +5,11 @@ const headers = {
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "http://localhost:3000/"
+                "Access-Control-Allow-Origin": "http://localhost:5000/"
                     }
             }
 
-const url = "http://localhost:3000/api";
+const url = "/api";
 
 export const fetchPost = (postId) => axios.get(`${url}/post/${postId}`);
 export const fetchPosts = (collection, query) => axios.get(`${url}/posts/${collection}/${query}`);

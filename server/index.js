@@ -13,11 +13,11 @@ const cookieParser = require("cookie-parser")
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "..", "build")));
+// app.use(express.static(path.join(__dirname, "..", "build")));
 app.use(express.static("public"));
-app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, "..", "build", "index.html"));
-});
+// app.use((req, res, next) => {
+//   res.sendFile(path.join(__dirname, "..", "build", "index.html"));
+// });
 // morgan is a middleware that allows us to easily log requests, errors, and more to the console
 app.use(morgan("common"));
 // Helmet.js helps to secure HTTP headers returned by your Express apps.
@@ -58,14 +58,14 @@ app.post('/api/world', (req, res) => {
     `I received your POST request. This is what you sent me: ${req.body.post}`,
   );
 });
-app.get("/", (req, res) => {
-  // res.sendFile({hello: "world"});
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
+// app.get("/", (req, res) => {
+//   // res.sendFile({hello: "world"});
+//   res.sendFile(path.join(__dirname, "public", "index.html"));
+// });
 
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
 });

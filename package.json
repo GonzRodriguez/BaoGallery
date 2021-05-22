@@ -41,16 +41,18 @@
   },
   "react-scripts": "^3.4.1",
   "scripts": {
-    "start-client": "react-scripts start",
+    "client": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "watch": "nodemon --exec babel-node src/index.js",
-    "start": "npm run build && (cd server && npm start)"
+    "start": "npm run build && (cd server && npm start)",
+    "dev": "concurrently --kill-others-on-fail \"npm run client\" \"cd server && npm start\""
   },
   "eslintConfig": {
     "extends": "react-app"
   },
+  "proxy": "http://localhost:5000/",
   "resolutions": {
     "browserslist": "4.6.2",
     "caniuse-lite": "1.0.30000974"
