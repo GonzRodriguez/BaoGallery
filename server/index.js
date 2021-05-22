@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 
   // Handle React routing, return all requests to React app
   app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, "..", 'build', 'index.html'));
   });
 }
 // morgan is a middleware that allows us to easily log requests, errors, and more to the console
