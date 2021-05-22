@@ -35,7 +35,7 @@ bower_components
 .lock-wscript
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
-build/Release
+# build/Release
 
 # Dependencies
 src/node_modules/**
@@ -80,15 +80,11 @@ src/.env
 server/.env
 .env
 .env.test
-src/node_modules/**
-server/node_modules/**
-node_modules/
-jspm_packages/
-*/node_modules/*
-/node_modules
-/.pnp
-.pnp.js
-**node_modules
+**src/.env
+**server/.env
+**.env
+**.env.test
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 

@@ -1,43 +1,71 @@
 {
-  "name": "bao-gallery",
-  "version": "0.0.0",
+  "name": "baogallery",
+  "version": "0.1.0",
   "private": true,
-  "main": "server/index.js",
+  "main": "index.js",
   "engines": {
     "node": "v12.18.3",
     "npm": "7.9.0"
   },
-  "scripts": {
-    "start": "nodemon index.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+  "bin": {
+    "create-react-app": "./index.js"
   },
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/lab": "^4.0.0-alpha.56",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
-    "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
-    "debug": "~2.6.9",
-    "dotenv": "^8.2.0",
-    "eslint": "^7.25.0",
-    "express": "~4.16.1",
-    "express-session": "^1.17.1",
-    "formidable": "^1.2.2",
-    "helmet": "^4.4.1",
-    "http-errors": "~1.6.3",
+    "helmet": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.20",
-    "method-override": "^3.0.0",
-    "mongodb": "^3.6.5",
-    "mongoose": "^5.12.3",
-    "morgan": "~1.9.1",
-    "nodemon": "^2.0.7",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^6.0.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "mongoose": "^5.10.3",
+    "morgan": "^1.10.0",
+    "react": "^16.14.0",
+    "react-alert": "^7.0.2",
+    "react-alert-template-basic": "^1.0.0",
+    "react-dom": "^16.13.1",
+    "react-dropzone": "^11.2.4",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "nodemon": "^2.0.3"
+  },
+  "react-scripts": "^3.4.1",
+  "scripts": {
+    "start-client": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "watch": "nodemon --exec babel-node src/index.js",
+    "start": "npm run build && (cd server && npm start)"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "resolutions": {
+    "browserslist": "4.6.2",
+    "caniuse-lite": "1.0.30000974"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "type": "module",
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

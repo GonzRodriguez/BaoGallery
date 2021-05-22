@@ -13,6 +13,11 @@ const cookieParser = require("cookie-parser")
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, "..", "build")));
+app.use(express.static("public"));
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "..", "build", "index.html"));
+});
 // morgan is a middleware that allows us to easily log requests, errors, and more to the console
 app.use(morgan("common"));
 // Helmet.js helps to secure HTTP headers returned by your Express apps.
@@ -25,7 +30,7 @@ app.use(cors({
 }));
 
   app.use(express.json({ limit: "50mb" }));
-app.use(express.static(path.join(__dirname, 'client/build')))
+
   app.use(methodOverride('_method'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({limit: "50mb", extended: true }));
@@ -47,9 +52,15 @@ mongoose.set("useCreateIndex", true);
 
 const postRutes = require("./router/api.js");
 app.use('/api', postRutes)
-
+app.post('/api/world', (req, res) => {
+  console.log(req.body);
+  res.send(
+    `I received your POST request. This is what you sent me: ${req.body.post}`,
+  );
+});
 app.get("/", (req, res) => {
-  res.sendFile('index.html', { root: "client/build" })
+  // res.sendFile({hello: "world"});
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 
