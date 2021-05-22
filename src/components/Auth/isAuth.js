@@ -6,7 +6,7 @@ export default function isAuthUser() {
     const refreshToken = localStorage.getItem("refreshToken")
 
     if (refreshToken) {
-        return axios.post("http://localhost:5000/api/is-auth", refreshToken, {
+        return axios.post("/api/is-auth", refreshToken, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 "Access-Control-Allow-Origin": "https://localhost:5000",
