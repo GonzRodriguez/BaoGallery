@@ -41,13 +41,13 @@
   },
   "react-scripts": "^3.4.1",
   "scripts": {
-    "client": "react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "watch": "nodemon --exec babel-node src/index.js",
-    "start": "npm run build && (cd server && npm start)",
-    "dev": "concurrently --kill-others-on-fail \"npm run client\" \"cd server && npm start\""
+    "dev": "concurrently --kill-others-on-fail \"npm run start\" \"cd server && npm start\"",
+    "heroku-postbuild": "cd server && npm install && npm install --only=dev --no-shrinkwrap && nodemon index.js"
   },
   "eslintConfig": {
     "extends": "react-app"

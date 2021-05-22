@@ -13,11 +13,16 @@ const cookieParser = require("cookie-parser")
 
 const app = express();
 
-// app.use(express.static(path.join(__dirname, "..", "build")));
 app.use(express.static("public"));
-// app.use((req, res, next) => {
-//   res.sendFile(path.join(__dirname, "..", "build", "index.html"));
-// });
+if (process.env.NODE_ENV === 'production') {
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, 'build')));
+
+  // Handle React routing, return all requests to React app
+  app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  });
+}
 // morgan is a middleware that allows us to easily log requests, errors, and more to the console
 app.use(morgan("common"));
 // Helmet.js helps to secure HTTP headers returned by your Express apps.
