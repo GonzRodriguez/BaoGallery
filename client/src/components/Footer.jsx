@@ -21,7 +21,7 @@ function ListItemLink(props) {
 
 export default function footer() {
     return (
-        <div style={{ padding: "3rem", backgroundColor: "#efefefcc", marginTop: "8rem" }}>
+        <div style={{ padding: "3rem", backgroundColor: "#00000", marginTop: "8rem" }}>
             <Grid container spacing={2} alignItems="center">
                 <Grid item xs={6} zeroMinWidth>
                 <Typography variant="body2" color="textPrimary" align="center">
