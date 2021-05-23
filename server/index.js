@@ -11,16 +11,19 @@ const methodOverride = require('method-override');
 const cookieParser = require("cookie-parser")
 
 const app = express();
-console.log(path.join(__dirname, "..", "build"))
 
 app.use(express.static("public"));
-if (process.env.NODE_ENV === 'production') {
+app.use((req, res, next) => {
+  console.log(`Request_Endpoint: ${req.method} ${req.url}`);
+  next();
+});
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
   // Serve any static files
-  app.use(express.static(path.join(__dirname, "build")));
+  app.use(express.static(path.join(__dirname, "..", "client/build")));
 
   // Handle React routing, return all requests to React app
   app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "build", "index.html"));
+    res.sendFile(path.join(__dirname, "..", "client/build", "index.html"));
   });
 }
 // morgan is a middleware that allows us to easily log requests, errors, and more to the console
