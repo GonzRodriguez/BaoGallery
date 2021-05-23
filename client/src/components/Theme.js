@@ -31,7 +31,7 @@ const theme = createMuiTheme({
         borderRadius: 10
     },
     textPrimary: {
-        main: "blue"
+        main: "#0000"
     },
     textSecondary: {
         main: "#ffff"
