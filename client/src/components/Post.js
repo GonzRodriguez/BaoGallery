@@ -75,7 +75,7 @@ function Post(props) {
         props.setPosts(props.posts.filter(post => post._id !== props.post._id))
         handleClose()
     }
-
+    console.log(props.post);
     return (
         !props.post ? <Spinner /> : (
             <Card className={classes.root}>
