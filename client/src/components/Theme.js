@@ -21,7 +21,7 @@ const theme = createMuiTheme({
             main: "#000",
         },
         background:{
-            default: "blue"
+            default: "white"
         },
         info: {
             main: "#4A0738"
@@ -31,7 +31,7 @@ const theme = createMuiTheme({
         borderRadius: 10
     },
     textPrimary: {
-        main: "#0000"
+        main: "blue"
     },
     textSecondary: {
         main: "#ffff"
