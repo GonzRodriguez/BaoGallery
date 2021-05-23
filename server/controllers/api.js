@@ -35,20 +35,21 @@ exports.fetchProfile = async (req, res) => {
 }
 
 exports.fetchPosts = async (req, res) => {
-    const { key, entry } = req.params
+    const { collection, query } = req.body
+    console.log(req.body);
 
     try {
-        switch (key) {
+        switch (collection) {
             case "profile":
-                const posts = await Post.find({creator: entry.replace("-", " ")});
+                const posts = await Post.find({creator: query.replace("-", " ")});
                 res.status(200).send(posts);
                 break;
             case "tags":
-                const tags = await Post.find({ tags: entry.replace("-", " ") });
+                const tags = await Post.find({ tags: query.replace("-", " ") });
                 res.status(200).send(tags);
                 break;
             case "collection":
-                const collection = await Post.find({ imgCollection: entry.replace("-", " ") });
+                const collection = await Post.find({ imgCollection: query.replace("-", " ") });
                 res.status(200).send(collection);
                 break;
             default:

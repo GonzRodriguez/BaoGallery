@@ -12,7 +12,7 @@ const headers = {
 const url = "/api";
 
 export const fetchPost = (postId) => axios.get(`${url}/post/${postId}`);
-export const fetchPosts = (collection, query) => axios.post(`${url}/posts/${collection}/${query}`);
+export const fetchPosts = (collection, query) => axios.post(`${url}/posts/`, {collection, query});
 export const getProfile = (username) => axios.get(`${url}/get-user/${username}`, headers);
 export const search = (query) => axios.get(`${url}/search/${query}`, headers);
 // export const isAuth = (refreshToken) => axios.post(`${url}/is-auth`, refreshToken, )

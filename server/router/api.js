@@ -26,7 +26,7 @@ router.get("/get-user/:username", getUser);
 router.post("/create-post", createPost);
 router.post("/upload-image", uploadImage);
 router.get("/post/:postId", fetchPost);
-router.post("/posts/:key/:entry", fetchPosts);
+router.post("/posts", fetchPosts);
 router.get("/search/:quere", search);
 router.get("/posts/:profile", fetchProfile);
 router.patch("/update-post/:id", updatePost);
