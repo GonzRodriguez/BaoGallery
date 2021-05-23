@@ -6,7 +6,6 @@ const path = require("path")
 const Client = require("../models/client.js");
 const User = require("../models/users.js")
 const Post = require("../models/post.js")
-
 const formidable = require("formidable");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
@@ -117,12 +116,11 @@ exports.createPost = async (req, res) => {
         res.status(409).json({ message: error });
     }
 }
-
 exports.uploadImage =  (req, res, next) => {
-    const dir = "./client/public/uploads/"
+    const dir = path.join(__dirname, "../../assets/uploads/")
     const form = new formidable.IncomingForm();
     form.parse(req, (err, fields, files) => {
-        if (err)  throw err
+        if (err) console.log(err.message)
         console.log(fields);
         const oldPath = files.image.path;
         const newPath = path.join(dir, fields.creator) + `/${fields.collection}/` + files.image.name
@@ -273,7 +271,7 @@ exports.isAuth = async (req, res) => {
 exports.login = async (req, res) => {
 
     const {username, password} = req.body
-    console.log(username, password)
+    console.log(req.body)
 
     function handleLogin(){
 

@@ -43,6 +43,7 @@ function Posts(props) {
     const getPosts = async () => {
         const res = await api.fetchPosts(collection, query).then(res => res.data)
         setPosts(prevPost => prevPost.concat(res))
+        console.log(res);
         setIsloading(false)
     }
     const changeDateFormat = (date) => {
@@ -82,6 +83,7 @@ function Posts(props) {
         } catch (error) {
             console.log(error);
         }   
+        
     }, [])
     
     return (

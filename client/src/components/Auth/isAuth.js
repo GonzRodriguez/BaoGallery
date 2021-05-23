@@ -15,6 +15,7 @@ export default function isAuthUser() {
         .then(res => {
             if (res.status === 202) {
                 localStorage.setItem("refreshToken", res.data.token)
+                console.log(res)
                 return {auth: true, user: res.data.user, isLoading: false}
             }
 
