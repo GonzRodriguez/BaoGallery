@@ -90,7 +90,7 @@ const Header = () => {
 
     return (
                    
-            <AppBar  position="static" color="transparent">
+            <AppBar  position="static" color="secondary">
                 <Toolbar className={classes.toolbar} >
                     <Typography variant="h6" className={classes.title} onClick={() => { window.location = "/" }}> BAO GALLERY </Typography>
                             {matches ? 
