@@ -41,18 +41,18 @@
   },
   "react-scripts": "^3.4.1",
   "scripts": {
-    "start": "cd server && npm start",
     "start:client": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "watch": "nodemon --exec babel-node src/index.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run start\" \"cd server && npm start\"",
-    "heroku-postbuild": "cd server && npm install && npm install --only=dev --no-shrinkwrap && npm run dev"
+    "start": "concurrently --kill-others-on-fail \"npm run start:client\" \"cd server && npm start\"",
+    "heroku-postbuild": "cd server && npm install && npm install --only=start --no-shrinkwrap && npm run start"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
+  "proxy": "http://localhost:5000/",
   "resolutions": {
     "browserslist": "4.6.2",
     "caniuse-lite": "1.0.30000974"
