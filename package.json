@@ -46,8 +46,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "watch": "nodemon --exec babel-node src/index.js",
-    "start": "concurrently --kill-others-on-fail \"npm run start:client\" \"cd server && npm start\"",
-    "heroku-postbuild": "cd server && npm install && npm install --only=start --no-shrinkwrap && npm run start && cd .. npm run start"
+    "start": "concurrently --kill-others-on-fail \"npm run start:client\" \"cd server && npm install && npm start\""
   },
   "eslintConfig": {
     "extends": "react-app"
