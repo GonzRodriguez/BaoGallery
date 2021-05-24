@@ -50,7 +50,6 @@
     "watch": "nodemon --exec babel-node src/index.js",
     "dev": "concurrently --kill-others-on-fail \"npm run start:client\" \"cd server && npm install && npm start\""
   },
-  "proxy": "http://localhost:5000",
   "eslintConfig": {
     "extends": "react-app"
   },
