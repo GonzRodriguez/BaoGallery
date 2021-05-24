@@ -118,7 +118,7 @@ exports.createPost = async (req, res) => {
     }
 }
 exports.uploadImage =  (req, res, next) => {
-    const dir = path.join(__dirname, "../../assets/uploads/")
+    const dir = path.join(__dirname, "../../client/build/uploads/")
     const form = new formidable.IncomingForm();
     form.parse(req, (err, fields, files) => {
         if (err) console.log(err.message)

@@ -18,7 +18,7 @@ export const search = (query) => axios.get(`/api/search/${query}`, headers);
 export const uploadImage = (image) => axios.post("/api/upload-image", image, headers)
 export const createPost = (newPost) => axios.post("/api/create-post", newPost, { 'Content-Type': 'multipart/form-data' });
 export const signup = (credentials) => axios.post("/api/signup", credentials, headers);
-export const login = (credentials) => axios.post("/apilogin", credentials, headers);
+export const login = (credentials) => axios.post("/api/login", credentials, headers);
 export const getlogin = () => axios.get("/api/login", headers);
 export const logout = (userId) => axios.post("/api/logout", userId, headers);
 export const editProfile = (id, profileData) => axios.post(`/api/edit-profile/${id}`, profileData);
